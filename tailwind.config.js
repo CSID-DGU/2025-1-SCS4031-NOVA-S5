@@ -1,0 +1,78 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/shared/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        yellow: {
+          300: '#FFFDF7',
+          400: '#FAF7EF',
+          500: '#F8F2DE',
+          600: '#FEF2C9',
+          700: '#FEEBAB',
+          800: '#FFE89B',
+          900: '#FFE078'
+        },
+        green: {
+          50: '#E6F5EE',
+          100: '#D9EDE5',
+          200: '#8AD0B2',
+          300: '#54BA8E',
+          400: '#33AD79',
+          500: '#009857',
+          600: '#008A4F',
+          700: '#006C3E',
+          800: '#005430',
+          900: '#004025'
+        },
+        gray: {
+          0: '#F4F4F4',
+          50: '#EEEFEF',
+          100: '#CBCCCD',
+          200: '#B2B3B4',
+          300: '#8E9092',
+          400: '#797B7D',
+          500: '#575A5D',
+          600: '#4F5255',
+          700: '#3E4042',
+          800: '#303233',
+          900: '#252627',
+          1000: '#000000'
+        },
+        // 기존 시스템 색상 유지
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        popover: 'var(--popover)',
+        'popover-foreground': 'var(--popover-foreground)',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        secondary: 'var(--secondary)',
+        'secondary-foreground': 'var(--secondary-foreground)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
+        accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
+        destructive: 'var(--destructive)',
+        border: 'var(--border)',
+        input: 'var(--input)',
+        ring: 'var(--ring)'
+      },
+      borderRadius: {
+        sm: 'calc(var(--radius) - 4px)',
+        md: 'calc(var(--radius) - 2px)',
+        lg: 'var(--radius)',
+        xl: 'calc(var(--radius) + 4px)',
+      },
+    },
+  },
+  plugins: [],
+}; 
