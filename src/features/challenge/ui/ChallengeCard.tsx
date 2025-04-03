@@ -16,8 +16,8 @@ export default function ChallengeCard() {
         <div className="flex flex-col justify-center gap-[10px]">
           <h5 className="text-[#254434] font-extrabold text-sm whitespace-nowrap">{challengeTitle}</h5>
           <div className="flex gap-1">
-            <p className="text-[#254434] text-xs">{currentDay}</p>
-            <p className="text-[#254434] text-opacity-50 text-xs">/ {totalDay}일 진행 중!</p>
+            <p className="text-[#254434] text-xs font-semibold">{currentDay}</p>
+            <p className="text-[#254434] text-opacity-50 text-xs font-semibold">/ {totalDay}일 진행 중!</p>
           </div>
         </div>
         <img src="/icon/arrow-right.svg" alt="오른쪽화살표" className="w-[20px] h-[20px] cursor-pointer ml-5" />
