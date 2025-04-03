@@ -1,6 +1,6 @@
 import Image from "next/image";
-import coffee from "../../../../public/coffee-cup.svg";
-import arrowRight from "../../../../public/arrow-right.svg";
+import coffee from "../../../../public/img/coffee-cup.svg";
+import arrowRight from "../../../../public/icon/arrow-right.svg";
 import { Progress } from "@/components/ui/progress";
 
 const mockupData = {
