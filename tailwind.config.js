@@ -1,5 +1,7 @@
+import { fontPlugin } from './src/lib/font-plugin';
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,6 +12,21 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontSize: {
+        // Title
+        'title-large': ['25px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '700' }],
+        'title-medium-b': ['21px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '700' }],
+        'title-medium': ['21px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '600' }],
+        'title-small': ['19px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '600' }],
+        // Body
+        'body-large': ['19px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '400' }],
+        'body-medium-sb': ['17px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '600' }],
+        'body-medium-m': ['17px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '500' }],
+        'body-medium-r': ['17px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '400' }],
+        'body-small': ['15px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '400' }],
+        // Label
+        'label-small': ['13px', { lineHeight: '150%', letterSpacing: '0%', fontWeight: '400' }],
+      },
       colors: {
         yellow: {
           300: '#FFFDF7',
@@ -74,5 +91,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [fontPlugin],
 }; 
