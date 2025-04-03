@@ -14,20 +14,16 @@ export default function StampCard() {
     <div className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden">
       <img
         src="/img/yellow-all.svg"
-        width={37}
-        height={51}
         alt="토끼 캐릭터"
-        className="absolute right-[-10px] top-[2px] rotate-[-24deg] opacity-20"
+        className="absolute w-[37px] h-[51px] right-[-10px] top-[2px] rotate-[-24deg] opacity-20"
       />
       <img
         src="/img/orange-all.svg"
-        width={37}
-        height={47}
         alt="여우 캐릭터"
-        className="absolute right-[-15px] top-[50px] rotate-[-54deg] opacity-20"
+        className="absolute w-[37px] h-[47px] right-[-15px] top-[50px] rotate-[-54deg] opacity-20"
       />
       <div className="flex gap-[6px]">
-        <img src="/icon/coffee.svg" width={16} height={16} alt="원두" />
+        <img src="/icon/coffee.svg" alt="원두" className="w-[16px] h-[20px]" />
         <p className="text-[#254434] text-sm font-bold">{cafeName}</p>
       </div>
       <div className="flex flex-col gap-[7px] mt-4">
