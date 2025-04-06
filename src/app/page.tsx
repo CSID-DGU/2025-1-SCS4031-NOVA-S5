@@ -1,12 +1,12 @@
-import ChallengeCard from "@/features/challenge/ui/ChallengeCard";
-import StampCard from "@/features/stampBook/ui/StampCard";
+import FortuneCard from "@/features/fortuneWidget/ui/FortuneCard";
+import UserCard from "@/features/qrScanner/ui/UserCard";
 
 
 export default function Home() {
   return (
-    <div className="flex gap-2">
-      <ChallengeCard />
-      <StampCard />
+    <div className="flex flex-col gap-2 items-center">
+      <FortuneCard />
+      <UserCard />
     </div>
   );
 }

@@ -72,3 +72,65 @@
     font-family: 'SUITE', sans-serif;
   }
 }
+
+.mobile-container {
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: #FBFBEE;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  padding-top: 44px; /* 중복 여백 제거 */
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 480px) {
+  .mobile-container {
+    width: 100%;
+    box-shadow: none;
+  }
+  
+  .header {
+    width: 100%;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 0; /* 중복 여백 제거 */
+  }
+}
+
+.header {
+  position: relative;
+  height: 50px;
+  z-index: 1000;
+  background-color: #FBFBEE;
+  max-width: 480px;
+  margin: 0 auto;
+  padding-top: 44px; /* iOS 상태바 높이만큼 상단 여백 추가 */
+}
+
+.header-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  object-fit: contain;
+}
