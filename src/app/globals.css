@@ -70,26 +70,31 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'SUITE', sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #FBFBEE;
   }
 }
 
 .mobile-container {
-  max-width: 480px;
+  max-width: 375px;
   min-height: 100vh;
   margin: 0 auto;
   position: relative;
   background-color: #FBFBEE;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .main-content {
-  padding-top: 44px; /* 중복 여백 제거 */
+  padding-top: 0; /* 중복 여백 제거 */
   min-height: 100vh;
   width: 100%;
+  margin-top: 50px; /* Header 높이만큼 상단 여백 추가 */
 }
 
 /* 모바일 최적화 */
-@media (max-width: 480px) {
+@media (max-width: 375px) {
   .mobile-container {
     width: 100%;
     box-shadow: none;
@@ -104,6 +109,7 @@
 @media (max-width: 768px) {
   .main-content {
     padding-top: 0; /* 중복 여백 제거 */
+    margin-top: 50px; /* Header 높이만큼 상단 여백 추가 */
   }
 }
 
@@ -112,9 +118,10 @@
   height: 50px;
   z-index: 1000;
   background-color: #FBFBEE;
-  max-width: 480px;
+  max-width: 375px;
   margin: 0 auto;
   padding-top: 44px; /* iOS 상태바 높이만큼 상단 여백 추가 */
+  margin-bottom: 50px; /* Header 아래 여백 추가 */
 }
 
 .header-container {
