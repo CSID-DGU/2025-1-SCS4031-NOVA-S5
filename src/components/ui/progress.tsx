@@ -35,7 +35,7 @@ function Progress({ className, value = 0, character = false, characterType = "ye
       </ProgressPrimitive.Root>
       {character && (
         <div
-          className="absolute -top-3 transition-all"
+          className="absolute -top-[10px] transition-all"
           style={{
             left: `calc(${value}% - 20px)`,
           }}>
