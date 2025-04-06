@@ -26,7 +26,7 @@ export default function ChallengeSlider() {
         {visibleChallenges.map(challenge => (
           <div
             key={challenge.id}
-            className="flex-shrink-0 scroll-snap-align-start transition-transform ease-in-out duration-500"
+            className="flex-shrink-0 scroll-snap-align-start transition-transform ease-in-out duration-700"
             style={{ scrollSnapAlign: "start" }}>
             <ChallengeCard challengeId={challenge.id} />
           </div>
