@@ -1,14 +1,18 @@
+"use client";
+
 import { Progress } from "@/components/ui/progress";
+import { useStampBookStore } from "@/shared/store/stampBookStore";
 
-const mockupData = {
-  cafeName: "충무로 더블톤",
-  rewardItem: "아메리카노",
-  totalStamp: 10,
-  remainingStamp: 4,
-};
+interface StampCardProps {
+  stampBookId: number;
+}
 
-export default function StampCard() {
-  const { cafeName, rewardItem, totalStamp, remainingStamp } = mockupData;
+export default function StampCard({ stampBookId }: StampCardProps) {
+  const book = useStampBookStore(state => state.stampBooks.find(b => b.id === stampBookId));
+
+  if (!book) return null;
+
+  const { cafeName, rewardItem, totalStamp, remainingStamp } = book;
 
   return (
     <div className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden">
@@ -36,7 +40,7 @@ export default function StampCard() {
           <p className="text-[#121212] font-bold text-sm">남았어요!</p>
         </div>
       </div>
-      <Progress value={(totalStamp - remainingStamp) * 10} character={true} characterType="orange" />
+      <Progress value={(totalStamp - remainingStamp) * 10} character={true} characterType="yellow" />
     </div>
   );
 }

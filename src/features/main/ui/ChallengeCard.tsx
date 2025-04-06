@@ -22,7 +22,7 @@ export default function ChallengeCard() {
         </div>
         <img src="/icon/arrow-right.svg" alt="오른쪽화살표" className="w-[20px] h-[20px] cursor-pointer ml-5" />
       </div>
-      <Progress value={currentDay * 10} character={true} characterType="yellow" />
+      <Progress value={currentDay * 10} character={true} characterType="orange" />
     </div>
   );
 }
