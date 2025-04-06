@@ -1,9 +1,9 @@
-import StampList from "@/features/main/ui/StampList";
+import StampSlider from "@/features/main/ui/StampSlider";
 
 export default function Home() {
   return (
     <div className="flex gap-2">
-      <StampList />
+      <StampSlider />
     </div>
   );
 }
