@@ -15,12 +15,12 @@ export default function StampCard({ stampBookId }: StampCardProps) {
   return (
     <div className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden">
       <img
-        src="/img/yellow-all.svg"
+        src="/img/character/yellow-all.svg"
         alt="토끼 캐릭터"
         className="absolute w-[37px] h-[51px] right-[-10px] top-[2px] rotate-[-24deg] opacity-20"
       />
       <img
-        src="/img/orange-all.svg"
+        src="/img/character/orange-all.svg"
         alt="여우 캐릭터"
         className="absolute w-[37px] h-[47px] right-[-15px] top-[50px] rotate-[-54deg] opacity-20"
       />

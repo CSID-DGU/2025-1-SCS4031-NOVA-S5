@@ -2,8 +2,8 @@ import * as React from "react";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import yellow from "../../../public/img/yellow-face.svg";
-import orange from "../../../public/img/orange-face.svg";
+import yellow from "../../../public/img/character/yellow-face.svg";
+import orange from "../../../public/img/character/orange-face.svg";
 
 type CharacterType = "yellow" | "orange";
 
