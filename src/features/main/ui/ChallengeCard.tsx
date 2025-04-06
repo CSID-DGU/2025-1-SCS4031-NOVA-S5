@@ -1,13 +1,16 @@
 import { Progress } from "@/components/ui/progress";
+import { useChallengeStore } from "@/shared/store/challengeStore";
 
-const mockupData = {
-  challengeTitle: "텀블러에 음료 담기",
-  currentDay: 8,
-  totalDay: 10,
-};
+interface ChallengeCardProps {
+  challengeId: number;
+}
 
-export default function ChallengeCard() {
-  const { challengeTitle, currentDay, totalDay } = mockupData;
+export default function ChallengeCard({ challengeId }: ChallengeCardProps) {
+  const challenge = useChallengeStore(state => state.challenges.find(b => b.id === challengeId));
+
+  if (!challenge) return null;
+
+  const { challengeTitle, currentDay, totalDay } = challenge;
 
   return (
     <div className="w-[280px] h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg">
@@ -22,7 +25,7 @@ export default function ChallengeCard() {
         </div>
         <img src="/icon/arrow-right.svg" alt="오른쪽화살표" className="w-[20px] h-[20px] cursor-pointer ml-5" />
       </div>
-      <Progress value={currentDay * 10} character={true} characterType="orange" />
+      <Progress value={(currentDay / totalDay) * 100} character={true} characterType="orange" />
     </div>
   );
 }

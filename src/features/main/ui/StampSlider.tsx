@@ -3,7 +3,7 @@
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampCard from "./StampCard";
 
-export default function StampList() {
+export default function StampSlider() {
   const stampBooks = useStampBookStore(state => state.stampBooks);
   const visibleBooks = stampBooks.slice(0, 5);
 
@@ -17,7 +17,7 @@ export default function StampList() {
         <p className="text-xs text-[#8A8A8A99] cursor-pointer">더보기</p>
       </div>
       <div
-        className="flex gap-4 overflow-x-auto scrollbar-hide w-[355px] px-2"
+        className="flex gap-5 overflow-x-auto scrollbar-hide w-[355px] px-2"
         style={{
           scrollSnapType: "x mandatory",
           WebkitOverflowScrolling: "touch",
