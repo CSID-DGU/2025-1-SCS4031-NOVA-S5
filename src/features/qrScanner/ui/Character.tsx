@@ -11,7 +11,7 @@ function Character() {
   return (
       <Lottie
         animationData={duckAnimation}
-        loop={3}
+        loop={1}
         onComplete={() => setIsStopped(true)}
         autoplay={!isStopped}
         style={{
