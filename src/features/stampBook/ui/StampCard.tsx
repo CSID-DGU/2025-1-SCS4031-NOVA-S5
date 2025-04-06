@@ -36,7 +36,7 @@ export default function StampCard() {
           <p className="text-[#121212] font-bold text-sm">남았어요!</p>
         </div>
       </div>
-      <Progress value={(totalStamp - remainingStamp) * 10} character={true} />
+      <Progress value={(totalStamp - remainingStamp) * 10} character={true} characterType="orange" />
     </div>
   );
 }
