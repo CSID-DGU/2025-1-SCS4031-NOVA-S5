@@ -74,7 +74,6 @@
     padding: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #FBFBEE;
   }
 }
 
@@ -87,10 +86,10 @@
 }
 
 .main-content {
-  padding-top: 0; /* 중복 여백 제거 */
+  padding-top: 20px; /* 상단 여백 추가 */
   min-height: 100vh;
   width: 100%;
-  margin-top: 50px; /* Header 높이만큼 상단 여백 추가 */
+  margin-top: 0; /* Header 높이만큼 상단 여백 제거 */
 }
 
 /* 모바일 최적화 */
@@ -108,8 +107,8 @@
 
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 0; /* 중복 여백 제거 */
-    margin-top: 50px; /* Header 높이만큼 상단 여백 추가 */
+    padding-top: 20px; /* 상단 여백 추가 */
+    margin-top: 0; /* Header 높이만큼 상단 여백 제거 */
   }
 }
 
@@ -121,7 +120,7 @@
   max-width: 375px;
   margin: 0 auto;
   padding-top: 44px; /* iOS 상태바 높이만큼 상단 여백 추가 */
-  margin-bottom: 50px; /* Header 아래 여백 추가 */
+  margin-bottom: 0; /* Header 아래 여백 제거 */
 }
 
 .header-container {
