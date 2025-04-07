@@ -1,4 +1,5 @@
 "use client";
+
 import { useStampBookStore } from "../store/stampBookStore";
 
 interface StampCardProps {

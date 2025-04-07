@@ -4,6 +4,7 @@ export type StampBook = {
   rewardItem: string;
   totalStamp: number;
   remainingStamp: number;
+  characterType: "yellow" | "green" | "orange" | "beige";
 };
 
 export interface StampBookState {
