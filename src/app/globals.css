@@ -112,31 +112,3 @@
   }
 }
 
-.header {
-  position: relative;
-  height: 50px;
-  z-index: 1000;
-  background-color: #FBFBEE;
-  max-width: 375px;
-  margin: 0 auto;
-  padding-top: 44px; /* iOS 상태바 높이만큼 상단 여백 추가 */
-  margin-bottom: 0; /* Header 아래 여백 제거 */
-}
-
-.header-container {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 0 16px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  object-fit: contain;
-}
