@@ -4,7 +4,6 @@ import StampSlider from "@/features/main/ui/StampSlider";
 import UserCard from "@/features/qrScanner/ui/UserCard";
 import Header from "@/shared/ui/Header";
 
-
 export default function MainPage() {
   return (
     <div>
@@ -12,13 +11,11 @@ export default function MainPage() {
       <div className="flex flex-col mt-[30px] justify-center items-center gap-[20px]">
         <FortuneCard />
         <UserCard />
-
       </div>
-      <div className="flex flex-col gap-[40px] mt-[40px] p-4">
+      <div className="flex flex-col gap-[40px] mt-[40px] p-6">
         <StampSlider />
         <ChallengeSlider />
       </div>
-      
     </div>
   );
 }

@@ -1,11 +1,15 @@
+import GNB from "@/features/main/ui/GNB";
 import RewardContent from "@/features/reward/ui/RewardContent";
 import RewardHeader from "@/features/reward/ui/RewardHeader";
 
 export default function Reward() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col h-screen">
       <RewardHeader />
-      <RewardContent />
+      <div className="flex-1 overflow-y-auto">
+        <RewardContent />
+      </div>
+      <GNB />
     </div>
   );
 }
