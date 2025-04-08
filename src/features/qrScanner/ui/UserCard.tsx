@@ -1,4 +1,14 @@
+'use client'
+
+import QrModal from "@/shared/ui/QrModal";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+
+const Character = dynamic(() => import("./Character"), { ssr: false });
+
 function UserCard() {
+  const [isOpen, setIsOpen] = useState(false);
   const mockUserData = {
     name: '나무심는김노바',
     profileImage: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGFuaW1hbHxlbnwwfHwwfHx8MA%3D%3D',
@@ -8,7 +18,7 @@ function UserCard() {
   };
 
   return (
-    <div className="bg-[#E2ECDC] rounded-[10px] p-[16px] w-[330px] h-[184px]">
+    <div className="relative bg-[#E2ECDC] rounded-[10px] p-[16px] w-[330px] h-[184px] overflow-hidden">
       <div className="flex flex-col gap-[15px]">
         <div className="flex gap-[12px]">
           <img 
@@ -19,9 +29,13 @@ function UserCard() {
           <p className="text-[17px] font-[700] text-[#254434]">{mockUserData.name}님</p>
           
         </div>
-        <p className="whitespace-pre-line text-[12px] text-[#8E8E93] ml-[35px]">
-          {mockUserData.fortuneOfToday}
-        </p>
+        <div className="flex gap-10">
+          <p className="whitespace-pre-line text-[12px] text-[#8E8E93] ml-[35px]">
+            {mockUserData.fortuneOfToday}
+          </p>
+          <img src="./icon/qr.svg" alt="qr" />    
+        </div>
+
       </div>
       <div className="mt-[30px]">
         <div className="flex gap-[10px] mt-[10px] ml-[35px]">
@@ -33,7 +47,14 @@ function UserCard() {
           <p className="text-[12px] text-[#121212] font-[600]">얻은 리워드 {mockUserData.reward}개</p>
         </div>
       </div>
-      {/* 애니메이션 추가. */}
+      
+      <div 
+        className="absolute bottom-[80px] right-[-240px] w-[60px] h-[60px]"
+        onClick={() => setIsOpen(true)}
+      >
+        <Character />
+      </div>
+      <QrModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
