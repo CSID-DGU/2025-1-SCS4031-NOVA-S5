@@ -1,16 +1,25 @@
 import * as React from "react";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import Image from "next/image";
-import characterIcon from "../../../public/img/yellow-face.svg";
-
 import { cn } from "@/lib/utils";
+import yellow from "../../../public/img/character/yellow-face.svg";
+import orange from "../../../public/img/character/orange-face.svg";
+
+type CharacterType = "yellow" | "orange";
 
 interface ProgressProps extends React.ComponentProps<typeof ProgressPrimitive.Root> {
-  value?: number;
+  value: number;
   character?: boolean;
+  characterType?: CharacterType;
 }
 
-function Progress({ className, value = 0, character = false, ...props }: ProgressProps) {
+const characterImageMap: Record<CharacterType, string> = {
+  yellow,
+  orange,
+};
+
+function Progress({ className, value = 0, character = false, characterType = "yellow", ...props }: ProgressProps) {
+  const characterIcon = characterImageMap[characterType];
   return (
     <div className="relative w-full h-[24px]">
       <ProgressPrimitive.Root
@@ -26,7 +35,7 @@ function Progress({ className, value = 0, character = false, ...props }: Progres
       </ProgressPrimitive.Root>
       {character && (
         <div
-          className="absolute -top-3 transition-all"
+          className="absolute -top-[10px] transition-all"
           style={{
             left: `calc(${value}% - 20px)`,
           }}>

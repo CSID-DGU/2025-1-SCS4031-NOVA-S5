@@ -1,14 +1,13 @@
-import FortuneCard from "@/features/fortuneWidget/ui/FortuneCard";
-import UserCard from "@/features/qrScanner/ui/UserCard";
+import ChallengeSlider from "@/features/main/ui/ChallengeSlider";
+import EmptyState from "@/features/main/ui/EmptyState";
+import StampSlider from "@/features/main/ui/StampSlider";
 
 export default function Home() {
   return (
-    <div>
-      <div className="flex flex-col gap-2 items-center">
-        <FortuneCard />
-        <UserCard />
-      </div>      
+    <div className="flex flex-col gap-2">
+      <StampSlider />
+      <ChallengeSlider />
+      <EmptyState type="stampBook" />
     </div>
-
   );
 }

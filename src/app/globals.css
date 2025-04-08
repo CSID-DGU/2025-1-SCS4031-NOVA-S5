@@ -1,16 +1,16 @@
 @import "tw-animate-css";
 
 @font-face {
-  font-family: 'SUITE';
-  src: url('/fonts/SUITE-Regular.woff2') format('woff2');
+  font-family: "SUITE";
+  src: url("/fonts/SUITE-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'SUITE';
-  src: url('/fonts/SUITE-Bold.woff2') format('woff2');
+  font-family: "SUITE";
+  src: url("/fonts/SUITE-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -110,5 +110,14 @@
     padding-top: 20px; /* 상단 여백 추가 */
     margin-top: 0; /* Header 높이만큼 상단 여백 제거 */
   }
+}
+
+/* 스크롤바 안 보이게 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
