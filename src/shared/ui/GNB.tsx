@@ -1,35 +1,39 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function GNB() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "매거진", path: "/magazine", icon: "/icon/magazine.svg" },
+    { name: "적립 내역", path: "/reward", icon: "/icon/reward-history.svg" },
+    { name: "홈", path: "/main", icon: "/icon/home.svg" },
+    { name: "스탬프북", path: "/stamp-book", icon: "/icon/stamp-book.svg" },
+    { name: "마이페이지", path: "/mypage", icon: "/icon/user.svg" },
+  ];
 
   return (
-    <div className="bg-yellow-300 px-[27px] py-[18px] flex justify-between items-center shadow-[0px -6px 14px 0px rgba(47, 47, 47, 0.04)]">
-      <div className="flex flex-col gap-1 items-center justify-center cursor-pointer">
-        <img src="/icon/magazine.svg" alt="매거진" className="w-[26px] h-[26px]" />
-        <p className="text-[#9C9CA1B2] text-[10px]">매거진</p>
-      </div>
-      <div
-        className="flex flex-col gap-1 items-center justify-center cursor-pointer"
-        onClick={() => router.push("/reward")}>
-        <img src="/icon/reward-history.svg" alt="적립내역" className="w-[26px] h-[26px]" />
-        <p className="text-[#9C9CA1B2] text-[10px]">적립 내역</p>
-      </div>
-      <div
-        className="flex flex-col gap-1 items-center justify-center cursor-pointer"
-        onClick={() => router.push("/main")}>
-        <img src="/icon/home.svg" alt="메인" className="w-[26px] h-[26px]" />
-        <p className="text-[#9C9CA1B2] text-[10px]">홈</p>
-      </div>
-      <div className="flex flex-col gap-1 items-center justify-center cursor-pointer">
-        <img src="/icon/stamp-book.svg" alt="스탬프북" className="w-[26px] h-[26px]" />
-        <p className="text-[#9C9CA1B2] text-[10px]">스탬프북</p>
-      </div>
-      <div className="flex flex-col gap-1 items-center justify-center cursor-pointer">
-        <img src="/icon/user.svg" alt="마이페이지" className="w-[26px] h-[26px]" />
-        <p className="text-[#9C9CA1B2] text-[10px]">마이페이지</p>
-      </div>
+    <div className="bg-yellow-300 px-[27px] py-[18px] flex justify-between items-center shadow-[0px_-6px_14px_0px_rgba(47,47,47,0.04)]">
+      {navItems.map(({ name, path, icon }) => {
+        const isActive = pathname === path;
+        const iconSrc = isActive ? icon.replace(".svg", "-active.svg") : icon;
+
+        return (
+          <div
+            key={name}
+            className="flex flex-col gap-1 items-center justify-center cursor-pointer"
+            onClick={() => router.push(path)}>
+            <img src={iconSrc} alt={name} className="w-[26px] h-[26px]" />
+            <p
+              className={`text-[10px] font-medium ${
+                isActive ? "text-green-100" : "text-[#9C9CA1B2]"
+              }`}>
+              {name}
+            </p>
+          </div>
+        );
+      })}
     </div>
   );
 }
