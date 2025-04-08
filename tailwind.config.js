@@ -28,6 +28,9 @@ export default {
         "label-small": ["13px", { lineHeight: "150%", letterSpacing: "0%", fontWeight: "400" }],
       },
       colors: {
+        font: {
+          green: "#254434",
+        },
         yellow: {
           300: "#FFFDF7",
           400: "#FAF7EF",
@@ -41,7 +44,7 @@ export default {
           50: "#E6F5EE",
           100: "#B5CDB7",
           200: "#8AD0B2",
-          300: "#54BA8E",
+          300: "#E2ECDC",
           400: "#EFF4E5",
           500: "#009857",
           600: "#008A4F",
