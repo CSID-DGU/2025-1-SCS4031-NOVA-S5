@@ -1,11 +1,11 @@
+import RewardContent from "@/features/reward/ui/RewardContent";
 import RewardHeader from "@/features/reward/ui/RewardHeader";
-import StampBookList from "@/features/reward/ui/StampBookList";
 
 export default function Reward() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <RewardHeader />
-      <StampBookList />
+      <RewardContent />
     </div>
   );
 }
