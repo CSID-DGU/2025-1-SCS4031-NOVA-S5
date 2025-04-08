@@ -9,7 +9,6 @@ export default function MainPage() {
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      {/* 스크롤 가능한 영역 */}
       <div className="flex-1 overflow-y-auto pb-[20px]">
         <div className="flex flex-col mt-[20px] justify-center items-center gap-[20px]">
           <FortuneCard />
@@ -20,7 +19,6 @@ export default function MainPage() {
           <ChallengeSlider />
         </div>
       </div>
-      {/* 항상 하단에 고정될 GNB */}
       <GNB />
     </div>
   );
