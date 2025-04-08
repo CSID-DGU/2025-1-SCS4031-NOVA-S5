@@ -49,7 +49,7 @@ function UserCard() {
       </div>
       
       <div 
-        className="absolute bottom-[80px] right-[-240px] w-[60px] h-[60px]"
+        className="absolute bottom-[80px] right-[230px] w-[60px] h-[480px]"
         onClick={() => setIsOpen(true)}
       >
         <Character />
