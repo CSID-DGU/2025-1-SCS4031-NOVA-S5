@@ -15,10 +15,10 @@ function Character() {
         onComplete={() => setIsStopped(true)}
         autoplay={!isStopped}
         style={{
-          transform: 'scale(19) rotate(-20deg)', // 애니메이션 자체 확대
+          transform: 'rotate(-20deg)', // 애니메이션 자체 확대
           transformOrigin: 'center center',
-          width: '100%',
-          height: '100%',
+          width: '900px',
+          height: '900px',
         }}
       />
   );
