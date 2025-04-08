@@ -1,6 +1,6 @@
 export default function RewardHeader() {
   return (
-    <header className="h-[84px] pt-[24px] pb-[35px] pl-[153px] pr-[27px] flex justify-center bg-green-300">
+    <header className="h-[84px] py-[35px] pl-[153px] pr-[27px] flex justify-center bg-green-300">
       <div className="w-[195px] flex justify-between items-center">
         <p className="text-lg font-extrabold text-font-green">적립내역</p>
         <img
