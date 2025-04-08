@@ -6,9 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import InfoMesssages from "./InfoMessages"
-
+import QrSection from "./QrSection"
 interface QrModalProps {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
@@ -17,25 +15,17 @@ interface QrModalProps {
 function QrModal({ isOpen, setIsOpen }: QrModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="p-0 bg-[#FBFBEE] w-[340px] h-[500px] gap-0">
-        <DialogHeader className="bg-[#FFF] flex justify-center items-center rounded-[10px]">
-          <DialogTitle className="text-center text-title-medium font-[800]">
+      <DialogContent className="p-0 bg-[#FFFDF7] w-[340px] h-[500px] gap-0">
+        <DialogHeader className="bg-[#E2ECDC] flex justify-center items-center rounded-t-[10px]">
+          <DialogTitle className="text-center !text-title-medium !font-[800] text-[#254434]">
             kimnova님의<br /> 프로필 QR
           </DialogTitle>
         </DialogHeader>
         <div className="flex justify-center items-center">
-         <img src="./img/spring.svg" alt="spring" className="absolute top-[155px]"/>
-         <InfoMesssages />    
+         <img src="./img/spring.svg" alt="spring" className="absolute top-[145px]"/>
         </div>
-        <div className="flex flex-col gap-2 justify-center items-center">
-          {/*qr 위치*/}
-          <Button 
-            variant="outline"
-            onClick={() => setIsOpen(false)}
-            className="w-[70px] h-[30px] bg-[#B5CDB7] hover:bg-[#a7c7a1] text-[#FFF] !text-body-small border-0"
-          >
-            확인
-          </Button>    
+        <div className="flex flex-col  items-center">
+          <QrSection />
         </div>
       </DialogContent>
     </Dialog>
