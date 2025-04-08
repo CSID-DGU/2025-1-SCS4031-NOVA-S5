@@ -1,10 +1,13 @@
 'use client'
 
 import dynamic from "next/dynamic";
+import { useState } from "react";
+import QrModal from "./QrModal";
 
 const Character = dynamic(() => import("./Character"), { ssr: false });
 
 function UserCard() {
+  const [isOpen, setIsOpen] = useState(false);
   const mockUserData = {
     name: '나무심는김노바',
     profileImage: 'https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGFuaW1hbHxlbnwwfHwwfHx8MA%3D%3D',
@@ -44,10 +47,13 @@ function UserCard() {
         </div>
       </div>
       
-      {/* 애니메이션 추가. */}
-      <div className="absolute bottom-[80px] right-[-240px] w-[60px] h-[60px]">
+      <div 
+        className="absolute bottom-[80px] right-[-240px] w-[60px] h-[60px]"
+        onClick={() => setIsOpen(true)}
+      >
         <Character />
       </div>
+      <QrModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
