@@ -14,7 +14,7 @@ export default function MainPage() {
         <UserCard />
 
       </div>
-      <div className="flex flex-col gap-[40px] mt-[40px] p-4">
+      <div className="flex flex-col justify-center items-center gap-[40px] mt-[40px]">
         <StampSlider />
         <ChallengeSlider />
       </div>
