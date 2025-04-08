@@ -1,4 +1,4 @@
-import GNB from "@/features/main/ui/GNB";
+import GNB from "@/shared/ui/GNB";
 import RewardContent from "@/features/reward/ui/RewardContent";
 import RewardHeader from "@/features/reward/ui/RewardHeader";
 
