@@ -1,8 +1,9 @@
 'use client'
 
+import QrModal from "@/shared/ui/QrModal";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import QrModal from "./QrModal";
+
 
 const Character = dynamic(() => import("./Character"), { ssr: false });
 
