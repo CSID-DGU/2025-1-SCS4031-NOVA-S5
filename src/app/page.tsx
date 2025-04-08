@@ -1,11 +1,13 @@
-import ChallengeCard from "@/features/challenge/ui/ChallengeCard";
-import StampCard from "@/features/stampBook/ui/StampCard";
+import ChallengeSlider from "@/features/main/ui/ChallengeSlider";
+import EmptyState from "@/features/main/ui/EmptyState";
+import StampSlider from "@/features/main/ui/StampSlider";
 
 export default function Home() {
   return (
-    <div className="flex gap-2">
-      <ChallengeCard />
-      <StampCard />
+    <div className="flex flex-col gap-2">
+      <StampSlider />
+      <ChallengeSlider />
+      <EmptyState type="stampBook" />
     </div>
   );
 }
