@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface EmptyStateProps {
   type: "stampBook" | "challenge";
 }
@@ -18,7 +20,7 @@ export default function EmptyState({ type }: EmptyStateProps) {
 
   return (
     <div className="w-[330px] h-[149px] flex flex-col justify-center items-center gap-[15px] bg-yellow-300 rounded-lg py-5 px-6 text-center">
-      <img src="/img/character/orange-ear.svg" alt="캐릭터 이미지" className="w-[40px] h-[47px]" />
+      <Image src={"/img/character/orange-ear.svg"} alt="캐릭터 이미지" width={40} height={47} />
       <p className="text-sm font-bold text-[#254434]">{title}</p>
       <p className="text-xs font-[500] text-[#254434B2] whitespace-pre-line">{message}</p>
     </div>

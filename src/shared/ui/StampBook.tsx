@@ -25,6 +25,7 @@ export default function StampBook({
   const cafe = book ? book.cafeName : cafeName;
   const stampedCount = book ? book.totalStamp - book.remainingStamp : 0;
   const stampedSrc = `/img/character/${characterType}-face.svg`;
+  const unstampedSrc = `/img/character/${characterType}-face-gray.svg`;
 
   return (
     <div className="w-[327px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
@@ -36,7 +37,7 @@ export default function StampBook({
         {Array.from({ length: totalStamp }).map((_, index) => (
           <Image
             key={index}
-            src={index < stampedCount ? stampedSrc : "/img/character/yellow-gray.svg"}
+            src={index < stampedCount ? stampedSrc : unstampedSrc}
             alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
             width={35}
             height={35}

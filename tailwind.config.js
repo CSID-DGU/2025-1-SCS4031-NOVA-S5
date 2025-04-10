@@ -30,6 +30,7 @@ export default {
       colors: {
         font: {
           green: "#254434",
+          black: "#121212",
         },
         yellow: {
           100: "#FBFBEE",
