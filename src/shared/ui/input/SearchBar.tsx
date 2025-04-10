@@ -9,6 +9,8 @@ export default function SearchBar({
   value,
   onChange,
 }: SearchProps) {
+  const handleClear = () => onChange?.("");
+
   return (
     <div className="relative w-full">
       <input
@@ -23,6 +25,16 @@ export default function SearchBar({
         alt="검색 아이콘"
         className="w-[15px] h-[15px] absolute top-[9px] left-[18px]"
       />
+      {value ? (
+        <img
+          src="/icon/remove.svg"
+          alt="삭제"
+          className="w-[15px] h-[15px] absolute top-[9px] right-[18px] cursor-pointer"
+          onClick={handleClear}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
