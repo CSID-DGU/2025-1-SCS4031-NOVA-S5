@@ -22,7 +22,7 @@ export default function StampSlider() {
         <EmptyState type="stampBook" />
       ) : (
         <div
-          className="flex gap-5 overflow-x-auto scrollbar-hide w-[355px]"
+          className="flex gap-5 overflow-x-auto scrollbar-hide w-[351px]"
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",

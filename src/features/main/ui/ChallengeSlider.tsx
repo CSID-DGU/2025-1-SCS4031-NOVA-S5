@@ -22,7 +22,7 @@ export default function ChallengeSlider() {
         <EmptyState type="challenge" />
       ) : (
         <div
-          className="flex gap-5 overflow-x-auto scrollbar-hide w-[355px]"
+          className="flex gap-5 overflow-x-auto scrollbar-hide w-[351px]"
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",

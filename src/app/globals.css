@@ -69,7 +69,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'SUITE', sans-serif;
+    font-family: "SUITE", sans-serif;
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;
@@ -82,11 +82,10 @@
   min-height: 100vh;
   margin: 0 auto;
   position: relative;
-  background-color: #FBFBEE;
+  background-color: #fbfbee;
 }
 
 .main-content {
-  padding-top: 20px; /* 상단 여백 추가 */
   min-height: 100vh;
   width: 100%;
   margin-top: 0; /* Header 높이만큼 상단 여백 제거 */
@@ -98,7 +97,7 @@
     width: 100%;
     box-shadow: none;
   }
-  
+
   .header {
     width: 100%;
     box-shadow: none;
@@ -107,7 +106,6 @@
 
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 20px; /* 상단 여백 추가 */
     margin-top: 0; /* Header 높이만큼 상단 여백 제거 */
   }
 }
@@ -120,4 +118,3 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
