@@ -29,6 +29,8 @@ export default {
       },
       colors: {
         yellow: {
+          1: "#FBFBEE",
+          2: "#FFFDF7",
           300: "#FFFDF7",
           400: "#FAF7EF",
           500: "#F8F2DE",
@@ -38,6 +40,10 @@ export default {
           900: "#FFE078",
         },
         green: {
+          1: "#B5CDB7",
+          2: "#C2DAC4",
+          3: "#E2ECDC",
+          4: "#EFF4E5",
           50: "#E6F5EE",
           100: "#B5CDB7",
           200: "#8AD0B2",
@@ -48,6 +54,7 @@ export default {
           700: "#006C3E",
           800: "#005430",
           900: "#004025",
+          font: "#254434",
         },
         gray: {
           0: "#F4F4F4",
@@ -62,6 +69,15 @@ export default {
           800: "#303233",
           900: "#252627",
           1000: "#000000",
+        },
+        black: {
+          font: "#121212",
+        },
+        Deactivated: {
+          font: "#8E8E93", 
+        },
+        white: {
+          font: "#FAFAFA",
         },
         // 기존 시스템 색상 유지
         background: "var(--background)",
