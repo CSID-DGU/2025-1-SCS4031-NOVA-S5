@@ -17,7 +17,7 @@ export default function SearchContent() {
   );
 
   return (
-    <div className="w-full flex flex-col items-center gap-[30px]">
+    <section className="w-full flex flex-col items-center gap-[30px]">
       <div className="w-full flex gap-[10px] items-center">
         <Image
           src={"/icon/arrow-left.svg"}
@@ -47,6 +47,6 @@ export default function SearchContent() {
           ))}
         </div>
       )}
-    </div>
+    </section>
   );
 }
