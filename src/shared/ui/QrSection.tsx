@@ -10,3 +10,4 @@ function QrSection() {
 }
 
 export default QrSection;
+
