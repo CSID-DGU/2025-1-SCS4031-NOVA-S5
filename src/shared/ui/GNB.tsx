@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function GNB() {
@@ -24,7 +25,7 @@ export default function GNB() {
             key={name}
             className="flex flex-col gap-1 items-center justify-center cursor-pointer"
             onClick={() => router.push(path)}>
-            <img src={iconSrc} alt={name} className="w-[26px] h-[26px]" />
+            <Image src={iconSrc} alt={name} width={26} height={26} />
             <p
               className={`text-[10px] font-medium ${
                 isActive ? "text-green-100" : "text-[#9C9CA1B2]"
