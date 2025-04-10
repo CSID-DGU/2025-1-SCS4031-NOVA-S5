@@ -28,6 +28,7 @@ export default {
         "label-small": ["13px", { lineHeight: "150%", letterSpacing: "0%", fontWeight: "400" }],
       },
       colors: {
+        'custom-green': 'rgba(37, 68, 52, 0.5)',
         yellow: {
           1: "#FBFBEE",
           2: "#FFFDF7",

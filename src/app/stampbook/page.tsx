@@ -1,10 +1,9 @@
-import SearchBar from "@/shared/ui/SearchBar";
-
+import StampHeader from "@/features/stampbook/ui/StampHeader";
 
 export default function StampBookPage() {
   return (
-    <div>
-      <SearchBar />
+    <div className="flex flex-col items-center">
+      <StampHeader />
     </div>
   );
 }
