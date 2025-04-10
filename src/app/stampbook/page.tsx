@@ -1,4 +1,4 @@
-import SearchBar from "@/features/stampbook/ui/SearchBar";
+import SearchBar from "@/shared/ui/SearchBar";
 
 
 export default function StampBookPage() {
