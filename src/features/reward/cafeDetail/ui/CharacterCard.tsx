@@ -2,13 +2,15 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
+import { useState } from "react";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
+import QrModal from "@/shared/ui/QrModal";
 
 export default function CharacterCard() {
+  const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
-
   const characterType = book?.characterType || "yellow";
 
   const characterInfo: Record<
@@ -37,7 +39,7 @@ export default function CharacterCard() {
 
   return (
     <div className="relative w-full items-center justify-center h-[68px] flex gap-[10px]">
-      <div className="cursor-pointer">
+      <div className="cursor-pointer" onClick={() => setIsOpen(true)}>
         <Image
           src={`/icon/${characterType}-qr.svg`}
           alt="qr"
@@ -63,6 +65,7 @@ export default function CharacterCard() {
           <p className="text-xs text-font-black font-semibold">{description}</p>
         </div>
       </div>
+      <QrModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
