@@ -28,7 +28,7 @@ export default function StampBook({
   const unstampedSrc = `/img/character/${characterType}-face-gray.svg`;
 
   return (
-    <div className="w-[327px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
+    <div className="w-[320px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
       <div className="flex gap-[6px] items-center">
         <Image src="/icon/coffee.svg" alt="원두" width={16} height={16} />
         <p className="text-sm font-bold text-[#254434]">{cafe}</p>
