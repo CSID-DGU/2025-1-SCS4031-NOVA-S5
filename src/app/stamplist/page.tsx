@@ -1,11 +1,13 @@
 "use client";
 
 import SearchHeader from "@/features/viewStampList/ui/SearchHeader";
+import ViewSwitcher from "@/features/viewStampList/ui/ViewSwitcher";
 
 export default function StampListPage() {
   return (
     <div>
-      <SearchHeader />내 주변 스탬프북 리스트
+      <SearchHeader />
+      <ViewSwitcher />
     </div>
   );
 }
