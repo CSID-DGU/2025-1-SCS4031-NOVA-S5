@@ -7,7 +7,7 @@ const ViewSwitcher = () => {
   const { viewMode } = useViewModeStore();
 
   return (
-    <div>
+    <div className="pb-[80px]">
       <TabBar />
       <div className="mt-4">{viewMode === "list" ? <ListView /> : <MapView />}</div>
     </div>
