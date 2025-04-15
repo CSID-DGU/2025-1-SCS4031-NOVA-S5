@@ -17,7 +17,7 @@ export default function GNB() {
   return (
     <div className="bg-yellow-300 px-[27px] py-[18px] flex justify-between items-center shadow-[0px_-6px_14px_0px_rgba(47,47,47,0.04)]">
       {navItems.map(({ name, path, icon }) => {
-        const isActive = pathname === path;
+        const isActive = pathname === path || pathname.startsWith(`${path}/`);
         const iconSrc = isActive ? icon.replace(".svg", "-active.svg") : icon;
 
         return (

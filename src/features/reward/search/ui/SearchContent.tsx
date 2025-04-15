@@ -24,6 +24,7 @@ export default function SearchContent() {
           alt="왼쪽 화살표"
           width={30}
           height={30}
+          className="cursor-pointer"
           onClick={() => router.push("/reward")}
         />
         <SearchBar
