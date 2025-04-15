@@ -1,5 +1,11 @@
+import LocationSlider from "./ListSlider/LocationList";
+
 function ListView() {
-  return <div>리스트로 보기</div>;
+  return (
+    <div>
+      <LocationSlider />
+    </div>
+  );
 }
 
 export default ListView;
