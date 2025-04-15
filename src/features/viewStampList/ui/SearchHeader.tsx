@@ -2,6 +2,7 @@
 
 import SearchBar from "@/shared/ui/input/SearchBar";
 import { useBottomSheetStore } from "@/shared/store/bottomSheetStore";
+import LocationSheet from "./LocationSheet";
 
 function SearchHeader() {
   const open = useBottomSheetStore(s => s.open);
@@ -21,6 +22,7 @@ function SearchHeader() {
         </div>
         <SearchBar />
       </div>
+      <LocationSheet />
     </>
   );
 }
