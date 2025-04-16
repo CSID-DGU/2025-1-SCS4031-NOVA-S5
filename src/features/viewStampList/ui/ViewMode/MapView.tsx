@@ -1,5 +1,13 @@
+"use client";
+
+import KakaoMap from "./Map/KakaoMap";
+
 function MapView() {
-  return <div>지도로 보기</div>;
+  return (
+    <div className="overflow-hidden">
+      <KakaoMap />
+    </div>
+  );
 }
 
 export default MapView;
