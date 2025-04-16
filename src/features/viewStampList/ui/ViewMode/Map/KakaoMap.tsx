@@ -9,6 +9,7 @@ function KakaoMap() {
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [center, setCenter] = useState<kakao.maps.LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
 
   useEffect(() => {
     const initializeMap = () => {
@@ -112,6 +113,8 @@ function KakaoMap() {
             map={map}
             position={{ lat: location.lat, lng: location.lng }}
             title={location.name}
+            isActive={activeMarkerId === location.id}
+            onClick={() => setActiveMarkerId(location.id)}
           />
         ))}
     </div>

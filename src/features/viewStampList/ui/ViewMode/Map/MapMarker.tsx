@@ -10,14 +10,17 @@ interface MapMarkerProps {
   };
   title?: string;
   onClick?: () => void;
+  isActive?: boolean;
 }
 
-function MapMarker({ map, position, title, onClick }: MapMarkerProps) {
+function MapMarker({ map, position, title, onClick, isActive }: MapMarkerProps) {
   useEffect(() => {
     if (!map || !position) return;
 
+    const imageSrc = isActive ? "/img/markers/active-marker.svg" : "/img/markers/marker.svg";
+
     const markerImage = new window.kakao.maps.MarkerImage(
-      "/img/markers/marker.svg", // 마커 이미지 경로
+      imageSrc, // 마커 이미지 경로
       new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
       {
         offset: new window.kakao.maps.Point(20, 40), // 마커 이미지에서 마커의 위치
@@ -38,7 +41,7 @@ function MapMarker({ map, position, title, onClick }: MapMarkerProps) {
     return () => {
       marker.setMap(null);
     };
-  }, [map, position, title, onClick]);
+  }, [map, position, title, onClick, isActive]);
 
   return null;
 }
