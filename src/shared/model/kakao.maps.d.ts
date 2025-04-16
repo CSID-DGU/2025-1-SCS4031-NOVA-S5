@@ -22,7 +22,7 @@ declare global {
       }
 
       class Marker {
-        constructor(options: { position: LatLng; map: Map; title?: string });
+        constructor(options: { position: LatLng; map: Map; title?: string; image?: MarkerImage });
         setMap(map: Map | null): void;
       }
 
@@ -35,6 +35,25 @@ declare global {
           map: Map;
         });
         setMap(map: Map | null): void;
+      }
+
+      class Size {
+        constructor(width: number, height: number);
+      }
+
+      class Point {
+        constructor(x: number, y: number);
+      }
+      class MarkerImage {
+        constructor(
+          src: string,
+          size: Size,
+          options?: {
+            spriteSize?: Size;
+            spriteOrigin?: Point;
+            offset?: Point;
+          }
+        );
       }
 
       namespace event {
