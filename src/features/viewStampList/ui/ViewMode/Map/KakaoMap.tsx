@@ -3,6 +3,7 @@
 import { mockLocationData } from "@/shared/mocks/mockLocationData";
 import { useEffect, useRef, useState } from "react";
 import MapMarker from "./MapMarker";
+import InfoCard from "./InfoCard";
 
 function KakaoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -81,6 +82,8 @@ function KakaoMap() {
     };
   }, []);
 
+  const activeLocation = mockLocationData.location.find(loc => loc.id === activeMarkerId);
+
   if (error) {
     return (
       <div className="relative w-full h-full">
@@ -114,9 +117,21 @@ function KakaoMap() {
             position={{ lat: location.lat, lng: location.lng }}
             title={location.name}
             isActive={activeMarkerId === location.id}
-            onClick={() => setActiveMarkerId(location.id)}
+            onClick={() => setActiveMarkerId(prev => (prev === location.id ? null : location.id))}
           />
         ))}
+
+      {activeLocation && (
+        <div className="absolute bottom-[120px] left-1/2 transform -translate-x-1/2 z-10 w-[90%] max-w-md">
+          <InfoCard
+            id={activeLocation.id}
+            name={activeLocation.name}
+            cafe_status={activeLocation.cafe_status}
+            business_hour={activeLocation.business_hour}
+            img_url={activeLocation.img_url}
+          />
+        </div>
+      )}
     </div>
   );
 }
