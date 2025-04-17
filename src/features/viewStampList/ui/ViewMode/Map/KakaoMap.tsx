@@ -11,6 +11,27 @@ function KakaoMap() {
   const [center, setCenter] = useState<kakao.maps.LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
+  const [mapHeight, setMapHeight] = useState("65vh");
+
+  useEffect(() => {
+    const calculateMapHeight = () => {
+      const screenHeight = window.innerHeight;
+      if (screenHeight >= 800) {
+        setMapHeight("70vh");
+      } else if (screenHeight >= 600) {
+        setMapHeight("60vh");
+      } else {
+        setMapHeight("50vh");
+      }
+    };
+
+    calculateMapHeight();
+    window.addEventListener("resize", calculateMapHeight);
+
+    return () => {
+      window.removeEventListener("resize", calculateMapHeight);
+    };
+  }, []);
 
   useEffect(() => {
     const initializeMap = () => {
@@ -101,7 +122,7 @@ function KakaoMap() {
       className="z-0"
       style={{
         width: "100%",
-        height: "70vh",
+        height: mapHeight,
         borderRadius: "8px",
         position: "fixed",
         bottom: "64px",
@@ -122,7 +143,7 @@ function KakaoMap() {
         ))}
 
       {activeLocation && (
-        <div className="absolute bottom-[120px] left-1/2 transform -translate-x-1/2 z-10 w-[90%] max-w-md">
+        <div className="absolute bottom-[15%] left-1/2 transform -translate-x-1/2 z-10 w-[90%] max-w-md">
           <InfoCard
             id={activeLocation.id}
             name={activeLocation.name}
