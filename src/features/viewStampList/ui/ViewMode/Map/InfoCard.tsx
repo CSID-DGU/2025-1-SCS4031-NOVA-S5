@@ -1,3 +1,7 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 interface InfoCardProps {
   id: string;
   name: string;
@@ -7,8 +11,11 @@ interface InfoCardProps {
 }
 
 function InfoCard(info: InfoCardProps) {
+  const router = useRouter();
   return (
-    <div className="flex flex-row gap-2 pl-3 items-center bg-[#FBFBEE] w-full h-[100px] rounded-[10px]">
+    <div 
+      className="flex flex-row gap-2 pl-3 items-center bg-[#FBFBEE] w-full h-[100px] rounded-[10px] cursor-pointer"
+      onClick={() => router.push(`/stamplist/${info.id}`)}>
       <img src={info.img_url} className="w-[80px] h-[80px] rounded-[10px]" />
       <div className="flex flex-col gap-1">
         <div className="bg-[#E2ECDC] w-[45px] text-center rounded-full">
