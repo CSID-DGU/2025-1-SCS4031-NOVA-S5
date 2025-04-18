@@ -124,9 +124,9 @@ function KakaoMap() {
         width: "100%",
         height: mapHeight,
         borderRadius: "8px",
-        position: "fixed",
+        position: "relative",
         bottom: "64px",
-        top: "230px",
+        top: 0,
         left: 0,
         right: 0,
       }}>
