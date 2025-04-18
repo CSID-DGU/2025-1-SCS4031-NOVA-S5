@@ -68,6 +68,9 @@ export default {
           900: "#252627",
           1000: "#000000",
         },
+        disabledfont: "rgba(37, 68, 52, 0.30)",
+        fontgray: "rgba(37, 68, 52, 0.50);",
+        tabbar: "rgba(37, 68, 52, 0.50)",
         // 기존 시스템 색상 유지
         background: "var(--background)",
         foreground: "var(--foreground)",
