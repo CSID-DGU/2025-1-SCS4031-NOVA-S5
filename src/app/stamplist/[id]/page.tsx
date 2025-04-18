@@ -14,6 +14,7 @@ const mockData = {
   cafa_img: "",
   cafe_detail: "카페 '더블톤의 따뜻한 내부 분위기를 녹여냈어요.",
   desc: "몽글몽글한 감성을 스탬프북에서 느껴보세요.",
+  character: "yellow",
   stamp: {
     cafe_name: "충무로 더블톤",
     logo: "/img/stamp/stamp-logo.svg",
