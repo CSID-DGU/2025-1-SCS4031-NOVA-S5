@@ -1,3 +1,10 @@
+"use client";
+
+import CafeContent from "@/features/cafeDetail/ui/CafeContent";
+import CafeHeader from "@/features/cafeDetail/ui/CafeHeader";
+import { useCafeStore } from "@/shared/store/cafeDetailStore";
+import { useEffect } from "react";
+
 const mockData = {
   name: "충무로 더블톤",
   business_hour: "9:00~20:00 (Last Order 19:30)",
@@ -15,9 +22,16 @@ const mockData = {
 };
 
 export default function CafeDetailPage() {
+  const { cafe, setCafe } = useCafeStore();
+
+  useEffect(() => {
+    setCafe(mockData);
+  }, []);
+
   return (
-    <div className="text-[20px] font-[800] text-tabbar">
-      <p className=" text-font-green">{mockData.name}</p>의 스탬프북
+    <div>
+      <CafeHeader name={mockData.name} />
+      <CafeContent />
     </div>
   );
 }
