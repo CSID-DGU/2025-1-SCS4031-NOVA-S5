@@ -30,9 +30,13 @@ export default function CafeDetailPage() {
   }, []);
 
   return (
-    <div>
-      <CafeHeader name={mockData.name} />
-      <CafeContent />
+    <div className="relative flex flex-col h-screen">
+      <div className="relative top-0">
+        <CafeHeader name={mockData.name} />
+      </div>
+      <div className="flex overflow-y-auto scrollbar-hide justify-center">
+        <CafeContent />
+      </div>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useCafeStore } from "@/shared/store/cafeDetailStore";
 import CafeInfo from "@/shared/ui/CafeInfo";
 import RewardCard from "./RewardCard";
 import CafeCharacter from "./CafeCharacter";
+import CafeStamp from "./CafeStamp";
 
 function CafeContent() {
   const cafe = useCafeStore(state => state.cafe);
@@ -21,6 +22,7 @@ function CafeContent() {
         />
         <RewardCard />
         <CafeCharacter />
+        <CafeStamp />
       </div>
     </div>
   );
