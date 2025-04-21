@@ -3,7 +3,7 @@
 import { mockLocationData } from "@/shared/mocks/mockLocationData";
 import { useEffect, useRef, useState } from "react";
 import MapMarker from "./MapMarker";
-import InfoCard from "./InfoCard";
+import InfoCard from "@/shared/ui/InfoCard";
 
 function KakaoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
