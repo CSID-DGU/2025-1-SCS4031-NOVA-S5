@@ -10,7 +10,7 @@ export default function GNB() {
     { name: "매거진", path: "/magazine", icon: "/icon/magazine.svg" },
     { name: "적립 내역", path: "/reward", icon: "/icon/reward-history.svg" },
     { name: "홈", path: "/main", icon: "/icon/home.svg" },
-    { name: "스탬프북", path: "/stamp-book", icon: "/icon/stamp-book.svg" },
+    { name: "스탬프북", path: "/stamplist", icon: "/icon/stamp-book.svg" },
     { name: "마이페이지", path: "/mypage", icon: "/icon/user.svg" },
   ];
 
