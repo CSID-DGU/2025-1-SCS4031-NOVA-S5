@@ -13,7 +13,7 @@ interface InfoCardProps {
 function InfoCard(info: InfoCardProps) {
   const router = useRouter();
   return (
-    <div 
+    <div
       className="flex flex-row gap-2 pl-3 items-center bg-[#FBFBEE] w-full h-[100px] rounded-[10px] cursor-pointer"
       onClick={() => router.push(`/stamplist/${info.id}`)}>
       <img src={info.img_url} className="w-[80px] h-[80px] rounded-[10px]" />

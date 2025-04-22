@@ -3,10 +3,14 @@
 import SearchBar from "@/shared/ui/input/SearchBar";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
-function CafeSearchHeader() {
-  const [name, setName] = useState("");
+function CafeSearchHeader({
+  keyword,
+  onChange,
+}: {
+  keyword: string;
+  onChange: (val: string) => void;
+}) {
   const router = useRouter();
 
   return (
@@ -19,7 +23,7 @@ function CafeSearchHeader() {
         onClick={() => router.back()}
         className="cursor-pointer"
       />
-      <SearchBar placeholder="방문할 카페를 검색해 보세요!" value={name} onChange={setName} />
+      <SearchBar placeholder="방문할 카페를 검색해 보세요!" value={keyword} onChange={onChange} />
     </div>
   );
 }
