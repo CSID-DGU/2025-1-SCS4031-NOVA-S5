@@ -67,7 +67,7 @@ export default function CafeDetailContent() {
             alt="카페 이미지"
             width={320}
             height={154}
-            className="rounded-lg mt-[20px]"
+            className="rounded-lg mt-[20px] shadow-sm"
           />
           <p className="w-[320px] mt-[10px] pl-[215px] text-[10px] font-medium text-font-green cursor-pointer">
             적립 상세 내역 보러가기 &gt;

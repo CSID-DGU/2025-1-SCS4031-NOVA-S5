@@ -8,18 +8,22 @@ import Header from "@/shared/ui/Header";
 export default function MainPage() {
   return (
     <div className="flex flex-col h-screen">
-      <Header />
-      <div className="flex-1 overflow-y-auto pb-[20px]">
-        <div className="flex flex-col mt-[20px] justify-center items-center gap-[20px]">
+      <div className="fixed top-0 left-0 right-0">
+        <Header />
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="flex flex-col mt-[70px] justify-center items-center gap-[20px]">
           <FortuneCard />
           <UserCard />
         </div>
-        <div className="flex flex-col justify-center items-center gap-[40px] mt-[40px]">
+        <div className="flex flex-col justify-center items-center gap-[40px] mt-[40px] mb-[100px]">
           <StampSlider />
           <ChallengeSlider />
         </div>
       </div>
-      <GNB />
+      <div className="fixed bottom-0 left-0 right-0">
+        <GNB />
+      </div>
     </div>
   );
 }
