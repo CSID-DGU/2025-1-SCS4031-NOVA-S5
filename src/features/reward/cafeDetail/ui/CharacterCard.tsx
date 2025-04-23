@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import { useState } from "react";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
-import QrModal from "@/shared/ui/QrModal";
+import QrModal from "@/shared/ui/modal/QrModal";
 
 export default function CharacterCard() {
   const [isOpen, setIsOpen] = useState(false);

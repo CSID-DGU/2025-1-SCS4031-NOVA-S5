@@ -60,15 +60,18 @@ export default function CafeDetailContent() {
         <p className="text-md text-font-green font-extrabold">
           으쌰으쌰, 리워드까지 {book.remainingStamp}개 남았어요!
         </p>
-        <div className="flex flex-col gap-5 items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <StampBook stampBookId={book?.id} characterType={book.characterType} />
           <Image
             src={"/img/doubletone.svg"}
             alt="카페 이미지"
             width={320}
             height={154}
-            className="rounded-lg"
+            className="rounded-lg mt-[20px]"
           />
+          <p className="w-[320px] mt-[10px] pl-[215px] text-[10px] font-medium text-font-green cursor-pointer">
+            적립 상세 내역 보러가기 &gt;
+          </p>
         </div>
       </div>
       <div className="w-full h-[41px] flex items-center justify-center gap-[30px]">
