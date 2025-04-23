@@ -1,19 +1,23 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import CharacterCard from "@/features/reward/cafeDetail/ui/CharacterCard";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampBook from "@/shared/ui/StampBook";
-import StampModal from "@/shared/ui/StampModal";
-import { useStampModalStore } from "@/shared/store/stampModalType";
-import { useState } from "react";
+import StampModal from "@/shared/ui/modal/CafeStampModal";
+import { useStampModalStore } from "@/shared/store/stampModalStore";
+import { useRewardStore } from "@/shared/store/rewardStore";
+import RewardCoupon from "./RewardCoupon";
 
 export default function CafeDetailContent() {
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
   const { stampModalType, setStampModalType } = useStampModalStore();
+  const { rewardCounts } = useRewardStore();
+  const rewardCount = rewardCounts[id] ?? 0;
   const [isRegistered, setIsRegistered] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -41,6 +45,18 @@ export default function CafeDetailContent() {
     <section className="w-full flex flex-col gap-[40px]">
       <CharacterCard />
       <div className="flex flex-col gap-5">
+        {rewardCount ? (
+          <>
+            <p className="text-md text-font-green font-extrabold">
+              리워드로 교환할 수 있는 쿠폰이 {rewardCount}개 있어요.
+            </p>
+            <div className="flex flex-col items-center justify-center">
+              <RewardCoupon characterType={book.characterType} id={id} />
+            </div>
+          </>
+        ) : (
+          ""
+        )}
         <p className="text-md text-font-green font-extrabold">
           으쌰으쌰, 리워드까지 {book.remainingStamp}개 남았어요!
         </p>

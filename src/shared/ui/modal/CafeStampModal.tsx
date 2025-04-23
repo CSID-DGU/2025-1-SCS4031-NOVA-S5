@@ -6,8 +6,8 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import Image from "next/image";
-import StampModalContent from "./StampModalContent";
-import { useStampModalStore } from "../store/stampModalType";
+import StampModalContent from "./CafeStampModalContent";
+import { useStampModalStore } from "../../store/stampModalStore";
 
 interface StampModalProps {
   isOpen: boolean;

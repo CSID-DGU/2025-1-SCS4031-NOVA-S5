@@ -1,4 +1,4 @@
-import { StampModalType } from "../store/stampModalType";
+import { StampModalType } from "../../store/stampModalStore";
 
 interface Props {
   type: StampModalType;
