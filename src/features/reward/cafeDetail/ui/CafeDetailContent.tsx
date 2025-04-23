@@ -2,18 +2,40 @@
 
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
 import CharacterCard from "@/features/reward/cafeDetail/ui/CharacterCard";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampBook from "@/shared/ui/StampBook";
 import StampModal from "@/shared/ui/StampModal";
+import { useStampModalStore } from "@/shared/store/stampModalType";
+import { useState } from "react";
 
 export default function CafeDetailContent() {
-  const [modalType, setModalType] = useState<"register" | "delete" | null>(null);
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
+  const { stampModalType, setStampModalType } = useStampModalStore();
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   if (!book) return null;
+
+  const handleRegisterToggle = () => {
+    if (isRegistered) {
+      setStampModalType("home-removed");
+      setIsRegistered(false);
+    } else {
+      setStampModalType("register");
+      setIsRegistered(true);
+    }
+  };
+
+  const handleDeleteToggle = () => {
+    if (isDeleted) {
+      setIsDeleted(false);
+    } else {
+      setStampModalType("delete-confirm");
+    }
+  };
 
   return (
     <section className="w-full flex flex-col gap-[40px]">
@@ -36,20 +58,24 @@ export default function CafeDetailContent() {
       <div className="w-full h-[41px] flex items-center justify-center gap-[30px]">
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
-          onClick={() => setModalType("register")}>
-          홈에 등록
+          onClick={handleRegisterToggle}>
+          {isRegistered ? "홈에서 삭제" : "홈에 등록"}
         </button>
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
-          onClick={() => setModalType("delete")}>
-          내 스탬프북에서 삭제
+          onClick={handleDeleteToggle}>
+          {isDeleted ? "내 스탬프북에 저장" : "내 스탬프북에서 삭제"}
         </button>
       </div>
+
       <StampModal
-        isOpen={modalType !== null}
-        setIsOpen={() => setModalType(null)}
-        isConfirm={modalType === "delete"}
+        isOpen={stampModalType !== null}
+        setIsOpen={() => setStampModalType(null)}
         characterType={book.characterType}
+        onDeleteConfirm={() => {
+          setStampModalType("delete");
+          setIsDeleted(true);
+        }}
       />
     </section>
   );
