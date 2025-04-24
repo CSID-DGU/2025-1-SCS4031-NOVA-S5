@@ -1,21 +1,13 @@
 "use client";
 
-import ChallengeSlider from "@/features/main/ui/ChallengeSlider";
-import EmptyState from "@/features/main/ui/EmptyState";
-import StampSlider from "@/features/main/ui/StampSlider";
-import SearchResult from "@/features/reward/search/ui/SearchResult";
-import { useRouter } from "next/navigation";
+import LoginContent from "@/features/auth/ui/LoginContent";
+import LoginHeader from "@/features/auth/ui/LoginHeader";
 
 export default function Home() {
-  const router = useRouter();
-
   return (
-    <div className="flex flex-col gap-2">
-      <StampSlider />
-      <ChallengeSlider />
-      <EmptyState type="stampBook" />
-      <SearchResult />
-      <button onClick={() => router.push("/main")}>메인 페이지로 가기</button>
+    <div className="flex flex-col items-center justify-center gap-[130px] px-[35px] py-[50px]">
+      <LoginHeader />
+      <LoginContent />
     </div>
   );
 }
