@@ -1,3 +1,4 @@
+"use client";
 import LocationSlider from "./ListSlider/LocationList";
 import TopSlider from "./ListSlider/TopList";
 

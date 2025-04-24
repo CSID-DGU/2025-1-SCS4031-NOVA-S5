@@ -8,7 +8,7 @@ export default function StampListPage() {
   return (
     <div className="flex flex-col relative h-screen">
       <SearchHeader />
-      <div className="flex-1 overflow-y-auto pb-[20px]">
+      <div className="flex-1 overflow-y-auto scrollbar-hide pb-[20px]">
         <ViewSwitcher />
       </div>
       <div className="relative bottom-0 left-0 right-0">
