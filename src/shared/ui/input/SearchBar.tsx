@@ -4,12 +4,14 @@ interface SearchProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
+  onClick?: () => void;
 }
 
 export default function SearchBar({
   placeholder = "방문할 카페를 검색해 보세요!",
   value,
   onChange,
+  onClick,
 }: SearchProps) {
   const handleClear = () => onChange?.("");
 
@@ -20,6 +22,7 @@ export default function SearchBar({
         placeholder={placeholder}
         value={value}
         onChange={e => onChange?.(e.target.value)}
+        onClick={onClick}
         className="w-full pl-[44px] pr-[18px] py-[6px] bg-green-400 rounded-full outline-none text-sm text-font-green"
       />
       <Image

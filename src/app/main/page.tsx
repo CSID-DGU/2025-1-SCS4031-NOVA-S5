@@ -10,6 +10,7 @@ export default function MainPage() {
     <div className="relative flex flex-col h-screen">
       <Header />
       <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto pb-[20px] scrollbar-hide">
         <div className="flex flex-col mt-[20px] justify-center items-center gap-[20px]">
           <FortuneCard />
           <UserCard />
