@@ -7,7 +7,7 @@ export default function RewardContent() {
   const [sortType, setSortType] = useState<"latest" | "reward">("latest");
 
   return (
-    <section className="relative w-full bg-yellow-100 flex flex-col gap-[30px] px-6 pb-6">
+    <section className="relative w-full bg-yellow-100 flex flex-col gap-[15px] px-6 pb-6">
       <div className="h-[15px] mt-[40px] flex justify-end gap-[10px] items-center">
         <div
           className="flex gap-[7px] items-center justify-center cursor-pointer"

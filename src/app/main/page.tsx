@@ -7,12 +7,10 @@ import Header from "@/shared/ui/Header";
 
 export default function MainPage() {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="fixed top-0 left-0 right-0">
-        <Header />
-      </div>
+    <div className="relative flex flex-col h-screen">
+      <Header />
       <div className="flex-1 overflow-y-auto">
-        <div className="flex flex-col mt-[70px] justify-center items-center gap-[20px]">
+        <div className="flex flex-col mt-[20px] justify-center items-center gap-[20px]">
           <FortuneCard />
           <UserCard />
         </div>
@@ -21,7 +19,7 @@ export default function MainPage() {
           <ChallengeSlider />
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 right-0">
+      <div className="absolute bottom-0 left-0 right-0">
         <GNB />
       </div>
     </div>
