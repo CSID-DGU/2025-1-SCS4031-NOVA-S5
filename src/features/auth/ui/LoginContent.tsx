@@ -1,3 +1,4 @@
+import { redirectToKakaoLogin } from "@/shared/utils/redirectToKakaoLogin";
 import Image from "next/image";
 
 export default function LoginContent() {
@@ -31,7 +32,9 @@ export default function LoginContent() {
           <Image src="/img/character/beige-all.svg" alt="character" width={70} height={70} />
         </div>
       </div>
-      <button className="w-full bg-[#FFE812] rounded-full px-[35px] py-[15px] text-md font-semibold text-font-black flex items-center justify-center gap-3">
+      <button
+        className="w-full bg-[#FFE812] rounded-full px-[35px] py-[15px] text-md font-semibold text-font-black flex items-center justify-center gap-3"
+        onClick={redirectToKakaoLogin}>
         <Image src="/icon/kakao-logo.svg" alt="kakao-logo" width={23} height={23} />
         카카오톡으로 3초 만에 시작하기
       </button>
