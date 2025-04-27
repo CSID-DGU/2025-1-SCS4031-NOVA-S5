@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/shared/api/axios";
+import LoadingSpinner from "@/shared/ui/LoadingSpinner";
 
 export default function KakaoCallbackPage() {
   const searchParams = useSearchParams();
@@ -33,5 +34,10 @@ export default function KakaoCallbackPage() {
     }
   }, [code]);
 
-  return <div>로그인 중입니다...</div>;
+  return (
+    <div className="w-full h-full flex flex-col gap-5 items-center justify-center">
+      <LoadingSpinner />
+      <p>로그인 중입니다...</p>
+    </div>
+  );
 }

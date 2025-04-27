@@ -10,11 +10,14 @@ import StampModal from "@/shared/ui/modal/CafeStampModal";
 import { useStampModalStore } from "@/shared/store/stampModalStore";
 import { useRewardStore } from "@/shared/store/rewardStore";
 import RewardCoupon from "./RewardCoupon";
+import CafeInfo from "@/shared/ui/CafeInfo";
+import { useCafeStore } from "@/shared/store/cafeDetailStore";
 
 export default function CafeDetailContent() {
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
+  const cafe = useCafeStore(state => state.cafe);
   const { stampModalType, setStampModalType } = useStampModalStore();
   const { rewardCounts } = useRewardStore();
   const rewardCount = rewardCounts[id] ?? 0;
@@ -42,9 +45,17 @@ export default function CafeDetailContent() {
   };
 
   return (
-    <section className="w-full flex flex-col gap-[40px]">
+    <section className="w-full flex flex-col gap-5">
+      <div className="w-full h-[1px] bg-green-300" />
+      <CafeInfo
+        name={cafe?.name}
+        address={cafe?.address}
+        phone={cafe?.tel}
+        hours={cafe?.business_hour}
+      />
+      <div className="w-full h-[1px] bg-green-300 mb-5" />
       <CharacterCard />
-      <div className="flex flex-col gap-5">
+      <div className="mt-5 flex flex-col gap-5">
         {rewardCount ? (
           <>
             <p className="text-md text-font-green font-extrabold">
