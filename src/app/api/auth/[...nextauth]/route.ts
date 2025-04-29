@@ -1,6 +1,5 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
-import { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,19 +15,21 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
   pages: {
     signIn: "/",
   },
   callbacks: {
-    async jwt({ token, account }: { token: JWT; account?: any }) {
+    async jwt({ token, account }) {
       if (account) {
         token.accessToken = account.access_token;
+        console.log(token.accesstoken);
+        token.refreshToken = account.refresh_token;
+        token.idToken = account.id_token;
       }
       return token;
-    },
-    async session({ session, token }: { session: any; token: JWT }) {
-      session.accessToken = token.accessToken as string;
-      return session;
     },
   },
 };

@@ -19,7 +19,10 @@ export default function KakaoCallbackPage() {
         role: "USER",
       }),
     onSuccess: res => {
-      localStorage.setItem("accessToken", res.data.accessToken);
+      const { accessToken, refreshToken } = res.data.data;
+
+      document.cookie = `accessToken=${accessToken}; path=/;`;
+      document.cookie = `refreshToken=${refreshToken}; path=/;`;
       router.push("/main");
     },
     onError: err => {
