@@ -19,10 +19,22 @@ export default function RewardHeader() {
         />
       </div>
       <div className="absolute top-[54px] left-6 z-10">
-        <Image src={"/img/one-spring.svg"} alt="스프링 왼쪽" width={76} height={24} />
+        <Image
+          src={"/img/one-spring.svg"}
+          alt="스프링 왼쪽"
+          width={76}
+          height={24}
+          style={{ width: 76, height: 24 }}
+        />
       </div>
       <div className="absolute top-[54px] right-6 z-10">
-        <Image src={"/img/one-spring.svg"} alt="스프링 오른쪽" width={76} height={24} />
+        <Image
+          src={"/img/one-spring.svg"}
+          alt="스프링 왼쪽"
+          width={76}
+          height={24}
+          style={{ width: 76, height: 24 }}
+        />
       </div>
     </header>
   );

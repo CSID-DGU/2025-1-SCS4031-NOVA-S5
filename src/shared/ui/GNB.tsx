@@ -25,7 +25,13 @@ export default function GNB() {
             key={name}
             className="flex flex-col gap-1 items-center justify-center cursor-pointer"
             onClick={() => router.push(path)}>
-            <Image src={iconSrc} alt={name} width={26} height={26} />
+            <Image
+              src={iconSrc}
+              alt={name}
+              width={26}
+              height={26}
+              style={{ width: 26, height: 26 }}
+            />
             <p
               className={`text-[10px] font-medium ${
                 isActive ? "text-green-100" : "text-[#9C9CA1B2]"

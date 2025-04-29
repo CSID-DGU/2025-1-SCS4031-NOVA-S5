@@ -52,6 +52,7 @@ export default function CharacterCard() {
           alt="캐릭터 이미지"
           width={52}
           height={59}
+          style={{ width: 52, height: 59 }}
           className="ml-[22px]"
         />
       </div>

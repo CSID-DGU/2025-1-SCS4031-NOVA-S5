@@ -39,6 +39,7 @@ export default function StampBook({ cafeName, stampBookId, characterType }: Stam
             alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
             width={35}
             height={35}
+            style={{ width: 35, height: 35 }}
           />
         ))}
       </div>
