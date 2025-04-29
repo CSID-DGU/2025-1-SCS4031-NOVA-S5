@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
+import { setCookie } from "cookies-next";
 import api from "@/shared/api/axios";
-import LoadingSpinner from "@/shared/ui/LoadingSpinner";
+import Loading from "@/shared/ui/Loading";
 
-export default function KakaoCallbackPage() {
+function KakaoCallbackInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const code = searchParams.get("code");
@@ -21,8 +22,8 @@ export default function KakaoCallbackPage() {
     onSuccess: res => {
       const { accessToken, refreshToken } = res.data.data;
 
-      document.cookie = `accessToken=${accessToken}; path=/;`;
-      document.cookie = `refreshToken=${refreshToken}; path=/;`;
+      setCookie("accessToken", accessToken);
+      setCookie("refreshToken", refreshToken);
       router.push("/main");
     },
     onError: err => {
@@ -37,10 +38,13 @@ export default function KakaoCallbackPage() {
     }
   }, [code]);
 
+  return <Loading />;
+}
+
+export default function KakaoCallbackPage() {
   return (
-    <div className="w-full h-full flex flex-col gap-5 items-center justify-center">
-      <LoadingSpinner />
-      <p>로그인 중입니다...</p>
-    </div>
+    <Suspense>
+      <KakaoCallbackInner />
+    </Suspense>
   );
 }
