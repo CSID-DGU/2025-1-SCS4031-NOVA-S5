@@ -6,13 +6,14 @@ import GNB from "@/shared/ui/GNB";
 
 export default function StampBookDetailPage() {
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-y-auto flex flex-col gap-[23px] px-[27px] py-[28px]">
+    <div className="relative flex flex-col h-screen">
+      <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col gap-[23px] px-[27px] py-[28px] mb-[85px]">
         <CafeDetailHeader />
-        <div className="w-full h-[1px] bg-[#E2ECDC]" />
         <CafeDetailContent />
       </div>
-      <GNB />
+      <div className="absolute bottom-0 left-0 right-0">
+        <GNB />
+      </div>
     </div>
   );
 }

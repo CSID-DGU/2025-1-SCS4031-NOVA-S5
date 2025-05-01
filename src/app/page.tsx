@@ -1,15 +1,13 @@
-import ChallengeSlider from "@/features/main/ui/ChallengeSlider";
-import EmptyState from "@/features/main/ui/EmptyState";
-import StampSlider from "@/features/main/ui/StampSlider";
-import StampBook from "@/shared/ui/StampBook";
+"use client";
+
+import LoginContent from "@/features/auth/ui/LoginContent";
+import LoginHeader from "@/features/auth/ui/LoginHeader";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-2">
-      <StampSlider />
-      <ChallengeSlider />
-      <EmptyState type="stampBook" />
-      <StampBook />
+    <div className="flex flex-col items-center justify-center gap-[130px] px-[35px] py-[50px]">
+      <LoginHeader isCustomer={false} />
+      <LoginContent />
     </div>
   );
 }

@@ -20,6 +20,7 @@ export default function StampCard({ stampBookId }: StampCardProps) {
         alt="토끼 캐릭터"
         width={37}
         height={51}
+        style={{ width: 37, height: 51 }}
         className="absolute right-[-10px] top-[2px] rotate-[-24deg] opacity-20"
       />
       <Image
@@ -27,6 +28,7 @@ export default function StampCard({ stampBookId }: StampCardProps) {
         alt="여우 캐릭터"
         width={37}
         height={47}
+        style={{ width: 37, height: 47 }}
         className="absolute right-[-15px] top-[50px] rotate-[-54deg] opacity-20"
       />
       <div className="flex gap-[6px]">

@@ -1,55 +1,111 @@
 "use client";
 
+import { useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
 import CharacterCard from "@/features/reward/cafeDetail/ui/CharacterCard";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampBook from "@/shared/ui/StampBook";
-import StampModal from "@/shared/ui/StampModal";
+import StampModal from "@/shared/ui/modal/CafeStampModal";
+import { useStampModalStore } from "@/shared/store/stampModalStore";
+import { useRewardStore } from "@/shared/store/rewardStore";
+import RewardCoupon from "./RewardCoupon";
+import CafeInfo from "@/shared/ui/CafeInfo";
+import { useCafeStore } from "@/shared/store/cafeDetailStore";
 
 export default function CafeDetailContent() {
-  const [modalType, setModalType] = useState<"register" | "delete" | null>(null);
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
+  const cafe = useCafeStore(state => state.cafe);
+  const { stampModalType, setStampModalType } = useStampModalStore();
+  const { rewardCounts } = useRewardStore();
+  const rewardCount = rewardCounts[id] ?? 0;
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
   if (!book) return null;
 
+  const handleRegisterToggle = () => {
+    if (isRegistered) {
+      setStampModalType("home-removed");
+      setIsRegistered(false);
+    } else {
+      setStampModalType("register");
+      setIsRegistered(true);
+    }
+  };
+
+  const handleDeleteToggle = () => {
+    if (isDeleted) {
+      setIsDeleted(false);
+    } else {
+      setStampModalType("delete-confirm");
+    }
+  };
+
   return (
-    <section className="w-full flex flex-col gap-[40px]">
+    <section className="w-full flex flex-col gap-5">
+      <div className="w-full h-[1px] bg-green-300" />
+      <CafeInfo
+        name={cafe?.name}
+        address={cafe?.address}
+        phone={cafe?.tel}
+        hours={cafe?.business_hour}
+      />
+      <div className="w-full h-[1px] bg-green-300 mb-5" />
       <CharacterCard />
-      <div className="flex flex-col gap-5">
+      <div className="mt-5 flex flex-col gap-5">
+        {rewardCount ? (
+          <>
+            <p className="text-md text-font-green font-extrabold">
+              리워드로 교환할 수 있는 쿠폰이 {rewardCount}개 있어요.
+            </p>
+            <div className="flex flex-col items-center justify-center">
+              <RewardCoupon characterType={book.characterType} id={id} />
+            </div>
+          </>
+        ) : (
+          ""
+        )}
         <p className="text-md text-font-green font-extrabold">
           으쌰으쌰, 리워드까지 {book.remainingStamp}개 남았어요!
         </p>
-        <div className="flex flex-col gap-5 items-center justify-center">
+        <div className="flex flex-col items-center justify-center">
           <StampBook stampBookId={book?.id} characterType={book.characterType} />
           <Image
             src={"/img/doubletone.svg"}
             alt="카페 이미지"
             width={320}
             height={154}
-            className="rounded-lg"
+            className="rounded-lg mt-[20px] shadow-sm"
           />
+          <p className="w-[320px] mt-[10px] pl-[215px] text-[10px] font-medium text-font-green cursor-pointer">
+            적립 상세 내역 보러가기 &gt;
+          </p>
         </div>
       </div>
       <div className="w-full h-[41px] flex items-center justify-center gap-[30px]">
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
-          onClick={() => setModalType("register")}>
-          홈에 등록
+          onClick={handleRegisterToggle}>
+          {isRegistered ? "홈에서 삭제" : "홈에 등록"}
         </button>
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
-          onClick={() => setModalType("delete")}>
-          내 스탬프북에서 삭제
+          onClick={handleDeleteToggle}>
+          {isDeleted ? "내 스탬프북에 저장" : "내 스탬프북에서 삭제"}
         </button>
       </div>
+
       <StampModal
-        isOpen={modalType !== null}
-        setIsOpen={() => setModalType(null)}
-        isConfirm={modalType === "delete"}
+        isOpen={stampModalType !== null}
+        setIsOpen={() => setStampModalType(null)}
         characterType={book.characterType}
+        onDeleteConfirm={() => {
+          setStampModalType("delete");
+          setIsDeleted(true);
+        }}
       />
     </section>
   );

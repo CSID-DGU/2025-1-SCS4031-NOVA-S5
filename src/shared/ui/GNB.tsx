@@ -15,7 +15,7 @@ export default function GNB() {
   ];
 
   return (
-    <div className="bg-yellow-300 px-[27px] py-[18px] flex justify-between items-center shadow-[0px_-6px_14px_0px_rgba(47,47,47,0.04)]">
+    <div className="w-full box-border bg-yellow-300 px-[27px] py-[18px] flex justify-between items-center shadow-[0px_-6px_14px_0px_rgba(47,47,47,0.04)]">
       {navItems.map(({ name, path, icon }) => {
         const isActive = pathname === path || pathname.startsWith(`${path}/`);
         const iconSrc = isActive ? icon.replace(".svg", "-active.svg") : icon;
@@ -25,7 +25,13 @@ export default function GNB() {
             key={name}
             className="flex flex-col gap-1 items-center justify-center cursor-pointer"
             onClick={() => router.push(path)}>
-            <Image src={iconSrc} alt={name} width={26} height={26} />
+            <Image
+              src={iconSrc}
+              alt={name}
+              width={26}
+              height={26}
+              style={{ width: 26, height: 26 }}
+            />
             <p
               className={`text-[10px] font-medium ${
                 isActive ? "text-green-100" : "text-[#9C9CA1B2]"

@@ -51,6 +51,7 @@ export default function ChallengeCard({ challengeId }: ChallengeCardProps) {
             alt="오른쪽화살표"
             width={20}
             height={20}
+            style={{ width: 20, height: 20 }}
             className="cursor-pointer mt-3 "
           />
         </div>
