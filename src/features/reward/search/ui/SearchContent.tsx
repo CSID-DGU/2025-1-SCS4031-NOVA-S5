@@ -49,7 +49,7 @@ export default function SearchContent() {
         filteredBooks.length > 0 ? (
           <div className="flex flex-col gap-[20px]">
             {filteredBooks.map(book => (
-              <SearchResult key={book.id} stampBookId={book.id} />
+              <SearchResult key={book.cafeId} stampBookId={book.cafeId} />
             ))}
           </div>
         ) : (
