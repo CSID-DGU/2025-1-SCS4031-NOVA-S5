@@ -12,7 +12,7 @@ import { useStampModalStore } from "../../store/stampModalStore";
 interface StampModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  characterType: "yellow" | "orange" | "beige" | "green";
+  characterType: "YELLOW" | "ORANGE" | "BEIGE" | "GREEN";
   onDeleteConfirm?: () => void;
 }
 

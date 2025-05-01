@@ -16,11 +16,12 @@ import { useCafeStore } from "@/shared/store/cafeDetailStore";
 export default function CafeDetailContent() {
   const params = useParams();
   const id = Number(params.id);
-  const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
+  const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
   const cafe = useCafeStore(state => state.cafe);
   const { stampModalType, setStampModalType } = useStampModalStore();
   const { rewardCounts } = useRewardStore();
   const rewardCount = rewardCounts[id] ?? 0;
+
   const [isRegistered, setIsRegistered] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
@@ -69,10 +70,10 @@ export default function CafeDetailContent() {
           ""
         )}
         <p className="text-md text-font-green font-extrabold">
-          으쌰으쌰, 리워드까지 {book.remainingStamp}개 남았어요!
+          으쌰으쌰, 리워드까지 {book.remainingStampCount}개 남았어요!
         </p>
         <div className="flex flex-col items-center justify-center">
-          <StampBook stampBookId={book?.id} characterType={book.characterType} />
+          <StampBook stampBookId={book?.cafeId} characterType={book.characterType} />
           <Image
             src={"/img/doubletone.svg"}
             alt="카페 이미지"

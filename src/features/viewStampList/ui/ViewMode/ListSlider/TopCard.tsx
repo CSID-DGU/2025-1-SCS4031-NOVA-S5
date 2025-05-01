@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/navigation";
 
 interface Cafe {
-  id: number;
+  cafeId: number;
   name: string;
   imageUrl: string;
   keywords: string;
@@ -14,7 +14,7 @@ function TopCard({ cafe }: { cafe: Cafe }) {
   return (
     <div
       className="w-[133px] h-[177px] bg-white rounded-tr-2xl rounded-br-2xl shadow-md overflow-hidden cursor-pointer"
-      onClick={() => router.push(`/stamplist/${cafe.id}`)}>
+      onClick={() => router.push(`/stamplist/${cafe.cafeId}`)}>
       <img src={cafe.imageUrl} alt={cafe.name} className="w-full h-[115px] object-cover" />
       <div className=" pl-4">
         <img src="./img/diary.svg" alt="diary" className="relative ml-20" />

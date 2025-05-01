@@ -7,11 +7,11 @@ interface StampCardProps {
 }
 
 export default function StampCard({ stampBookId }: StampCardProps) {
-  const book = useStampBookStore(state => state.stampBooks.find(b => b.id === stampBookId));
+  const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === stampBookId));
 
   if (!book) return null;
 
-  const { cafeName, rewardItem, totalStamp, remainingStamp } = book;
+  const { cafeName, rewardItem, currentStampCount, remainingStampCount } = book;
 
   return (
     <div className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden">
@@ -41,15 +41,11 @@ export default function StampCard({ stampBookId }: StampCardProps) {
           <p className="text-[#121212] font-semibold text-xs">까지</p>
         </div>
         <div className="flex gap-[2px]">
-          <p className="text-[#254434] font-bold text-sm">스탬프 {remainingStamp}개</p>
+          <p className="text-[#254434] font-bold text-sm">스탬프 {remainingStampCount}개</p>
           <p className="text-[#121212] font-bold text-sm">남았어요!</p>
         </div>
       </div>
-      <Progress
-        value={(totalStamp - remainingStamp) * 10}
-        character={true}
-        characterType="yellow"
-      />
+      <Progress value={currentStampCount * 10} character={true} characterType="yellow" />
     </div>
   );
 }

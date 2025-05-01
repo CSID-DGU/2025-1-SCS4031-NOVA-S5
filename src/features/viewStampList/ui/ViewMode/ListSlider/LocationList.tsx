@@ -16,7 +16,7 @@ function LocationSlider() {
         className="flex gap-4 overflow-x-auto snap-x snap-mandatory touch-pan-x scrollbar-hide px-1"
         style={{ WebkitOverflowScrolling: "touch", scrollBehavior: "smooth" }}>
         {LocationMock.map(cafe => (
-          <div key={cafe.id} className="flex-shrink-0 snap-start">
+          <div key={cafe.cafeId} className="flex-shrink-0 snap-start">
             <LocationCard cafe={cafe} />
           </div>
         ))}

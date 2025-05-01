@@ -18,7 +18,13 @@ const characterImageMap: Record<CharacterType, string> = {
   orange,
 };
 
-function Progress({ className, value = 0, character = false, characterType = "yellow", ...props }: ProgressProps) {
+function Progress({
+  className,
+  value = 0,
+  character = false,
+  characterType = "yellow",
+  ...props
+}: ProgressProps) {
   const characterIcon = characterImageMap[characterType];
   return (
     <div className="relative w-full h-[24px]">
@@ -37,7 +43,7 @@ function Progress({ className, value = 0, character = false, characterType = "ye
         <div
           className="absolute -top-[10px] transition-all"
           style={{
-            left: `calc(${value}% - 20px)`,
+            left: `calc(${value}% - 15px)`,
           }}>
           <Image src={characterIcon} alt="face" width={23} height={23} />
         </div>
