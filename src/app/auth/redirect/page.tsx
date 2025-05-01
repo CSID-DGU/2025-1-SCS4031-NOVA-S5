@@ -43,7 +43,7 @@ function KakaoCallbackInner() {
 
 export default function KakaoCallbackPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<Loading />}>
       <KakaoCallbackInner />
     </Suspense>
   );
