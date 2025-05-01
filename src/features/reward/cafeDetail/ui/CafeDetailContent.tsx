@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
 import CharacterCard from "@/features/reward/cafeDetail/ui/CharacterCard";
@@ -11,13 +11,16 @@ import { useStampModalStore } from "@/shared/store/stampModalStore";
 import { useRewardStore } from "@/shared/store/rewardStore";
 import RewardCoupon from "./RewardCoupon";
 import CafeInfo from "@/shared/ui/CafeInfo";
-import { useCafeStore } from "@/shared/store/cafeDetailStore";
+import { useCafeInfoStore } from "@/shared/store/cafeInfoStore";
 
 export default function CafeDetailContent() {
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
-  const cafe = useCafeStore(state => state.cafe);
+
+  const { cafes, fetchAndSetCafes } = useCafeInfoStore();
+  const cafe = cafes.find(c => c.cafeId === id);
+
   const { stampModalType, setStampModalType } = useStampModalStore();
   const { rewardCounts } = useRewardStore();
   const rewardCount = rewardCounts[id] ?? 0;
@@ -26,6 +29,10 @@ export default function CafeDetailContent() {
   const [isDeleted, setIsDeleted] = useState(false);
 
   if (!book) return null;
+
+  useEffect(() => {
+    fetchAndSetCafes();
+  }, []);
 
   const handleRegisterToggle = () => {
     if (isRegistered) {
@@ -49,10 +56,11 @@ export default function CafeDetailContent() {
     <section className="w-full flex flex-col gap-5">
       <div className="w-full h-[1px] bg-green-300" />
       <CafeInfo
-        name={cafe?.name}
+        name={cafe?.cafeName}
         address={cafe?.address}
-        phone={cafe?.tel}
-        hours={cafe?.business_hour}
+        phone={cafe?.cafePhone}
+        hours={cafe?.openHours}
+        lastOrder={cafe?.lastOrder}
       />
       <div className="w-full h-[1px] bg-green-300 mb-5" />
       <CharacterCard />

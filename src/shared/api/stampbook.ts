@@ -1,4 +1,4 @@
-import api from "@/shared/api/axios";
+import api from "./axios";
 
 // 스탬프북 저장
 export const createStampBook = async (cafeId: number) => {

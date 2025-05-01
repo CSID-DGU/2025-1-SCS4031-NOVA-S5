@@ -3,4 +3,5 @@ export type CafeInfoProps = {
   hours?: string;
   phone?: string;
   address?: string;
+  lastOrder?: string;
 };
