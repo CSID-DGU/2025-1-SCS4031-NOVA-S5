@@ -17,6 +17,7 @@ export default function CafeDetailContent() {
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
+  const toggleInHome = useStampBookStore(state => state.toggleInHome);
 
   const { cafes, fetchAndSetCafes } = useCafeInfoStore();
   const cafe = cafes.find(c => c.cafeId === id);
@@ -25,7 +26,6 @@ export default function CafeDetailContent() {
   const { rewardCounts } = useRewardStore();
   const rewardCount = rewardCounts[id] ?? 0;
 
-  const [isRegistered, setIsRegistered] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
   if (!book) return null;
@@ -35,13 +35,8 @@ export default function CafeDetailContent() {
   }, []);
 
   const handleRegisterToggle = () => {
-    if (isRegistered) {
-      setStampModalType("home-removed");
-      setIsRegistered(false);
-    } else {
-      setStampModalType("register");
-      setIsRegistered(true);
-    }
+    toggleInHome(id);
+    setStampModalType(book?.inHome ? "home-removed" : "register");
   };
 
   const handleDeleteToggle = () => {
@@ -98,7 +93,7 @@ export default function CafeDetailContent() {
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
           onClick={handleRegisterToggle}>
-          {isRegistered ? "홈에서 삭제" : "홈에 등록"}
+          {book?.inHome ? "홈에서 삭제" : "홈에 등록"}
         </button>
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"

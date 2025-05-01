@@ -1,20 +1,24 @@
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
+import { useRouter } from "next/navigation";
 
 interface StampCardProps {
   stampBookId: number;
 }
 
 export default function StampCard({ stampBookId }: StampCardProps) {
+  const router = useRouter();
   const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === stampBookId));
 
   if (!book) return null;
 
-  const { cafeName, rewardItem, currentStampCount, remainingStampCount } = book;
+  const { cafeId, cafeName, rewardItem, currentStampCount, remainingStampCount } = book;
 
   return (
-    <div className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden">
+    <div
+      className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden"
+      onClick={() => router.push(`/reward/${cafeId}`)}>
       <Image
         src={"/img/character/yellow-ear.svg"}
         alt="토끼 캐릭터"
