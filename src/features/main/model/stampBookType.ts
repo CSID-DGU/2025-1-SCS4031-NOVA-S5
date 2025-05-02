@@ -5,6 +5,7 @@ export type StampBook = {
   characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
   isCompleted: boolean;
   rewardClaimed: boolean;
+  rewardItem: string;
   inHome: boolean;
   createdAt: string;
   currentStampCount: number;
