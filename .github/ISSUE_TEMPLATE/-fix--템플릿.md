@@ -2,7 +2,7 @@
 name: "[fix] 템플릿"
 about: "[fix] 어떤 요소가 수정되었는지 작성해주세요 \U0001F6E0️"
 title: "[fix] 어떤 요소가 수정되었는지 작성해주세요 \U0001F6E0️"
-labels: fix
+labels: ''
 assignees: ''
 
 ---

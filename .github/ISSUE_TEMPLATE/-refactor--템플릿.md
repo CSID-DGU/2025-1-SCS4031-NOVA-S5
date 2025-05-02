@@ -2,7 +2,7 @@
 name: "[refactor] 템플릿"
 about: "[refactor] 어떤 리팩토링이 이루어졌는지 작성해주세요"
 title: "[refactor] 어떤 리팩토링이 이루어졌는지 작성해주세요"
-labels: refactor
+labels: ''
 assignees: ''
 
 ---

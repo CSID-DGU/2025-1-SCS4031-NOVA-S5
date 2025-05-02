@@ -2,7 +2,7 @@
 name: "[bug] 템플릿"
 about: "[bug] 버그에 대해 설명해주세요 \U0001F6A8"
 title: "[bug] 버그에 대해 설명해주세요 \U0001F6A8"
-labels: bug
+labels: ''
 assignees: ''
 
 ---
