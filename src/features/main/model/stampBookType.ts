@@ -1,10 +1,16 @@
 export type StampBook = {
-  id: number;
+  stampBookId: number;
+  cafeId: number;
   cafeName: string;
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  isCompleted: boolean;
+  rewardClaimed: boolean;
   rewardItem: string;
-  totalStamp: number;
-  remainingStamp: number;
-  characterType: "yellow" | "green" | "orange" | "beige";
+  inHome: boolean;
+  createdAt: string;
+  currentStampCount: number;
+  maxStampCount: number;
+  remainingStampCount: number;
 };
 
 export interface StampBookState {

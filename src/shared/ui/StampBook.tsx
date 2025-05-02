@@ -1,29 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useStampBookStore } from "../store/stampBookStore";
+import { useEffect } from "react";
+import { useStampBookStore } from "@/shared/store/stampBookStore";
 
 interface StampCardProps {
   cafeName?: string;
   stampBookId?: number;
-  characterType?: "yellow" | "green" | "orange" | "beige";
+  characterType?: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
 }
 
-// 다른 데이터 없이 카페 이름만 필요한 경우에는 cafeName만 입력
-// 모든 데이터(카페 이름, 전체 스탬프, 남은 스탬프)를 불러오려면 stampBookId 입력
-// characterType은 각 카페의 characterType 받아오기
-export default function StampBook({ cafeName, stampBookId, characterType }: StampCardProps) {
-  const book = useStampBookStore(state =>
-    stampBookId ? state.stampBooks.find(b => b.id === stampBookId) : null
-  );
+export default function StampBook({ stampBookId, cafeName }: StampCardProps) {
+  const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
 
-  const totalStamp = book?.totalStamp ?? 10;
-  const cafe = book ? book.cafeName : cafeName;
-  const stampedCount = book ? book.totalStamp - book.remainingStamp : 0;
-  const stampedSrc = `/img/character/${characterType}-face.svg`;
-  const unstampedSrc = characterType
-    ? `/img/character/${characterType}-face-gray.svg`
-    : `/img/character/face-gray.svg`;
+  const book = stampBooks.find(b => b.stampBookId === stampBookId);
+
+  useEffect(() => {
+    if (!book) fetchAndSetStampBooks();
+  }, [book, fetchAndSetStampBooks]);
+
+  if (!book) return null;
+
+  const totalStamp = book.maxStampCount;
+  const cafe = book.cafeName ?? cafeName;
+  const stampedCount = book.currentStampCount;
+  const lowerCharacterType = book.characterType.toLowerCase();
+  const stampedSrc = `/img/character/${lowerCharacterType}-face.svg`;
+  const unstampedSrc = `/img/character/${lowerCharacterType}-face-gray.svg`;
 
   return (
     <div className="w-[320px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
@@ -33,7 +36,7 @@ export default function StampBook({ cafeName, stampBookId, characterType }: Stam
       </div>
       <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center">
         {Array.from({ length: totalStamp }).map((_, index) => (
-          <Image
+          <img
             key={index}
             src={index < stampedCount ? stampedSrc : unstampedSrc}
             alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}

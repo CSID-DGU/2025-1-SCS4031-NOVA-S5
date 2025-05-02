@@ -1,12 +1,17 @@
 "use client";
 
+import { useEffect } from "react";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampCard from "./StampCard";
 import EmptyState from "./EmptyState";
 
 export default function StampSlider() {
-  const stampBooks = useStampBookStore(state => state.stampBooks);
+  const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
   const visibleBooks = stampBooks.slice(0, 5);
+
+  useEffect(() => {
+    fetchAndSetStampBooks();
+  }, []);
 
   return (
     <div className="flex flex-col gap-5">
@@ -30,10 +35,10 @@ export default function StampSlider() {
           }}>
           {visibleBooks.map(book => (
             <div
-              key={book.id}
+              key={book.cafeId}
               className="flex-shrink-0 scroll-snap-align-start transition-transform ease-in-out duration-700"
               style={{ scrollSnapAlign: "start" }}>
-              <StampCard stampBookId={book.id} />
+              <StampCard stampBookId={book.cafeId} />
             </div>
           ))}
         </div>

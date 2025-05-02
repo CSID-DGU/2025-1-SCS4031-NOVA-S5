@@ -10,26 +10,26 @@ export default function CharacterCard() {
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
   const id = Number(params.id);
-  const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
-  const characterType = book?.characterType || "yellow";
+  const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
+  const characterType = book?.characterType || "YELLOW";
 
   const characterInfo: Record<
-    "yellow" | "orange" | "beige" | "green",
+    "YELLOW" | "ORANGE" | "BEIGE" | "GREEN",
     { name: string; description: string }
   > = {
-    yellow: {
+    YELLOW: {
       name: "팡이",
       description: "저는 아기자기한 카페의 스탬프를 찍어요!",
     },
-    orange: {
+    ORANGE: {
       name: "쿡이",
       description: "저는 알록달록한 카페의 스탬프를 찍어요!",
     },
-    beige: {
+    BEIGE: {
       name: "콕이",
       description: "저는 힙한 카페의 스탬프를 찍어요!",
     },
-    green: {
+    GREEN: {
       name: "꼭이",
       description: "저는 모던한 카페의 스탬프를 찍어요!",
     },
@@ -56,7 +56,7 @@ export default function CharacterCard() {
           className="ml-[22px]"
         />
       </div>
-      <div className="w-[234px] h-full flex flex-col gap-[10px] px-[10px] py-[14px] bg-yellow-300 rounded-xl">
+      <div className="w-[234px] h-full flex flex-col gap-[10px] px-[10px] py-[14px] bg-YELLOW-300 rounded-xl">
         <div className="flex gap-[5px] items-center">
           <Image src={`/icon/${characterType}-hand.svg`} alt="손" width={15} height={15} />
           <p className="text-xs text-font-black font-semibold">제 이름은 {name}예요!</p>

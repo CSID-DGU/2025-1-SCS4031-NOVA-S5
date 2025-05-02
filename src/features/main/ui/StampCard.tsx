@@ -1,20 +1,24 @@
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
+import { useRouter } from "next/navigation";
 
 interface StampCardProps {
   stampBookId: number;
 }
 
 export default function StampCard({ stampBookId }: StampCardProps) {
-  const book = useStampBookStore(state => state.stampBooks.find(b => b.id === stampBookId));
+  const router = useRouter();
+  const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === stampBookId));
 
   if (!book) return null;
 
-  const { cafeName, rewardItem, totalStamp, remainingStamp } = book;
+  const { cafeId, cafeName, rewardItem, currentStampCount, remainingStampCount } = book;
 
   return (
-    <div className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden">
+    <div
+      className="relative w-[280px] h-[149px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center rounded-lg overflow-hidden"
+      onClick={() => router.push(`/reward/${cafeId}`)}>
       <Image
         src={"/img/character/yellow-ear.svg"}
         alt="토끼 캐릭터"
@@ -41,15 +45,11 @@ export default function StampCard({ stampBookId }: StampCardProps) {
           <p className="text-[#121212] font-semibold text-xs">까지</p>
         </div>
         <div className="flex gap-[2px]">
-          <p className="text-[#254434] font-bold text-sm">스탬프 {remainingStamp}개</p>
+          <p className="text-[#254434] font-bold text-sm">스탬프 {remainingStampCount}개</p>
           <p className="text-[#121212] font-bold text-sm">남았어요!</p>
         </div>
       </div>
-      <Progress
-        value={(totalStamp - remainingStamp) * 10}
-        character={true}
-        characterType="yellow"
-      />
+      <Progress value={currentStampCount * 10} character={true} characterType="yellow" />
     </div>
   );
 }

@@ -2,19 +2,19 @@ import { useStampBookStore } from "@/shared/store/stampBookStore";
 import Image from "next/image";
 
 interface RewardCouponProps {
-  characterType: "yellow" | "orange" | "beige" | "green";
+  characterType: "YELLOW" | "ORANGE" | "BEIGE" | "GREEN";
   id: number;
 }
 
 const bgColorMap: Record<RewardCouponProps["characterType"], string> = {
-  yellow: "#fff3d4",
-  orange: "#ffddb9",
-  green: "#e2ecdc",
-  beige: "#efe8dc",
+  YELLOW: "#fff3d4",
+  ORANGE: "#ffddb9",
+  GREEN: "#e2ecdc",
+  BEIGE: "#efe8dc",
 };
 
 export default function RewardCoupon({ characterType, id }: RewardCouponProps) {
-  const book = useStampBookStore(state => state.stampBooks.find(b => b.id === id));
+  const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
 
   if (!book) return null;
 
