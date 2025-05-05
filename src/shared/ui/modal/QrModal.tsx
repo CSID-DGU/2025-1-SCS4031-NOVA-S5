@@ -31,7 +31,7 @@ function QrModal({ title, userName, isOpen, setIsOpen }: QrModalProps) {
           <img src="/img/spring.svg" alt="spring" className="absolute top-[135px]" />
         </div>
         <div className="flex flex-col  items-center">
-          <QrSection uuid={qrValue} />
+          <QrSection uuid={qrValue} color="YELLOW" />
         </div>
       </DialogContent>
     </Dialog>
