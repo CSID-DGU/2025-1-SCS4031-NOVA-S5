@@ -56,7 +56,7 @@ function UserCard() {
         <Character />
       </div>
       <QrModal
-        userName={
+        title={
           <>
             kimnova님의 <br />
             프로필 QR
