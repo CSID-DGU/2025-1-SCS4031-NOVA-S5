@@ -111,11 +111,21 @@ export function QrScanner({ onScan, onError, isScanning }: QrScannerProps) {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto rounded overflow-hidden shadow">
+    <div className="w-full max-w-md mx-auto rounded overflow-hidden shadow relative">
       <video
         ref={videoRef}
         className="w-full h-full object-cover"
         style={{ width: "100%", height: "calc(100vh - 137px)" }}
+      />
+      <p className="absolute top-24 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-center text-body-small font-semibold">
+        화면 내 범위에 맞춰
+        <br />
+        프로필 QR을 스캔해주세요
+      </p>
+      <img
+        src="/img/qr/qr-info.svg"
+        alt="QR 코드 스캔 가이드"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-147 h-147 pointer-events-none"
       />
     </div>
   );
