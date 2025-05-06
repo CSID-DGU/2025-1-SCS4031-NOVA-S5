@@ -1,7 +1,7 @@
 import { AddCafeCard, AddStampbook, DashBoardHeader, QrCard } from "@/features/owner/ui";
 import { OwnerGNB } from "@/shared";
 
-export default function DashBoard() {
+export default function OwnerPage() {
   return (
     <div className="p-5">
       <DashBoardHeader title="스탬프 적립" />

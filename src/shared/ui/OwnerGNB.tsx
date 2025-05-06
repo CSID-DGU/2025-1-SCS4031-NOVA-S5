@@ -7,7 +7,7 @@ export function OwnerGNB() {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "홈", path: "/owner/dashboard", icon: "/icon/ownerGNB/home.svg" },
+    { name: "홈", path: "/owner", icon: "/icon/ownerGNB/home.svg" },
     { name: "스탬프북 디자인", path: "/design", icon: "/icon/ownerGNB/design.svg" },
     { name: "챌린지 관리", path: "/challenge", icon: "/icon/ownerGNB/home.svg" },
     { name: "마이페이지", path: "/mypage", icon: "/icon/ownerGNB/mypage.svg" },
