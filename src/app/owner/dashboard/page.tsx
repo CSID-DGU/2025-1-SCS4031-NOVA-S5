@@ -1,4 +1,4 @@
-import { AddCafeCard, DashBoardHeader } from "@/features/owner/ui";
+import { AddCafeCard, AddStampbook, DashBoardHeader } from "@/features/owner/ui";
 
 export default function DashBoard() {
   return (
@@ -6,6 +6,7 @@ export default function DashBoard() {
       <DashBoardHeader title="스탬프 적립" />
       <div className="mt-8">
         <AddCafeCard status="none" />
+        <AddStampbook />
       </div>
     </div>
   );
