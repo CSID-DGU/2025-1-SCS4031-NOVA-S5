@@ -1,3 +1,5 @@
+"use client";
+
 export function DashBoardHeader({ title }: { title: string }) {
   return (
     <header className="flex items-center border-b border-[#E2ECDC] h-[52px]">

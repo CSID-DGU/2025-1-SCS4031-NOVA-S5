@@ -1,8 +1,14 @@
+"use client";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export function QrCard() {
+  const route = useRouter();
   return (
-    <div className="relative flex flex-col items-center bg-green-400 w-full h-[175px] rounded-xl">
+    <div
+      className="relative flex flex-col items-center bg-green-400 w-full h-[175px] rounded-xl cursor-pointer"
+      onClick={() => route.push("/owner/qrscan")}>
       <div className="absolute right-0">
         <Image src="/img/fadedCharacter/yellow.svg" width={45} height={62} alt="yellow" />
         <Image src="/img/fadedCharacter/orange.svg" width={45} height={62} alt="orange" />
