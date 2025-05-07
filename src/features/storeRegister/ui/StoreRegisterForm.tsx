@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { MoodDropdown, TimeDropdown } from "@/shared/ui/Dropdown";
 import { XIcon } from "lucide-react";
 import { StoreRegisterFormValues, storeRegisterSchema } from "@/lib/storeRegisterSchema";
-import { formatPhoneNumber } from "@/shared/utils/formatPhoneNumber";
+import { formatBusinessNumber, formatPhoneNumber } from "@/shared/utils/formatNumber";
+import AddressInput from "@/shared/ui/input/AddressInput";
 
 export default function StoreRegisterForm() {
   const {
@@ -64,16 +65,16 @@ export default function StoreRegisterForm() {
           필수 정보를 입력해 주세요.
         </p>
       </div>
-
       <form className="flex flex-col gap-[25px]" onSubmit={handleSubmit(onSubmit)}>
-        <Input label="* 매장명" placeholder="Ex) 더블톤" {...register("storeName")} />
-        <Input label="* 지점명" placeholder="Ex) 목동 본점" {...register("branchName")} />
-        <Input
+        <Input label="* 매장명" placeholder="더블톤" {...register("storeName")} />
+        <Input label="* 지점명" placeholder="목동 본점" {...register("branchName")} />
+        <AddressInput
           label="* 매장 주소"
-          placeholder="Ex) 서울특별시 양천구 양천로 1234"
-          {...register("address")}
+          id="address"
+          value={watch("address")}
+          onChange={e => setValue("address", e.target.value, { shouldValidate: true })}
         />
-        <Input label="* 매장 전화번호" placeholder="Ex) 02-1234-5678" {...register("phone")} />
+        <Input label="* 매장 전화번호" placeholder="02-1234-5678" {...register("phone")} />
         <div className="flex flex-col gap-3">
           <label className="text-sm text-font-green font-medium">* 영업시간</label>
           <div className="flex items-center gap-6">
@@ -94,21 +95,26 @@ export default function StoreRegisterForm() {
             onChange={v => setValue("lastOrder", v, { shouldValidate: true })}
           />
         </div>
-        <Input label="* 대표자 성함" placeholder="Ex) 홍길동" {...register("ownerName")} />
+        <Input label="* 대표자 성함" placeholder="홍길동" {...register("ownerName")} />
         <Input
           label="* 대표자 휴대폰 번호"
-          placeholder="Ex) 010-1234-5678"
+          placeholder="010-1234-5678"
           {...register("ownerPhone")}
           onChange={e => {
             const formatted = formatPhoneNumber(e.target.value);
             setValue("ownerPhone", formatted, { shouldValidate: true });
           }}
-          value={watch("ownerPhone")}
+          value={watch("ownerPhone") ?? ""}
         />
         <Input
           label="* 사업자 등록번호"
-          placeholder="Ex) 12-345-67891"
+          placeholder="123-45-67890"
           {...register("businessNumber")}
+          onChange={e => {
+            const formatted = formatBusinessNumber(e.target.value);
+            setValue("businessNumber", formatted, { shouldValidate: true });
+          }}
+          value={watch("businessNumber") ?? ""}
         />
 
         <div className="flex flex-col gap-3">
