@@ -10,7 +10,12 @@ import {
 import { ChevronDownIcon, ChevronUpIcon, ClockIcon } from "lucide-react";
 import { CAFE_MOOD, TIMES } from "../constants/dropdown";
 
-export function TimeDropdown() {
+interface DropdownProps {
+  placeholder?: string;
+  onChange?: (value: string) => void;
+}
+
+export function TimeDropdown({ placeholder, onChange }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -26,10 +31,10 @@ export function TimeDropdown() {
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
         ref={triggerRef}
-        className="relative flex items-center w-[140px] h-[51px] bg-yellow-300 rounded-[20px] border border-[#E7E8EB] outline-none px-4 py-2 text-gray-400 text-sm gap-2">
+        className="relative flex items-center w-full h-[51px] bg-yellow-300 rounded-[20px] border border-[#E7E8EB] outline-none px-4 py-2 text-gray-400 text-sm gap-2">
         <ClockIcon className="w-5 h-5 text-[#dcdcdc]" />
         <span className={selectedTime ? "text-font-black" : "text-[#dcdcdc]"}>
-          {selectedTime ?? "카페 분위기를 선택해 주세요"}
+          {selectedTime ?? placeholder}
         </span>
 
         {open ? (
@@ -48,6 +53,7 @@ export function TimeDropdown() {
               e.preventDefault();
               setSelectedTime(time);
               setOpen(false);
+              onChange?.(time);
             }}
             className={`py-3 px-5 text-center text-md text-font-black rounded-[15px] cursor-pointer outline-none ${
               selectedTime === time ? "bg-green-300 hover:bg-green-300" : "hover:bg-green-300"
@@ -60,7 +66,7 @@ export function TimeDropdown() {
   );
 }
 
-export function MoodDropdown() {
+export function MoodDropdown({ onChange }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -77,7 +83,6 @@ export function MoodDropdown() {
       <DropdownMenuTrigger
         ref={triggerRef}
         className="relative flex items-center w-full h-[51px] bg-yellow-300 rounded-[20px] border border-[#E7E8EB] outline-none px-4 py-2 text-gray-400 text-sm gap-2">
-        <ClockIcon className="w-5 h-5 text-[#dcdcdc]" />
         <span className={selectedMood ? "text-font-black" : "text-[#dcdcdc]"}>
           {selectedMood ?? "카페 분위기를 선택해 주세요"}
         </span>
@@ -97,6 +102,7 @@ export function MoodDropdown() {
               e.preventDefault();
               setSelectedMood(mood);
               setOpen(false);
+              onChange?.(mood);
             }}
             className={`py-3 px-5 text-center text-md text-font-black rounded-[15px] cursor-pointer outline-none ${
               selectedMood === mood ? "bg-green-300 hover:bg-green-300" : "hover:bg-green-300"
