@@ -1,10 +1,19 @@
-function QrSection() {
-  // qr 이미지 url을 props로 받아옴
+import { SilhouetteColor } from "@/shared/model";
+import { getScanCharacter } from "@/shared/utils";
+import { QRCodeCanvas } from "qrcode.react";
+
+interface QrSectionProps {
+  uuid: string;
+  color: SilhouetteColor;
+}
+
+function QrSection({ uuid, color }: QrSectionProps) {
+  const characterUrl = getScanCharacter(color);
   return (
-    <div className="flex flex-col items-center">
-      <img src="/img/scan-rabbit.svg" alt="scan-rabbit" className="absolute top-[215px]" />
+    <div className="relative flex flex-col items-center">
+      <img src={characterUrl} alt="scan-character" className="absolute top-[-30px]" />
       <img src="/img/qr-section.svg" alt="qr-section" />
-      <img src="/img/mock-qr.svg" alt="mock-qr" className="absolute top-[275px]" />
+      <QRCodeCanvas value={uuid} size={110} className="absolute top-6" />
     </div>
   );
 }

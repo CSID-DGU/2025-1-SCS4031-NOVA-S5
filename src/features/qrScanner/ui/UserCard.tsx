@@ -55,7 +55,16 @@ function UserCard() {
         onClick={() => setIsOpen(true)}>
         <Character />
       </div>
-      <QrModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <QrModal
+        title={
+          <>
+            kimnova님의 <br />
+            프로필 QR
+          </>
+        }
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </div>
   );
 }

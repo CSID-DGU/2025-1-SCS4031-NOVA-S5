@@ -6,25 +6,35 @@ import { useMutation } from "@tanstack/react-query";
 import { setCookie } from "cookies-next";
 import api from "@/shared/api/axios";
 import Loading from "@/shared/ui/Loading";
+import { useRoleStore } from "@/shared/store/roleStore";
 
 function KakaoCallbackInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const code = searchParams.get("code");
+  const { role } = useRoleStore();
 
   const loginMutation = useMutation({
     mutationFn: (code: string) =>
       api.post("/auth/login", {
         code,
         socialType: "KAKAO",
-        role: "USER",
+        role,
       }),
     onSuccess: res => {
       const { accessToken, refreshToken } = res.data.data;
 
       setCookie("accessToken", accessToken);
       setCookie("refreshToken", refreshToken);
-      router.push("/main");
+      setCookie("role", role);
+
+      if (role === "OWNER") {
+        router.push("/owner/main");
+      } else if (role === "STAFF") {
+        router.push("/staff/main");
+      } else {
+        router.push("/main");
+      }
     },
     onError: err => {
       alert("로그인에 실패했습니다.");
