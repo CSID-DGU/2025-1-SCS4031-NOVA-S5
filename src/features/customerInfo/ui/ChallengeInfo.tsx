@@ -24,7 +24,12 @@ export function ChallengeInfo() {
           챌린지 인증 취소
         </Button>
       </div>
-      <RewardInfo rewardType="challenge" characterType="YELLOW" rewardCount={1} />
+      <RewardInfo
+        rewardType="challenge"
+        characterType="YELLOW"
+        rewardCount={1}
+        username="나무심는김노바"
+      />
       <SaveModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}

@@ -11,7 +11,7 @@ interface StampModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
-  type: "stamp" | "challenge"; // 타입에 따른 적립 요청 분기 나눌예정
+  type: "stamp" | "challenge" | "stampReward" | "challengeReward"; // 타입에 따른 적립 요청 분기 나눌예정
 }
 
 export function SaveModal({ open, onOpenChange, characterType, type, username }: StampModalProps) {
@@ -37,7 +37,7 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
 
   // 다이나믹 height 적용을 위한 className 계산
   const containerHeight = step === 1 ? "h-[296px]" : "h-[428px]";
-  const saveType = type === "stamp" ? "스탬프" : "챌린지";
+  const saveType = type === "stamp" ? "스탬프" : type === "challenge" ? "챌린지" : "리워드";
   const character = characterType.toLowerCase();
   return (
     <Dialog open={open} onOpenChange={resetModal}>

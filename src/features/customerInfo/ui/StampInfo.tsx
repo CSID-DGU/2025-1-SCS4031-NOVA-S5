@@ -33,7 +33,12 @@ export function StampInfo() {
           </Button>
         </div>
       </div>
-      <RewardInfo characterType="YELLOW" rewardCount={1} rewardType="stamp" />
+      <RewardInfo
+        characterType="YELLOW"
+        rewardCount={1}
+        rewardType="stamp"
+        username="나무심는김노바"
+      />
       <History />
       <SaveModal
         open={isModalOpen}

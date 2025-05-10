@@ -10,7 +10,7 @@ interface CancelModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
-  type: "stamp" | "challenge";
+  type: "stamp" | "challenge" | "stampReward" | "challengeReward";
 }
 
 export function CancelModal({
@@ -40,7 +40,7 @@ export function CancelModal({
     onOpenChange(false);
   };
 
-  const cancelType = type === "stamp" ? "스탬프" : "챌린지";
+  const cancelType = type === "stamp" ? "스탬프" : type === "challenge" ? "챌린지" : "리워드";
 
   return (
     <Dialog open={open} onOpenChange={resetModal}>
