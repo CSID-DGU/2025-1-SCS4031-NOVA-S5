@@ -3,13 +3,17 @@
 import { useRef, useState, useEffect, ReactNode } from "react";
 import { Overlay } from "./Overlay";
 import { Wrapper } from "./Wrapper";
-
 import { Header } from "./Header";
 import { Content } from "./Content";
-import { useBottomSheetStore } from "@/shared/store/bottomSheetStore";
 
-const Root = ({ children }: { children: ReactNode }) => {
-  const { isOpen, open, close } = useBottomSheetStore();
+interface BottomSheetProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onOpen?: () => void;
+  children: ReactNode;
+}
+
+const Root = ({ isOpen, onClose, onOpen, children }: BottomSheetProps) => {
   const [translateY, setTranslateY] = useState(100);
   const startY = useRef(0);
   const deltaY = useRef(0);
@@ -46,13 +50,13 @@ const Root = ({ children }: { children: ReactNode }) => {
 
     if (isOpen && translateY > 30) {
       setTranslateY(100);
-      setTimeout(close, 300);
+      setTimeout(onClose, 300);
       return;
     }
 
     if (!isOpen && translateY < 70) {
       setTranslateY(0);
-      open();
+      onOpen?.();
       return;
     }
 
@@ -61,7 +65,7 @@ const Root = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <Overlay isOpen={isOpen} onClick={close} />
+      <Overlay isOpen={isOpen} onClick={onClose} />
       <Wrapper
         translateY={translateY}
         onTouchStart={handleTouchStart}
