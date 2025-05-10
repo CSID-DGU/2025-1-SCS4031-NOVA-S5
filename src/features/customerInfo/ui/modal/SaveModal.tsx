@@ -67,7 +67,11 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
                 </div>
               </div>
               <div className="flex flex-row w-full h-[50px] text-font-green font-semibold">
-                <button className="w-1/2 border-r border-t border-disabledfont">취소</button>
+                <button
+                  className="w-1/2 border-r border-t border-disabledfont"
+                  onClick={resetModal}>
+                  취소
+                </button>
                 <button
                   className="w-1/2 border-t border-disabledfont"
                   onClick={handleSubmit}

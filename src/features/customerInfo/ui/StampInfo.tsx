@@ -4,9 +4,11 @@ import { RewardInfo } from "./RewardInfo";
 import { History } from "./History";
 import { useState } from "react";
 import { SaveModal } from "./modal/SaveModal";
+import { CancelModal } from "./modal/CancelModal";
 
 export function StampInfo() {
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [isCancelOpen, setIsCancelOpen] = useState(false);
 
   return (
     <div className="flex flex-col">
@@ -24,7 +26,9 @@ export function StampInfo() {
             onClick={() => setisModalOpen(true)}>
             스탬프 적립
           </Button>
-          <Button className="bg-font-green text-[12px] font-bold rounded-full w-[135px]">
+          <Button
+            className="bg-font-green text-[12px] font-bold rounded-full w-[135px]"
+            onClick={() => setIsCancelOpen(true)}>
             스탬프 적립 취소
           </Button>
         </div>
@@ -37,6 +41,13 @@ export function StampInfo() {
         characterType="YELLOW"
         type="stamp"
         username="나무심는김노바"
+      />
+      <CancelModal
+        username="나무심는김노바"
+        open={isCancelOpen}
+        onOpenChange={setIsCancelOpen}
+        characterType="YELLOW"
+        type="stamp"
       />
     </div>
   );
