@@ -35,9 +35,9 @@ export const useCafeInfoStore = create<CafeInfoState>(set => ({
           "SATURDAY",
         ][today];
 
-        let openTime = "-";
-        let closeTime = "-";
-        let lastOrder = "-";
+        let openTime: string | null = null;
+        let closeTime: string | null = null;
+        let lastOrder: string | null = null;
         let isOpenNow = false;
 
         const todayDateStr = now.toISOString().split("T")[0];
@@ -45,9 +45,9 @@ export const useCafeInfoStore = create<CafeInfoState>(set => ({
 
         if (todaySpecial) {
           if (todaySpecial.isOpen && todaySpecial.openTime && todaySpecial.closeTime) {
-            openTime = todaySpecial.openTime.slice(0, 5);
-            closeTime = todaySpecial.closeTime.slice(0, 5);
-            lastOrder = todaySpecial.lastOrder?.slice(0, 5) || "-";
+            openTime = todaySpecial.openTime?.slice(0, 5) ?? null;
+            closeTime = todaySpecial.closeTime?.slice(0, 5) ?? null;
+            lastOrder = todaySpecial.lastOrder?.slice(0, 5) ?? null;
             const [openHour, openMin] = todaySpecial.openTime.split(":").map(Number);
             const [closeHour, closeMin] = todaySpecial.closeTime.split(":").map(Number);
             const openDate = new Date(now);
@@ -59,9 +59,9 @@ export const useCafeInfoStore = create<CafeInfoState>(set => ({
         } else {
           const todayHours = cafe.openHours?.find((h: any) => h.dayOfWeek === todayStr);
           if (todayHours?.isOpen && todayHours.openTime && todayHours.closeTime) {
-            openTime = todayHours.openTime.slice(0, 5);
-            closeTime = todayHours.closeTime.slice(0, 5);
-            lastOrder = todayHours.lastOrder?.slice(0, 5) || "-";
+            openTime = todayHours.openTime?.slice(0, 5) ?? null;
+            closeTime = todayHours.closeTime?.slice(0, 5) ?? null;
+            lastOrder = todayHours.lastOrder?.slice(0, 5) ?? null;
             const [openHour, openMin] = todayHours.openTime.split(":").map(Number);
             const [closeHour, closeMin] = todayHours.closeTime.split(":").map(Number);
             const openDate = new Date(now);
@@ -77,7 +77,7 @@ export const useCafeInfoStore = create<CafeInfoState>(set => ({
           cafeName: cafe.cafeName,
           cafePhone: cafe.cafePhone,
           address: cafe.address || "주소 정보 없음",
-          openHours: `${openTime} ~ ${closeTime}` || "오늘 휴무",
+          openHours: openTime && closeTime ? `${openTime} ~ ${closeTime}` : null,
           lastOrder,
           isOpenNow,
         };
