@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Chip from "./Chip";
 import OwnerStampBook from "./OwnerStampBook";
 import CharacterBgCard from "./CharacterBgCard";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface StampBookItem {
   id: number;
@@ -17,6 +20,7 @@ const mockStampBooks: StampBookItem[] = [
 
 export default function StampBookList() {
   const hasBooks = mockStampBooks.length > 0;
+  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-5 mt-[30px]">
@@ -68,13 +72,15 @@ export default function StampBookList() {
           top={
             <div className="flex flex-col gap-[10px] items-center">
               <p className="text-md text-font-green font-bold">아직 등록된 스탬프북이 없어요.</p>
-              <p className="text-xs text-[#8E8E93] font-medium">
+              <p className="text-xs text-[#8E8E93] font-semibold">
                 카페의 특색을 담은 스탬프북을 만들어 주세요!
               </p>
             </div>
           }
           bottom={
-            <Button className="w-[120px] h-[36px] rounded-full bg-font-green text-[#fff] text-xs font-bold text-center">
+            <Button
+              className="w-[120px] h-[36px] rounded-full bg-font-green text-[#fff] text-xs font-bold text-center"
+              onClick={() => router.push("/owner/stampbook/create")}>
               스탬프북 만들기
             </Button>
           }

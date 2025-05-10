@@ -1,14 +1,21 @@
-import { ReactNode } from "react";
+import { ReactNode, MouseEventHandler } from "react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 interface CharacterBgCardProps {
   top?: ReactNode;
   bottom?: ReactNode;
+  onClick?: MouseEventHandler<HTMLDivElement>;
 }
 
-export default function CharacterBgCard({ top, bottom }: CharacterBgCardProps) {
+export default function CharacterBgCard({ top, bottom, onClick }: CharacterBgCardProps) {
   return (
-    <div className="relative w-full h-[175px] flex flex-col items-center justify-center gap-6 rounded-[10px] bg-green-400 overflow-hidden">
+    <div
+      onClick={onClick}
+      className={cn(
+        "relative w-full h-[175px] flex flex-col items-center justify-center gap-6 rounded-[10px] bg-green-400 overflow-hidden",
+        onClick && "cursor-pointer"
+      )}>
       {top}
       {bottom}
 
