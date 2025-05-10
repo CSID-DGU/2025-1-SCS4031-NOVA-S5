@@ -1,7 +1,17 @@
-import { AddCafeCard, AddStampbook, DashBoardHeader, QrCard } from "@/features/owner/ui";
+"use client";
+
+import {
+  AddCafeCard,
+  AddStampbook,
+  CafeBottomsheet,
+  DashBoardHeader,
+  QrCard,
+} from "@/features/owner/ui";
 import { OwnerGNB } from "@/shared";
+import { useState } from "react";
 
 export default function OwnerMain() {
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
   const mockCafeList = [
     {
       id: 1,
@@ -21,6 +31,10 @@ export default function OwnerMain() {
 
   const selectedCafe = mockCafeList.find(cafe => cafe.chooseStatus);
 
+  const handleNameClick = () => {
+    setIsBottomSheetOpen(true);
+  };
+
   let content = null;
 
   if (mockCafeList.length === 0) {
@@ -33,11 +47,18 @@ export default function OwnerMain() {
 
   return (
     <div className="p-5">
-      <DashBoardHeader title="스탬프 적립" />
+      <DashBoardHeader
+        title="스탬프 적립"
+        name={selectedCafe?.name}
+        onNameClick={handleNameClick}
+      />
       <div className="mt-8">{content}</div>
       <div className="absolute bottom-0 left-0 right-0">
         <OwnerGNB />
       </div>
+      {isBottomSheetOpen && (
+        <CafeBottomsheet cafeList={mockCafeList} onClose={() => setIsBottomSheetOpen(false)} />
+      )}
     </div>
   );
 }
