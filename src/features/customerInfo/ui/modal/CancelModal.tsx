@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useQRStore } from "@/shared/store";
 
 interface CancelModalProps {
   username: string;
@@ -23,7 +23,8 @@ export function CancelModal({
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const character = characterType.toLowerCase();
   const containerHeight = step === 2 ? "h-[296px]" : "h-[428px]";
-  const route = useRouter();
+  const { scannedUuid, reset } = useQRStore();
+  console.log(scannedUuid);
 
   const handleGoToStep2 = () => {
     setStep(2);
@@ -35,6 +36,7 @@ export function CancelModal({
 
   const resetModal = () => {
     setStep(1);
+    reset();
     onOpenChange(false);
   };
 

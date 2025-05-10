@@ -4,11 +4,14 @@ import { QrScanner } from "@/features/owner/ui/QRScanner";
 import { OwnerGNB } from "@/shared";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useQRStore } from "@/shared/store";
+
 
 export default function QrScanPage() {
   const [isScanning, setIsScanning] = useState(false);
-  const [scanResult, setScanResult] = useState<string | null>(null);
+  // const [scanResult, setScanResult] = useState<string | null>(null);
   const router = useRouter();
+  const { setScannedUuid } = useQRStore();
 
   // 컴포넌트 마운트 시 스캔 시작
   useEffect(() => {
@@ -36,16 +39,10 @@ export default function QrScanPage() {
 
   const handleScan = (result: string) => {
     if (isScanning) {
-      setScanResult(result);
+      setScannedUuid(result);
       setIsScanning(false);
-      // 스캔 결과를 쿼리 파라미터로 customer 페이지로 이동
-      router.push(`/customer?qr=${encodeURIComponent(result)}`);
+      router.push('/customer');
     }
-  };
-
-  const handleRescan = () => {
-    setScanResult(null);
-    setIsScanning(true);
   };
 
   const handleExit = () => {
@@ -56,6 +53,10 @@ export default function QrScanPage() {
     }, 100);
   };
 
+  const handleError = (error: unknown) => {
+    console.error("QR 스캔 중 오류가 발생했습니다:", error);
+  };
+
   return (
     <div className="flex flex-col">
       <div className="px-5">
@@ -64,7 +65,7 @@ export default function QrScanPage() {
       <div className="flex-1">
         <QrScanner
           onScan={handleScan}
-          onError={error => console.error("스캔 에러:", error)}
+          onError={handleError}
           isScanning={isScanning}
         />
       </div>
