@@ -7,7 +7,7 @@ import EmptyState from "./EmptyState";
 
 export default function StampSlider() {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
-  const visibleBooks = stampBooks.slice(0, 5);
+  const visibleBooks = stampBooks.filter(book => book.inHome).slice(0, 5);
 
   useEffect(() => {
     fetchAndSetStampBooks();
@@ -23,7 +23,7 @@ export default function StampSlider() {
         <p className="text-xs text-[#8A8A8A99] cursor-pointer">더보기</p>
       </div>
 
-      {stampBooks.length === 0 ? (
+      {visibleBooks.length === 0 ? (
         <EmptyState type="stampBook" />
       ) : (
         <div
