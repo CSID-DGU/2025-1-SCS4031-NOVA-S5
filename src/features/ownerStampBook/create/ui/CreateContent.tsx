@@ -15,7 +15,7 @@ export default function CreateContent({ characterType = "YELLOW" }: CardProps) {
   const characterLower = characterType.toLowerCase();
 
   return (
-    <div className="flex flex-col gap-[30px] mt-[30px]">
+    <section className="flex flex-col gap-[30px] mt-[30px]">
       <CharacterBgCard
         onClick={() => router.push("/owner/stampbook/template")}
         top={
@@ -43,6 +43,6 @@ export default function CreateContent({ characterType = "YELLOW" }: CardProps) {
           </div>
         }
       />
-    </div>
+    </section>
   );
 }
