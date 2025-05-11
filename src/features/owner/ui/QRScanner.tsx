@@ -67,10 +67,11 @@ export function QrScanner({ onScan, onError, isScanning }: QrScannerProps) {
     const startScanner = async () => {
       try {
         const devices = await BrowserQRCodeReader.listVideoInputDevices();
+
+        const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+
         if (devices.length === 0) throw new Error("No camera found");
-
-        const selectedDeviceId = devices[0].deviceId;
-
+        const selectedDeviceId = backCamera?.deviceId ?? devices[0].deviceId;
         await codeReader.current?.decodeFromVideoDevice(
           selectedDeviceId,
           videoRef.current!,

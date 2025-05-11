@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQRStore } from "@/shared/store";
 
-
 export default function QrScanPage() {
   const [isScanning, setIsScanning] = useState(false);
   // const [scanResult, setScanResult] = useState<string | null>(null);
@@ -41,7 +40,7 @@ export default function QrScanPage() {
     if (isScanning) {
       setScannedUuid(result);
       setIsScanning(false);
-      router.push('/customer');
+      router.push("/customer");
     }
   };
 
@@ -49,7 +48,7 @@ export default function QrScanPage() {
     setIsScanning(false);
     // 뒤로가기 실행
     setTimeout(() => {
-      router.back();
+      router.push("/owner/main");
     }, 100);
   };
 
@@ -63,11 +62,7 @@ export default function QrScanPage() {
         <QrScanHeader title="프로필 QR 스캔" onExit={handleExit} />
       </div>
       <div className="flex-1">
-        <QrScanner
-          onScan={handleScan}
-          onError={handleError}
-          isScanning={isScanning}
-        />
+        <QrScanner onScan={handleScan} onError={handleError} isScanning={isScanning} />
       </div>
       <div className="absolute bottom-0 left-0 right-0">
         <OwnerGNB />
