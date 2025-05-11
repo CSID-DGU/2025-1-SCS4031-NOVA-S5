@@ -4,7 +4,7 @@ interface StampBookCardProps {
   cafeName: string; // 카페 이름
   maxStampCount: number; // 스탬프 최대 개수
   currentStampCount: number; // 적립된 스탬프 개수
-  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE"; // 캐릭터 유형
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK"; // 캐릭터 유형
 }
 
 export function CustomerStamp({

@@ -9,7 +9,7 @@ interface CancelModalProps {
   username: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
   type: "stamp" | "challenge" | "stampReward" | "challengeReward";
 }
 

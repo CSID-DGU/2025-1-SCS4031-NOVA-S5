@@ -4,8 +4,13 @@ import { RewardInfo } from "./RewardInfo";
 import { useState } from "react";
 import { SaveModal } from "./modal/SaveModal";
 import { CancelModal } from "./modal/CancelModal";
+import { UserData } from "../model";
 
-export function ChallengeInfo() {
+interface ChallengeInfoProps {
+  userData: UserData;
+}
+
+export function ChallengeInfo({ userData }: ChallengeInfoProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   return (
@@ -27,22 +32,22 @@ export function ChallengeInfo() {
       <RewardInfo
         rewardType="challenge"
         characterType="YELLOW"
-        rewardCount={1}
-        username="나무심는김노바"
+        rewardCount={userData.rewardCount}
+        username={userData.name}
       />
       <SaveModal
         open={isModalOpen}
         onOpenChange={setIsModalOpen}
         characterType="YELLOW"
         type="challenge"
-        username="나무심는김노바"
+        username={userData.name}
       />
       <CancelModal
         open={isCancelOpen}
         onOpenChange={setIsCancelOpen}
         characterType="YELLOW"
         type="challenge"
-        username="나무심는김노바"
+        username={userData.name}
       />
     </div>
   );

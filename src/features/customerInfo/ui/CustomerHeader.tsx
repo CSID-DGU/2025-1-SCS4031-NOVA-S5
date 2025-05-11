@@ -14,7 +14,7 @@ export function CustomerHeader() {
         src="/icon/exit.svg"
         alt="exit"
         className="w-[25px] h-[25px] cursor-pointer"
-        onClick={() => route.push("/owner")}
+        onClick={() => route.push("/owner/main")}
       />
     </header>
   );

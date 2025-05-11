@@ -1,6 +1,6 @@
 "use client";
 
-import { getCustomerInfo } from "@/features/cafeDetail/service";
+import { getCustomerInfo } from "@/features/customerInfo/service";
 import { CustomerCard, CustomerHeader, InfoModeSwitcher } from "@/features/customerInfo/ui";
 import { useQRStore } from "@/shared/store";
 import { useQuery } from "@tanstack/react-query";
@@ -24,13 +24,11 @@ export default function CustomerPage() {
     return <p>고객 정보를 불러오는 데 실패했습니다.</p>;
   }
 
-  console.log(customerInfo);
-
   return (
     <div className="flex flex-col gap-6 p-7">
       <CustomerHeader />
-      <CustomerCard name="나무심는김노바" />
-      <InfoModeSwitcher />
+      <CustomerCard name={customerInfo.name} imageUrl={customerInfo.profilePictureUrl} />
+      <InfoModeSwitcher customerInfo={customerInfo} />
     </div>
   );
 }

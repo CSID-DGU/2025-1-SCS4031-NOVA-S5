@@ -10,7 +10,7 @@ interface StampModalProps {
   username: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
   type: "stamp" | "challenge" | "stampReward" | "challengeReward"; // 타입에 따른 적립 요청 분기 나눌예정
 }
 
