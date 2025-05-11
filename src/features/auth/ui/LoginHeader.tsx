@@ -17,8 +17,6 @@ export default function LoginHeader({ isCustomer = true }: LoginHeaderProps) {
     }
   }, [isCustomer, role, setRole]);
 
-  console.log(role);
-
   const translateX = role === "OWNER" ? "translateX(0%)" : "translateX(100%)";
 
   return (
