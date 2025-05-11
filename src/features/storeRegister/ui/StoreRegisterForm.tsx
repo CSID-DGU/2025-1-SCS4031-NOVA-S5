@@ -75,26 +75,6 @@ export default function StoreRegisterForm() {
           onChange={e => setValue("address", e.target.value, { shouldValidate: true })}
         />
         <Input label="* 매장 전화번호" placeholder="02-1234-5678" {...register("phone")} />
-        <div className="flex flex-col gap-3">
-          <label className="text-sm text-font-green font-medium">* 영업시간</label>
-          <div className="flex items-center gap-6">
-            <TimeDropdown
-              placeholder="시작시간"
-              onChange={v => setValue("openTime", v, { shouldValidate: true })}
-            />
-            <TimeDropdown
-              placeholder="종료시간"
-              onChange={v => setValue("closeTime", v, { shouldValidate: true })}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-3">
-          <label className="text-sm text-font-green font-medium">* 라스트오더</label>
-          <TimeDropdown
-            placeholder="라스트오더"
-            onChange={v => setValue("lastOrder", v, { shouldValidate: true })}
-          />
-        </div>
         <Input label="* 대표자 성함" placeholder="홍길동" {...register("ownerName")} />
         <Input
           label="* 대표자 휴대폰 번호"

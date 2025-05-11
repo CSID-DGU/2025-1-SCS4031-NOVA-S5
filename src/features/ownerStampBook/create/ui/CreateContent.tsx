@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import CharacterBgCard from "../ui/CharacterBgCard";
 import { useRouter } from "next/navigation";
+import CharacterBgCard from "../../ui/CharacterBgCard";
 
 type CharacterType = "YELLOW" | "GREEN" | "BEIGE" | "ORANGE";
 

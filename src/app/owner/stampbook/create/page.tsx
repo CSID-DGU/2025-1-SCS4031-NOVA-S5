@@ -1,5 +1,5 @@
-import CreateContent from "@/features/ownerStampBook/create/CreateContent";
-import CreateHeader from "@/features/ownerStampBook/create/CreateHeader";
+import CreateContent from "@/features/ownerStampBook/create/ui/CreateContent";
+import CreateHeader from "@/features/ownerStampBook/create/ui/CreateHeader";
 
 export default function StampBookCreate() {
   return (

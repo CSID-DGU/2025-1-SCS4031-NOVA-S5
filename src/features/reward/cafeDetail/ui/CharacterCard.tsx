@@ -56,7 +56,7 @@ export default function CharacterCard() {
           className="ml-[22px]"
         />
       </div>
-      <div className="w-[234px] h-full flex flex-col gap-[10px] px-[10px] py-[14px] bg-YELLOW-300 rounded-xl">
+      <div className="w-[234px] h-full flex flex-col gap-[10px] px-[10px] py-[14px] bg-yellow-300 rounded-xl">
         <div className="flex gap-[5px] items-center">
           <Image src={`/icon/${characterType}-hand.svg`} alt="손" width={15} height={15} />
           <p className="text-xs text-font-black font-semibold">제 이름은 {name}예요!</p>

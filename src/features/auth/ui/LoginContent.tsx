@@ -34,7 +34,7 @@ export default function LoginContent() {
       </div>
       <button
         className="w-full bg-[#FFE812] rounded-full px-[35px] py-[15px] text-md font-semibold text-font-black flex items-center justify-center gap-3"
-        onClick={() => signIn("kakao", { callbackUrl: "/main" })}>
+        onClick={() => signIn("kakao", { callbackUrl: "/owner/main" })}>
         <Image src="/icon/kakao-logo.svg" alt="kakao-logo" width={23} height={23} />
         카카오톡으로 3초 만에 시작하기
       </button>
