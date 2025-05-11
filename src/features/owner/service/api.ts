@@ -5,7 +5,12 @@ export const getMyCafe = async () => {
   return response.data.data;
 };
 
-export const chooseCafe = async (cafeId: string) => {
+export const getSelectedCafe = async () => {
+  const response = await api.get("/staff/cafes/selected");
+  return response.data.data;
+};
+
+export const chooseCafe = async (cafeId: number) => {
   const response = await api.put(`/staff/cafes/${cafeId}/selected`);
   return response.data;
 };

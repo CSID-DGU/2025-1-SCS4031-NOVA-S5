@@ -1,6 +1,6 @@
 "use client";
 
-import { getMyCafe } from "@/features/owner/service/api";
+import { getMyCafe, getSelectedCafe } from "@/features/owner/service/api";
 import {
   AddCafeCard,
   AddStampbook,
@@ -30,16 +30,18 @@ export default function OwnerMain() {
       exist_stampbook: true,
     },
   ];
-  const {
-    data: cafeList = [],
-    isLoading,
-    isError,
-  } = useQuery({
+
+  const { data: cafeList = [] } = useQuery({
     queryKey: ["myCafeList"],
     queryFn: getMyCafe,
   });
 
-  const selectedCafe = cafeList[0]; // 임시로 첫 번째 카페를 선택한 카페로 합니다.
+  const { data: selectedCafe } = useQuery({
+    queryKey: ["selectedCafe"],
+    queryFn: getSelectedCafe,
+  });
+
+  // const selectedCafe = cafeList[0]; // 임시로 첫 번째 카페를 선택한 카페로 합니다.
 
   const handleNameClick = () => {
     setIsBottomSheetOpen(true);
@@ -47,19 +49,20 @@ export default function OwnerMain() {
 
   let content = null;
 
-  if (cafeList.length === 0) {
-    content = <AddCafeCard status="none" />;
-  } else if (selectedCafe?.confirm_status === "UNDER_REVIEW") {
-    content = <AddCafeCard status="pending" />;
-  } else if (selectedCafe?.confirm_status === "APPROVED") {
-    content = selectedCafe.exist_stampbook ? <QrCard /> : <AddStampbook />;
-  }
+  // if (cafeList.length === 0) {
+  //   content = <AddCafeCard status="none" />;
+  // } else if (selectedCafe?.confirm_status === "UNDER_REVIEW") {
+  //   content = <AddCafeCard status="pending" />;
+  // } else if (selectedCafe?.confirm_status === "APPROVED") {
+  //   content = selectedCafe.exist_stampbook ? <QrCard /> : <AddStampbook />;
+  // }
+  content = <QrCard />;
 
   return (
     <div className="p-5">
       <DashBoardHeader
         title="스탬프 적립"
-        name={selectedCafe?.name}
+        name={selectedCafe?.cafeName}
         onNameClick={handleNameClick}
       />
       <div className="mt-8">{content}</div>
@@ -67,7 +70,7 @@ export default function OwnerMain() {
         <OwnerGNB />
       </div>
       {isBottomSheetOpen && (
-        <CafeBottomsheet cafeList={mockCafeList} onClose={() => setIsBottomSheetOpen(false)} />
+        <CafeBottomsheet cafeList={cafeList} onClose={() => setIsBottomSheetOpen(false)} />
       )}
     </div>
   );

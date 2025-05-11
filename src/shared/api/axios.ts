@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getCookie, setCookie, deleteCookie } from "cookies-next";
-import router from "next/router";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -53,7 +52,6 @@ api.interceptors.response.use(
 
         deleteCookie("accessToken");
         deleteCookie("refreshToken");
-        router.push("/");
         return Promise.reject(refreshError);
       }
     }
