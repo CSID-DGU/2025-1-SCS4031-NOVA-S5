@@ -1,11 +1,16 @@
 "use client";
 
-import { BottomSheet } from "./BottomSheet";
+import { BottomSheet } from "@/shared";
 import LocationContent from "./LocationContent";
 
-function LocationSheet() {
+interface LocationSheetProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function LocationSheet({ isOpen, onClose }: LocationSheetProps) {
   return (
-    <BottomSheet>
+    <BottomSheet isOpen={isOpen} onClose={onClose}>
       <BottomSheet.Header></BottomSheet.Header>
       <BottomSheet.Content>
         <LocationContent />
