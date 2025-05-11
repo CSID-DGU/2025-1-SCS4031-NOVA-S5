@@ -13,7 +13,6 @@ import AddressInput from "@/shared/ui/input/AddressInput";
 import { addressToLatLng, registerCafe } from "@/shared/api/cafe";
 import { useState } from "react";
 import CafeRegisterModal from "@/shared/ui/modal/CafeRegisterModal";
-import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function StoreRegisterForm() {
@@ -28,7 +27,6 @@ export default function StoreRegisterForm() {
     mode: "onChange",
   });
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const queryClient = useQueryClient();
   const file = watch("file");
 
@@ -83,9 +81,6 @@ export default function StoreRegisterForm() {
       });
 
       setIsOpen(true);
-      if (isOpen === false) {
-        router.push("/owner/main");
-      }
     } catch (err) {
       console.error("카페 등록 실패:", err);
       alert("카페 등록에 실패했습니다.");
