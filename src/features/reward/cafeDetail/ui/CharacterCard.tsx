@@ -12,6 +12,7 @@ export default function CharacterCard() {
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
   const characterType = book?.characterType || "YELLOW";
+  const type = characterType.toLowerCase();
 
   const characterInfo: Record<
     "YELLOW" | "ORANGE" | "BEIGE" | "GREEN",
@@ -41,14 +42,14 @@ export default function CharacterCard() {
     <div className="relative w-full items-center justify-center h-[68px] flex gap-[10px]">
       <div className="cursor-pointer" onClick={() => setIsOpen(true)}>
         <Image
-          src={`/icon/${characterType}-qr.svg`}
+          src={`/icon/${type}-qr.svg`}
           alt="qr"
           width={41}
           height={41}
           className="absolute -top-[25px] left-2"
         />
         <Image
-          src={`/img/character/${characterType}-all.svg`}
+          src={`/img/character/${type}-all.svg`}
           alt="캐릭터 이미지"
           width={52}
           height={59}
@@ -58,11 +59,11 @@ export default function CharacterCard() {
       </div>
       <div className="w-[234px] h-full flex flex-col gap-[10px] px-[10px] py-[14px] bg-yellow-300 rounded-xl">
         <div className="flex gap-[5px] items-center">
-          <Image src={`/icon/${characterType}-hand.svg`} alt="손" width={15} height={15} />
+          <Image src={`/icon/${type}-hand.svg`} alt="손" width={15} height={15} />
           <p className="text-xs text-font-black font-semibold">제 이름은 {name}예요!</p>
         </div>
         <div className="flex gap-[5px] items-center">
-          <Image src={`/icon/${characterType}-stamp.svg`} alt="도장" width={15} height={15} />
+          <Image src={`/icon/${type}-stamp.svg`} alt="도장" width={15} height={15} />
           <p className="text-xs text-font-black font-semibold">{description}</p>
         </div>
       </div>
