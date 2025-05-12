@@ -9,7 +9,7 @@ interface CancelModalProps {
   username: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
   type: "stamp" | "challenge" | "stampReward" | "challengeReward";
 }
 
@@ -24,7 +24,6 @@ export function CancelModal({
   const character = characterType.toLowerCase();
   const containerHeight = step === 2 ? "h-[296px]" : "h-[428px]";
   const { scannedUuid, reset } = useQRStore();
-  console.log(scannedUuid);
 
   const handleGoToStep2 = () => {
     setStep(2);

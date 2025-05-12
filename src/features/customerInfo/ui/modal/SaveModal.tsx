@@ -5,28 +5,50 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { stampSchema } from "../../model";
 import Image from "next/image";
+import { useQRStore } from "@/shared/store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postStamp } from "../../service";
 
 interface StampModalProps {
   username: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
   type: "stamp" | "challenge" | "stampReward" | "challengeReward"; // 타입에 따른 적립 요청 분기 나눌예정
 }
 
 export function SaveModal({ open, onOpenChange, characterType, type, username }: StampModalProps) {
   const [step, setStep] = useState<1 | 2>(1);
   const [count, setCount] = useState("");
+  const { scannedUuid } = useQRStore();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: postStamp,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["customerStatus", scannedUuid],
+      });
+      setStep(2);
+    },
+    onError: (error: any) => {
+      alert(error?.response?.data?.message || "적립에 실패했습니다.");
+    },
+  });
 
   const handleSubmit = () => {
     if (!count) return;
-    const result = stampSchema.safeParse({ count });
 
+    const result = stampSchema.safeParse({ count });
     if (!result.success) {
-      alert(result.error.errors[0].message); // 또는 에러 UI로 처리
+      alert(result.error.errors[0].message);
       return;
     }
-    setStep(2);
+
+    mutation.mutate({
+      qrCodeValue: scannedUuid!,
+      count: Number(count),
+    });
   };
 
   const resetModal = () => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { getMyCafe, getSelectedCafe } from "@/features/owner/service/api";
 import {
   AddCafeCard,
   AddStampbook,
@@ -8,28 +9,32 @@ import {
   QrCard,
 } from "@/features/owner/ui";
 import { OwnerGNB } from "@/shared";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 
 export default function OwnerMain() {
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
-  const mockCafeList = [
-    {
-      id: 1,
-      name: "카페1",
-      chooseStatus: false,
-      confirm_status: "pending",
-      exist_stampbook: false,
-    },
-    {
-      id: 2,
-      name: "카페2",
-      chooseStatus: true,
-      confirm_status: "confirmed",
-      exist_stampbook: true,
-    },
-  ];
 
-  const selectedCafe = mockCafeList.find(cafe => cafe.chooseStatus);
+  const { data: cafeList = [] } = useQuery({
+    queryKey: ["myCafeList"],
+    queryFn: getMyCafe,
+  });
+
+  const {
+    data: selectedCafe,
+    isError: isSelectedCafeError,
+    isLoading: isSelectedCafeLoading,
+  } = useQuery({
+    queryKey: ["selectedCafe"],
+    queryFn: getSelectedCafe,
+    retry: false,
+  });
+  useEffect(() => {
+    if (!isSelectedCafeLoading && (isSelectedCafeError || !selectedCafe)) {
+      // 선택된 카페가 없을 경우
+      setIsBottomSheetOpen(true);
+    }
+  }, [isSelectedCafeLoading, isSelectedCafeError, selectedCafe]);
 
   const handleNameClick = () => {
     setIsBottomSheetOpen(true);
@@ -37,19 +42,20 @@ export default function OwnerMain() {
 
   let content = null;
 
-  if (mockCafeList.length === 0) {
+  if (cafeList.length === 0) {
     content = <AddCafeCard status="none" />;
-  } else if (selectedCafe?.confirm_status === "pending") {
+  } else if (selectedCafe?.registrationStatus === "UNDER_REVIEW") {
     content = <AddCafeCard status="pending" />;
-  } else if (selectedCafe?.confirm_status === "confirmed") {
-    content = selectedCafe.exist_stampbook ? <QrCard /> : <AddStampbook />;
+  } else if (selectedCafe?.registrationStatus === "APPROVED") {
+    // content = selectedCafe.exist_stampbook ? <QrCard /> : <AddStampbook />;
+    content = <QrCard />;
   }
 
   return (
     <div className="p-5">
       <DashBoardHeader
         title="스탬프 적립"
-        name={selectedCafe?.name}
+        name={selectedCafe?.cafeName || ""}
         onNameClick={handleNameClick}
       />
       <div className="mt-8">{content}</div>
@@ -57,7 +63,7 @@ export default function OwnerMain() {
         <OwnerGNB />
       </div>
       {isBottomSheetOpen && (
-        <CafeBottomsheet cafeList={mockCafeList} onClose={() => setIsBottomSheetOpen(false)} />
+        <CafeBottomsheet cafeList={cafeList} onClose={() => setIsBottomSheetOpen(false)} />
       )}
     </div>
   );

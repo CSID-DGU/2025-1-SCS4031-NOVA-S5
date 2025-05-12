@@ -6,23 +6,32 @@ import { CancelModal } from "./modal/CancelModal";
 interface RewardInfoProps {
   rewardType: string;
   rewardCount: number; // 리워드 개수
-  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE"; // 캐릭터 유형
+  characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK"; // 캐릭터 유형
   username: string;
 }
 
 export function RewardInfo({ rewardCount, characterType, rewardType, username }: RewardInfoProps) {
   const [isModalOpen, setisModalOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
-  // 캐릭터 유형에 따라 이미지를 다르게 설정
+
   const lowerCharacterType = characterType.toLowerCase();
   const characterSrc = `/img/character/${lowerCharacterType}-face.svg`;
   const type = rewardType === "stamp" ? "스탬프북" : "챌린지";
 
+  // 캐릭터별 배경색 매핑
+  const characterBgColors: Record<RewardInfoProps["characterType"], string> = {
+    YELLOW: "#FFF3D4",
+    GREEN: "#E2ECDC",
+    ORANGE: "#FFDDB9",
+    BLACK: "#EFE8DC", // BLACK은 어두운색보다는 중간톤이 좋을 수 있음
+  };
+
   return (
     <div className="flex flex-col">
       <h1 className="text-font-green text-lg font-extrabold mt-7">{`${type} 리워드 교환 현황`}</h1>
-
-      <div className="flex flex-col items-center justify-center gap-4 mt-4 bg-[#FFF3D4] w-full h-[154px] rounded-xl">
+      <div
+        style={{ backgroundColor: characterBgColors[characterType] }}
+        className="flex flex-col items-center justify-center gap-4 mt-4 w-full h-[154px] rounded-xl">
         <img
           src={characterSrc}
           alt={`${characterType} 캐릭터`}
