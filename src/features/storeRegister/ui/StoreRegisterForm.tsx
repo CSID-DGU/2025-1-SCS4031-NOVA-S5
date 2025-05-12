@@ -5,11 +5,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MoodDropdown, TimeDropdown } from "@/shared/ui/Dropdown";
+import { MoodDropdown } from "@/shared/ui/Dropdown";
 import { XIcon } from "lucide-react";
 import { StoreRegisterFormValues, storeRegisterSchema } from "@/lib/storeRegisterSchema";
 import { formatBusinessNumber, formatPhoneNumber } from "@/shared/utils/formatNumber";
 import AddressInput from "@/shared/ui/input/AddressInput";
+import { addressToLatLng, registerCafe } from "@/shared/api/cafe";
+import { useState } from "react";
+import CafeRegisterModal from "@/shared/ui/modal/CafeRegisterModal";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function StoreRegisterForm() {
   const {
@@ -22,7 +26,8 @@ export default function StoreRegisterForm() {
     resolver: zodResolver(storeRegisterSchema),
     mode: "onChange",
   });
-
+  const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
   const file = watch("file");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,8 +56,35 @@ export default function StoreRegisterForm() {
     }
   };
 
-  const onSubmit = (data: StoreRegisterFormValues) => {
-    console.log(data);
+  const onSubmit = async (data: StoreRegisterFormValues) => {
+    try {
+      const coords = await addressToLatLng(data.address);
+      if (!coords) throw new Error("주소를 찾을 수 없습니다.");
+
+      const payload = {
+        cafeName: data.storeName,
+        branchName: data.branchName,
+        ownerName: data.ownerName,
+        ownerPhone: data.ownerPhone,
+        businessNumber: data.businessNumber,
+        latitude: parseFloat(coords.y),
+        longitude: parseFloat(coords.x),
+        maxStampCount: 10,
+        characterType: data.mood,
+        rewardDescription: data.reward,
+      };
+
+      await registerCafe(payload);
+      queryClient.setQueryData(["registeredCafe"], {
+        cafeName: data.storeName,
+        characterType: data.mood,
+      });
+
+      setIsOpen(true);
+    } catch (err) {
+      console.error("카페 등록 실패:", err);
+      alert("카페 등록에 실패했습니다.");
+    }
   };
 
   return (
@@ -75,26 +107,6 @@ export default function StoreRegisterForm() {
           onChange={e => setValue("address", e.target.value, { shouldValidate: true })}
         />
         <Input label="* 매장 전화번호" placeholder="02-1234-5678" {...register("phone")} />
-        <div className="flex flex-col gap-3">
-          <label className="text-sm text-font-green font-medium">* 영업시간</label>
-          <div className="flex items-center gap-6">
-            <TimeDropdown
-              placeholder="시작시간"
-              onChange={v => setValue("openTime", v, { shouldValidate: true })}
-            />
-            <TimeDropdown
-              placeholder="종료시간"
-              onChange={v => setValue("closeTime", v, { shouldValidate: true })}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-3">
-          <label className="text-sm text-font-green font-medium">* 라스트오더</label>
-          <TimeDropdown
-            placeholder="라스트오더"
-            onChange={v => setValue("lastOrder", v, { shouldValidate: true })}
-          />
-        </div>
         <Input label="* 대표자 성함" placeholder="홍길동" {...register("ownerName")} />
         <Input
           label="* 대표자 휴대폰 번호"
@@ -159,8 +171,14 @@ export default function StoreRegisterForm() {
           <p className="text-xs text-[#8E8E93] font-medium">
             캐릭터 매칭을 위해 사장님 카페의 특징을 선택해 주세요.
           </p>
-          <MoodDropdown onChange={v => setValue("mood", v, { shouldValidate: true })} />
+          <MoodDropdown
+            onChange={(_label, type) => {
+              setValue("mood", type, { shouldValidate: true });
+            }}
+          />
         </div>
+
+        <Input label="* 증정할 리워드" placeholder="아메리카노" {...register("reward")} />
 
         <Button
           type="submit"
@@ -171,6 +189,7 @@ export default function StoreRegisterForm() {
           매장 등록 신청하기
         </Button>
       </form>
+      <CafeRegisterModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </main>
   );
 }

@@ -8,13 +8,13 @@ export const TIMES = [
 ];
 
 export const CAFE_MOOD = [
-  "아기자기",
-  "푸근푸근",
-  "따뜻말랑",
-  "알록달록",
-  "비비드",
-  "깔끔",
-  "모던",
-  "힙한",
-  "개성 넘치는",
+  { label: "아기자기", type: "YELLOW" },
+  { label: "푸근푸근", type: "YELLOW" },
+  { label: "따뜻말랑", type: "YELLOW" },
+  { label: "알록달록", type: "ORANGE" },
+  { label: "비비드", type: "ORANGE" },
+  { label: "깔끔", type: "GREEN" },
+  { label: "모던", type: "GREEN" },
+  { label: "힙한", type: "BLACK" },
+  { label: "개성 넘치는", type: "BLACK" },
 ];

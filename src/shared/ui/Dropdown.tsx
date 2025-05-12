@@ -66,7 +66,7 @@ export function TimeDropdown({ placeholder, onChange }: DropdownProps) {
   );
 }
 
-export function MoodDropdown({ onChange }: DropdownProps) {
+export function MoodDropdown({ onChange }: { onChange?: (value: string, type: string) => void }) {
   const [open, setOpen] = useState(false);
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -95,19 +95,19 @@ export function MoodDropdown({ onChange }: DropdownProps) {
       <DropdownMenuContent
         style={{ width: triggerWidth ?? "auto" }}
         className="flex flex-col gap-2 rounded-[20px] max-h-[300px] overflow-y-auto bg-[#FFFCF5] px-3 py-2 outline-none w-full">
-        {CAFE_MOOD.map(mood => (
+        {CAFE_MOOD.map(({ label, type }) => (
           <DropdownMenuItem
-            key={mood}
+            key={label}
             onSelect={e => {
               e.preventDefault();
-              setSelectedMood(mood);
+              setSelectedMood(label);
               setOpen(false);
-              onChange?.(mood);
+              onChange?.(label, type);
             }}
             className={`py-3 px-5 text-center text-md text-font-black rounded-[15px] cursor-pointer outline-none ${
-              selectedMood === mood ? "bg-green-300 hover:bg-green-300" : "hover:bg-green-300"
+              selectedMood === label ? "bg-green-300 hover:bg-green-300" : "hover:bg-green-300"
             }`}>
-            {mood}
+            {label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

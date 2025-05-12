@@ -26,7 +26,6 @@ function KakaoCallbackInner() {
 
       setCookie("accessToken", accessToken);
       setCookie("refreshToken", refreshToken);
-      setCookie("role", role);
 
       if (role === "OWNER") {
         router.push("/owner/main");
@@ -35,6 +34,8 @@ function KakaoCallbackInner() {
       } else {
         router.push("/main");
       }
+
+      localStorage.removeItem("role-storage");
     },
     onError: err => {
       alert("로그인에 실패했습니다.");
