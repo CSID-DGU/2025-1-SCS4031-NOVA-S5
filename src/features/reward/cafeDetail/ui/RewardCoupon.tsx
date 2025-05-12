@@ -23,7 +23,7 @@ export default function RewardCoupon({ characterType, id }: RewardCouponProps) {
       className="w-[320px] h-[154px] px-[38px] py-[28px] flex flex-col items-center justify-center gap-[20px] rounded-[10px] shadow-sm"
       style={{ backgroundColor: bgColorMap[characterType] }}>
       <Image
-        src={`/img/character/${characterType}-face.svg`}
+        src={`/img/character/${characterType.toLowerCase()}-face.svg`}
         alt="character"
         width={65}
         height={65}
