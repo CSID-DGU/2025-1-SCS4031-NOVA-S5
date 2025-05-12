@@ -8,6 +8,7 @@ interface CafeBottomsheetProps {
   cafeList: {
     cafeId: number;
     cafeName: string;
+    isSelected: boolean;
     // chooseStatus: boolean;
     // confirm_status: string;
     // exist_stampbook: boolean;
@@ -51,11 +52,11 @@ export function CafeBottomsheet({ cafeList, onClose }: CafeBottomsheetProps) {
               className="flex flex-row justify-between p-3 border-b border-disabledfont cursor-pointer"
               onClick={() => handleSelect(cafe.cafeId)}>
               <p className="text-body-small font-semibold">{cafe.cafeName}</p>
-              {/* {cafe.chooseStatus && (
+              {cafe.isSelected && (
                 <div className="bg-green-300 py-[4px] px-[6px] rounded-sm">
                   <p className="text-font-green text-[10px]">현재 설정된 매장</p>
                 </div>
-              )} */}
+              )}
             </div>
           ))}
         </div>
