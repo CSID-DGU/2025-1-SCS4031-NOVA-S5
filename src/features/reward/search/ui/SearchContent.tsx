@@ -54,7 +54,7 @@ export default function SearchContent() {
           </div>
         ) : (
           <div className="flex flex-col items-center gap-[38px] mt-[226px]">
-            <Image src={"/img/character/beige-ear.svg"} alt="캐릭터" width={124} height={94} />
+            <Image src={"/img/character/black-ear.svg"} alt="캐릭터" width={124} height={94} />
             <p className="text-font-black text-md font-bold flex flex-col items-center">
               '{debouncedQuery}'와 일치하는 검색 결과가 없어요
               <br />
@@ -64,7 +64,7 @@ export default function SearchContent() {
         )
       ) : (
         <div className="flex flex-col items-center gap-[38px] mt-[226px]">
-          <Image src={"/img/character/beige-ear.svg"} alt="캐릭터" width={124} height={94} />
+          <Image src={"/img/character/black-ear.svg"} alt="캐릭터" width={124} height={94} />
           <p className="text-font-black text-md font-bold">어떤 스탬프북을 구경하러 가볼까요?</p>
         </div>
       )}

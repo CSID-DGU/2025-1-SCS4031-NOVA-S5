@@ -21,7 +21,7 @@ function SearchList({ keyword }: { keyword: string }) {
   return (
     <div>
       <div className="flex flex-col items-center justify-center mt-[157px] gap-[32px]">
-        <Image src="/img/character/beige-ear.svg" alt="no list" width={90} height={90} />
+        <Image src="/img/character/black-ear.svg" alt="no list" width={90} height={90} />
         {hasKeyword ? (
           <p className="flex flex-col  gap-[22px] text-[16px] font-[700] text-center">
             '{keyword}'와 일치하는 검색 결과가 없어요

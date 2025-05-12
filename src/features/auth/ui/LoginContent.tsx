@@ -29,7 +29,7 @@ export default function LoginContent() {
           <Image src="/img/character/yellow-all.svg" alt="character" width={70} height={70} />
         </div>
         <div className="flex items-center justify-center w-[123px] h-[123px] bg-green-400 rounded-b-[38px] rounded-tr-[38px]">
-          <Image src="/img/character/beige-all.svg" alt="character" width={70} height={70} />
+          <Image src="/img/character/black-all.svg" alt="character" width={70} height={70} />
         </div>
       </div>
       <button

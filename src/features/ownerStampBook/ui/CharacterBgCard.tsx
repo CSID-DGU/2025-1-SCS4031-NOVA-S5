@@ -36,7 +36,7 @@ export default function CharacterBgCard({ top, bottom, onClick }: CharacterBgCar
         className="absolute right-[-15px] top-[60px] rotate-[-51deg] opacity-20"
       />
       <Image
-        src={"/img/character/beige-ear.svg"}
+        src={"/img/character/black-ear.svg"}
         alt="양 캐릭터"
         width={57}
         height={45}
