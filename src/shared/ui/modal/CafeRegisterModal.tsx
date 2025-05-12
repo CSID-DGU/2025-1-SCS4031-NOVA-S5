@@ -5,7 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -21,10 +21,7 @@ export default function CafeRegisterModal({ isOpen, setIsOpen }: RegisterModalPr
 
   const registeredCafe = queryClient.getQueryData<{ characterType: string }>(["registeredCafe"]);
   const type = registeredCafe?.characterType ?? "YELLOW";
-  const characterImageSrc =
-    type === "BLACK"
-      ? "/img/character/beige-all.svg"
-      : `/img/character/${type.toLowerCase()}-all.svg`;
+  const characterImageSrc = `/img/character/${type.toLowerCase()}-all.svg`;
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

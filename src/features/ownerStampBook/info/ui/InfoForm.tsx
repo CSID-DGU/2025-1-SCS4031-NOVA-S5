@@ -65,9 +65,10 @@ export default function InfoForm() {
           </Button>
         </div>
       </div>
-      <Input label="* 고객 님에게 어떤 무료 리워드가 제공되나요?" placeholder="아메리카노" />
 
-      <Button className="w-full h-[50px] rounded-full bg-[#DCDCDC] mt-[45px]" />
+      <Button className="w-full h-[50px] rounded-full bg-[#DCDCDC] mt-[25px]">
+        스탬프북 등록 예시 확인하기
+      </Button>
     </form>
   );
 }
