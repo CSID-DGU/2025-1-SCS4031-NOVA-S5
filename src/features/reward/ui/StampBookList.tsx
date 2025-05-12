@@ -23,7 +23,10 @@ export default function StampBookList() {
             {stampBook.cafeName} &gt;
           </p>
           <div className="flex items-center justify-center">
-            <StampBook stampBookId={stampBook.cafeId} characterType={stampBook.characterType} />
+            <StampBook
+              stampBookId={stampBook.stampBookId}
+              characterType={stampBook.characterType}
+            />
           </div>
         </div>
       ))}
