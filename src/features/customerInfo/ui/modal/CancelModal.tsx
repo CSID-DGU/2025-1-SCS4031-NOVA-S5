@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
 import { useQRStore } from "@/shared/store";
+import { useMutation } from "@tanstack/react-query";
+import { postStamp } from "../../service";
 
 interface CancelModalProps {
   username: string;
@@ -24,7 +26,6 @@ export function CancelModal({
   const character = characterType.toLowerCase();
   const containerHeight = step === 2 ? "h-[296px]" : "h-[428px]";
   const { scannedUuid, reset } = useQRStore();
-  console.log(scannedUuid);
 
   const handleGoToStep2 = () => {
     setStep(2);

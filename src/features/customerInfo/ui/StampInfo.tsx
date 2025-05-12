@@ -14,6 +14,7 @@ interface StampInfoProps {
 export function StampInfo({ userData }: StampInfoProps) {
   const [isModalOpen, setisModalOpen] = useState(false);
   const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const userTotalStampCount = userData.history.reduce((acc, book) => acc + book.stampCount, 0);
 
   return (
     <div className="flex flex-col">
@@ -22,7 +23,7 @@ export function StampInfo({ userData }: StampInfoProps) {
         <CustomerStamp
           cafeName="충무로 더블톤"
           maxStampCount={userData.history[0].maxStampCount}
-          currentStampCount={userData.history[0].stampCount}
+          currentStampCount={userTotalStampCount}
           characterType={userData.characterType}
         />
         <div className="flex flex-row justify-center gap-8 w-full mt-6">
