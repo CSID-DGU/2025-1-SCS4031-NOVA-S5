@@ -64,6 +64,7 @@ export default function StoreRegisterForm() {
       const payload = {
         cafeName: data.storeName,
         branchName: data.branchName,
+        cafePhone: data.phone,
         ownerName: data.ownerName,
         ownerPhone: data.ownerPhone,
         businessNumber: data.businessNumber,

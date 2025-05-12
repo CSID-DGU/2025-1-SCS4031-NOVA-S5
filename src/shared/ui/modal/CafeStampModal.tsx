@@ -23,6 +23,7 @@ export default function StampModal({
   onDeleteConfirm,
 }: StampModalProps) {
   const { stampModalType } = useStampModalStore();
+  const type = characterType.toLowerCase();
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -33,12 +34,7 @@ export default function StampModal({
           <DialogTitle className="sr-only">스탬프북 모달</DialogTitle>
         </DialogHeader>
         <div className="w-[238px] h-[250px] flex flex-col gap-[30px] items-center justify-center py-[35px]">
-          <Image
-            src={`/img/character/${characterType}-all.svg`}
-            alt="character"
-            width={90}
-            height={101}
-          />
+          <Image src={`/img/character/${type}-all.svg`} alt="character" width={90} height={101} />
           <StampModalContent type={stampModalType} />
         </div>
         {stampModalType === "delete-confirm" ? (
