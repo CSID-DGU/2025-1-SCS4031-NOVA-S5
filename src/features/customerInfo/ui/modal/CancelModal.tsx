@@ -4,8 +4,6 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
 import { useQRStore } from "@/shared/store";
-import { useMutation } from "@tanstack/react-query";
-import { postStamp } from "../../service";
 
 interface CancelModalProps {
   username: string;

@@ -9,9 +9,6 @@ interface CafeBottomsheetProps {
     cafeId: number;
     cafeName: string;
     isSelected: boolean;
-    // chooseStatus: boolean;
-    // confirm_status: string;
-    // exist_stampbook: boolean;
   }[];
   onClose: () => void; // 바텀시트 닫기 함수
 }
