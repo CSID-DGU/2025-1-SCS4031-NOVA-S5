@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.ecok.co.kr/"),
+  metadataBase: new URL(process.env.NODE_ENV === 'production' ? "https://www.ecok.co.kr" : "http://localhost:3000"),
   title: "Ecok | Integrated Stamp Management Service, Ecok",
   description: "통합 카페 스탬프북 관리 서비스",
   manifest: "/manifest.json",

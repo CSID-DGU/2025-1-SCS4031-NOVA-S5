@@ -1,4 +1,5 @@
 name: Deployment with vercel
+
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -29,8 +30,14 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build and Deploy to Vercel
-        run: |
-          pnpm dlx vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-          pnpm dlx vercel build --token=${{ secrets.VERCEL_TOKEN }}
-          pnpm dlx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Pull Environment Variables from Vercel (Preview)
+        run: pnpm dlx vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Copy env file to .env.local
+        run: cp .vercel/.env.preview.local .env.local
+
+      - name: Build with Vercel CLI
+        run: pnpm dlx vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel (Preview)
+        run: pnpm dlx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
