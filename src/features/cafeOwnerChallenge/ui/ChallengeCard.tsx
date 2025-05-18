@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getChallengeDay } from "../utils";
 
 interface ChallengeData {
   id: number;
@@ -15,8 +16,9 @@ interface ChallengeCardProps {
 
 export default function ChallengeCard({ challenge }: ChallengeCardProps) {
   const [show, setShow] = useState(false);
+  const { challengeTitle, description, startDate, endDate } = challenge;
 
-  const { challengeTitle, description } = challenge;
+  const { message } = getChallengeDay(new Date(startDate), new Date(endDate));
 
   useEffect(() => {
     const timer = setTimeout(() => setShow(true), 500);
@@ -24,7 +26,12 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
   }, []);
 
   return (
-    <div className="w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg">
+    <div className="relative w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg">
+      {/* 오른쪽 상단 남은 일자 표시 */}
+      <div className="absolute top-2 right-3 text-[11px] text-right text-[#254434] font-semibold">
+        {message}
+      </div>
+
       <div className="flex justify-start items-center gap-3 w-full h-[60px]">
         <div className="w-[60px] h-[60px] bg-green-400 rounded-lg">
           <Image
