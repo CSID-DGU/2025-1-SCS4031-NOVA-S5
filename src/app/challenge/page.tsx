@@ -2,9 +2,9 @@
 
 import { ChallengeStatus } from "@/features/cafeOwnerChallenge/model";
 import { mockChallenges } from "@/features/cafeOwnerChallenge/model/mockChallenges";
-import { ChallengeTab } from "@/features/cafeOwnerChallenge/ui";
+import { ChallengeTab, PlusButton, StartChallenge } from "@/features/cafeOwnerChallenge/ui";
 import ChallengeCard from "@/features/cafeOwnerChallenge/ui/ChallengeCard";
-import { getChallengeStatus } from "@/features/cafeOwnerChallenge/utils";
+import { getChallengeInfo, getChallengeStatus } from "@/features/cafeOwnerChallenge/utils";
 import { useState } from "react";
 
 export default function ChallengePage() {
@@ -14,6 +14,8 @@ export default function ChallengePage() {
   const filtered = mockChallenges.filter(
     challenge => getChallengeStatus(challenge.startDate, challenge.endDate) === status
   );
+
+  const emptyState = getChallengeInfo(status);
 
   return (
     <div className="p-7">
@@ -26,9 +28,21 @@ export default function ChallengePage() {
         {filtered.length > 0 ? (
           filtered.map(challenge => <ChallengeCard key={challenge.id} challenge={challenge} />)
         ) : (
-          <div>해당 상태의 챌린지가 없습니다.</div>
+          <div>
+            <StartChallenge
+              title={emptyState.title}
+              description={emptyState.description}
+              label="챌린지 개최하러 가기"
+            />
+          </div>
         )}
       </div>
+      {/* ✅ 챌린지가 있을 경우에만 플러스 버튼 렌더링 */}
+      {filtered.length > 0 && (
+        <div className="absolute bottom-6 right-6 z-50">
+          <PlusButton />
+        </div>
+      )}
     </div>
   );
 }
