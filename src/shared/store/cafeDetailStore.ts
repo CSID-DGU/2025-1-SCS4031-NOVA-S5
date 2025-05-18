@@ -12,21 +12,34 @@ interface CafeInfo {
   tel: string;
   address: string;
   reward: string;
-  cafa_img: string;
+  cafe_img: string;
   cafe_detail: string;
   desc: string;
   character: string;
   stamp: StampInfo;
 }
 
-interface CafeState {
+interface CafeStore {
   cafe: CafeInfo | null;
-  setCafe: (date: CafeInfo) => void;
-  clearCafe: () => void;
+  setCafe: (cafe: CafeInfo) => void;
 }
 
-export const useCafeStore = create<CafeState>(set => ({
-  cafe: null,
-  setCafe: data => set({ cafe: data }),
-  clearCafe: () => set({ cafe: null }),
+export const useCafeStore = create<CafeStore>(set => ({
+  cafe: {
+    name: "",
+    business_hour: "",
+    tel: "",
+    address: "",
+    reward: "",
+    cafe_img: "",
+    cafe_detail: "",
+    desc: "",
+    character: "",
+    stamp: {
+      cafe_name: "",
+      logo: "",
+      cover_img_url: "",
+    },
+  },
+  setCafe: cafe => set({ cafe }),
 }));

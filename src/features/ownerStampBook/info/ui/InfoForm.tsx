@@ -9,7 +9,7 @@ export default function InfoForm() {
   const [isVisible, setIsVisible] = useState<boolean | null>(null);
 
   return (
-    <form className="w-full flex flex-col gap-[30px] mt-[25px]">
+    <form className="w-full flex flex-col gap-[28px] mt-[25px]">
       <div className="flex flex-col gap-[18px]">
         <div className="flex flex-col gap-[10px]">
           <p className="text-sm text-font-green font-medium">* 스탬프북을 입력해 주세요.</p>

@@ -6,18 +6,38 @@ import { createStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
 import StampBook from "@/shared/ui/StampBook";
 
-function CafeStamp() {
+interface CafeStampProps {
+  guideText?: string;
+  buttonText?: string;
+  onSubmit?: (cafeId: number) => Promise<any>;
+  successMessage?: string;
+  errorMessage?: string;
+  showAlert?: boolean;
+}
+
+function CafeStamp({
+  guideText = "스탬프북을 저장하면 캐릭터를 확인할 수 있어요!",
+  buttonText = "내 스탬프북에 저장",
+  onSubmit = createStampBook,
+  successMessage = "스탬프북이 저장되었습니다!",
+  errorMessage = "스탬프북 생성 실패",
+  showAlert = true,
+}: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
   const { id } = useParams();
   const cafeId = Number(id);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => createStampBook(cafeId),
+    mutationFn: () => onSubmit(cafeId),
     onSuccess: () => {
-      alert("스탬프북이 저장되었습니다!");
+      if (showAlert) {
+        alert(successMessage);
+      }
     },
     onError: () => {
-      alert("스탬프북 생성 실패");
+      if (showAlert) {
+        alert(errorMessage);
+      }
     },
   });
 
@@ -25,14 +45,12 @@ function CafeStamp() {
     <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
       <StampBook cafeName={cafe?.name} />
       <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
-      <p className="text-[12px] text-[#8E8E93] text-center">
-        스탬프북을 저장하면 캐릭터를 확인할 수 있어요!
-      </p>
+      <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>
       <button
         className="bg-[#254434] text-[#FFF] text-[12px] font-[700] h-[41px] w-fit rounded-full px-[20px] hover:bg-green-800"
         disabled={isPending}
         onClick={() => mutate()}>
-        내 스탬프북에 저장
+        {buttonText}
       </button>
     </div>
   );

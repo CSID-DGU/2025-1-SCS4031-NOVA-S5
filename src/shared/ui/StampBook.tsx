@@ -12,19 +12,17 @@ interface StampCardProps {
 
 export default function StampBook({ stampBookId, cafeName }: StampCardProps) {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
-
   const book = stampBooks.find(b => b.stampBookId === stampBookId);
 
   useEffect(() => {
     if (!book) fetchAndSetStampBooks();
   }, [book, fetchAndSetStampBooks]);
 
-  if (!book) return null;
-
-  const totalStamp = book.maxStampCount;
-  const cafe = book.cafeName ?? cafeName;
-  const stampedCount = book.currentStampCount;
-  const lowerCharacterType = book.characterType.toLowerCase();
+  // 기본값 설정
+  const totalStamp = book?.maxStampCount || 10;
+  const cafe = book?.cafeName ?? cafeName ?? "카페";
+  const stampedCount = book?.currentStampCount || 0;
+  const lowerCharacterType = book?.characterType?.toLowerCase() || "yellow";
   const stampedSrc = `/img/character/${lowerCharacterType}-face.svg`;
   const unstampedSrc = `/img/character/${lowerCharacterType}-face-gray.svg`;
 
@@ -38,7 +36,13 @@ export default function StampBook({ stampBookId, cafeName }: StampCardProps) {
         {Array.from({ length: totalStamp }).map((_, index) => (
           <img
             key={index}
-            src={index < stampedCount ? stampedSrc : unstampedSrc}
+            src={
+              book
+                ? index < stampedCount
+                  ? stampedSrc
+                  : unstampedSrc
+                : "/img/character/face-gray.svg"
+            }
             alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
             width={35}
             height={35}
