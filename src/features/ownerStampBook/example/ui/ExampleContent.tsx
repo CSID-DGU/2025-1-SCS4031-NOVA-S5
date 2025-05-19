@@ -5,7 +5,6 @@ import CafeStamp from "@/features/cafeDetail/ui/CafeStamp";
 import RewardCard from "@/features/cafeDetail/ui/RewardCard";
 import CafeInfo from "@/shared/ui/CafeInfo";
 
-// Mock 데이터 정의
 const EXAMPLE_CAFE = {
   name: "NOVA 카페",
   business_hour: "09:00 - 22:00",

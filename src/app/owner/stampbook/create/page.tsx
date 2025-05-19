@@ -8,7 +8,6 @@ export default function StampBookCreate() {
       <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col gap-[35px] px-[25px] pb-[28px]">
         <CreateContent />
       </div>
-      <div className="absolute bottom-0 left-0 right-0"></div>
     </div>
   );
 }

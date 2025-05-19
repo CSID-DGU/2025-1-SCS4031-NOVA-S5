@@ -1,5 +1,5 @@
-import ExampleContent from "@/features/ownerStampBook/example/ExampleContent";
-import ExampleHeader from "@/features/ownerStampBook/example/ExampleHeader";
+import ExampleContent from "@/features/ownerStampBook/example/ui/ExampleContent";
+import ExampleHeader from "@/features/ownerStampBook/example/ui/ExampleHeader";
 
 export default function StampBookExample() {
   return (
