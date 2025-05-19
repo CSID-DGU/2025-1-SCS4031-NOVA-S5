@@ -27,6 +27,7 @@ export function CreateForm() {
   const handleRemoveFile = () => {
     setFile(undefined);
   };
+  const isFormComplete = challengeType && reward && dateRange?.from && dateRange?.to && file;
 
   return (
     <div className="space-y-6 overflow-y-auto max-h-auto">
@@ -95,7 +96,11 @@ export function CreateForm() {
             onRemoveFile={handleRemoveFile}
           />
         </div>
-        <Button className="w-full h-[50px] rounded-full bg-green-900 text-base font-bold">
+        <Button
+          disabled={!isFormComplete}
+          className={`w-full h-[50px] rounded-full text-base font-bold 
+    ${!isFormComplete ? "bg-gray-300 text-white cursor-not-allowed" : "bg-green-900 text-white"}
+  `}>
           다음
         </Button>
       </div>
