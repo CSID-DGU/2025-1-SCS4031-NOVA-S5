@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -13,12 +12,21 @@ import { DatePicker } from "./DatePicker";
 import { DateRange } from "react-day-picker";
 import FileUploader from "./FileUploader";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useCreateChallengeStore } from "@/shared/store/createChallengeStore";
 
 export function CreateForm() {
-  const [challengeType, setChallengeType] = useState("");
-  const [reward, setReward] = useState("");
-  const [dateRange, setDateRange] = useState<DateRange | undefined>();
-  const [file, setFile] = useState<File | undefined>(undefined);
+  const router = useRouter();
+  const {
+    challengeType,
+    reward,
+    dateRange,
+    file,
+    setChallengeType,
+    setReward,
+    setDateRange,
+    setFile,
+  } = useCreateChallengeStore();
 
   const handleFileChange = (newFile: File) => {
     setFile(newFile);
@@ -27,7 +35,12 @@ export function CreateForm() {
   const handleRemoveFile = () => {
     setFile(undefined);
   };
+
   const isFormComplete = challengeType && reward && dateRange?.from && dateRange?.to && file;
+
+  const handlePreview = () => {
+    router.push("/challenge/preview");
+  };
 
   return (
     <div className="space-y-6 overflow-y-auto max-h-auto">
@@ -44,7 +57,7 @@ export function CreateForm() {
       <div className="space-y-7">
         <div className="space-y-4">
           <h1 className="text-sm text-font-green">* 챌린지 종류</h1>
-          <Select onValueChange={setChallengeType}>
+          <Select onValueChange={setChallengeType} value={challengeType}>
             <SelectTrigger className="w-full bg-yellow-300 !h-[51px] !border !border-[#E7E8EB] rounded-3xl">
               <SelectValue placeholder="챌린지 종류" />
             </SelectTrigger>
@@ -100,7 +113,8 @@ export function CreateForm() {
           disabled={!isFormComplete}
           className={`w-full h-[50px] rounded-full text-base font-bold 
     ${!isFormComplete ? "bg-gray-300 text-white cursor-not-allowed" : "bg-green-900 text-white"}
-  `}>
+  `}
+          onClick={handlePreview}>
           다음
         </Button>
       </div>

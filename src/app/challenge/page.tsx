@@ -37,7 +37,6 @@ export default function ChallengePage() {
           </div>
         )}
       </div>
-      {/* ✅ 챌린지가 있을 경우에만 플러스 버튼 렌더링 */}
       {filtered.length > 0 && (
         <div className="absolute bottom-6 right-6 z-50">
           <PlusButton />
