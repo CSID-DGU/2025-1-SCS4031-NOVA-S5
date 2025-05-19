@@ -10,3 +10,15 @@ export function getChallengeType(challengeType: string): string {
       return "챌린지 참여 방법을 확인하세요.";
   }
 }
+export function getChallengeShortPhrase(challengeType: string): string {
+  switch (challengeType) {
+    case "tumbler":
+      return "텀블러에 담아갈게요";
+    case "straw":
+      return "빨대 사용 안해요";
+    case "sns":
+      return "카페 SNS 인증할게요";
+    default:
+      return "챌린지 문구를 확인해주세요";
+  }
+}

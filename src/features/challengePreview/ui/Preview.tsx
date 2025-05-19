@@ -1,3 +1,4 @@
+import { CertificationCard } from "@/shared";
 import { useCreateChallengeStore } from "@/shared/store/createChallengeStore";
 import { ChallengeInfo } from "@/shared/ui/challenge/ChallengeInfo";
 
@@ -11,9 +12,7 @@ export function Preview() {
         challengeType={challengeType}
         reward={reward}
       />
-      <div>
-        <p></p>
-      </div>
+      <CertificationCard challengeType={challengeType} />
     </div>
   );
 }
