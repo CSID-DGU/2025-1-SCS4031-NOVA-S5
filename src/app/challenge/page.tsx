@@ -5,6 +5,7 @@ import { mockChallenges } from "@/features/cafeOwnerChallenge/model/mockChalleng
 import { ChallengeTab, PlusButton, StartChallenge } from "@/features/cafeOwnerChallenge/ui";
 import ChallengeCard from "@/features/cafeOwnerChallenge/ui/ChallengeCard";
 import { getChallengeInfo, getChallengeStatus } from "@/features/cafeOwnerChallenge/utils";
+import { OwnerGNB } from "@/shared";
 import { useState } from "react";
 
 export default function ChallengePage() {
@@ -42,6 +43,9 @@ export default function ChallengePage() {
           <PlusButton />
         </div>
       )}
+      <div className="absolute bottom-0 left-0 right-0">
+        <OwnerGNB />
+      </div>
     </div>
   );
 }

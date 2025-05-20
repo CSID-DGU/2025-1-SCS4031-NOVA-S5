@@ -1,7 +1,7 @@
 "use client";
 
 import { ChallengeStatus, NoticeCard } from "@/features/challenge/ui";
-import { CloseHeader } from "@/shared";
+import { CloseHeader, OwnerGNB } from "@/shared";
 import { useRouter } from "next/navigation";
 
 export default function ChallengeDetail() {
@@ -17,6 +17,9 @@ export default function ChallengeDetail() {
       <div className="flex flex-col gap-9 mt-8">
         <ChallengeStatus stoppedCount={2} inProgressCount={10} rewardedCount={7} />
         <NoticeCard />
+      </div>
+      <div className="absolute bottom-0 left-0 right-0">
+        <OwnerGNB />
       </div>
     </div>
   );
