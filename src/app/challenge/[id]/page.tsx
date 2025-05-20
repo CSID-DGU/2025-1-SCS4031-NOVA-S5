@@ -1,6 +1,6 @@
 "use client";
 
-import { ChallengeStatus } from "@/features/challenge/ui";
+import { ChallengeStatus, NoticeCard } from "@/features/challenge/ui";
 import { CloseHeader } from "@/shared";
 import { useRouter } from "next/navigation";
 
@@ -14,8 +14,9 @@ export default function ChallengeDetail() {
   return (
     <div className="p-7">
       <CloseHeader title={`'${challengeType}' 챌린지 관리`} onClick={handleBack} />
-      <div>
+      <div className="flex flex-col gap-9 mt-8">
         <ChallengeStatus stoppedCount={2} inProgressCount={10} rewardedCount={7} />
+        <NoticeCard />
       </div>
     </div>
   );
