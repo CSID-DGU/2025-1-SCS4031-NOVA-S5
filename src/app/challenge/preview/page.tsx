@@ -10,9 +10,11 @@ export default function PreviewPage() {
     router.back();
   };
   return (
-    <div className="p-7">
+    <div className="p-7 h-screen flex flex-col">
       <CloseHeader title="챌린지 예시" onClick={handleBack} />
-      <Preview />
+      <div className="overflow-auto flex-1 scrollbar-hide">
+        <Preview />
+      </div>
     </div>
   );
 }
