@@ -39,7 +39,7 @@ export default function ChallengePage() {
         )}
       </div>
       {filtered.length > 0 && (
-        <div className="absolute bottom-6 right-6 z-50">
+        <div className="absolute bottom-[100px] right-6 z-50">
           <PlusButton />
         </div>
       )}
