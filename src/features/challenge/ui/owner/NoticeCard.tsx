@@ -17,7 +17,7 @@ export function NoticeCard() {
         <p className="text-xs text-[#8E8E93]">
           불가피한 사정으로 수정 또는 삭제가 필요한 경우,
           <br />
-          hyoeun1117@naver.com
+          hyoeun1117@naver.com으로 문의해 주세요.
         </p>
       </div>
     </div>
