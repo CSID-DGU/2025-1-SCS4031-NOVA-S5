@@ -2,8 +2,6 @@ import * as React from "react";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import yellow from "../../../public/img/character/yellow-face.svg";
-import orange from "../../../public/img/character/orange-face.svg";
 
 type CharacterType = "yellow" | "orange";
 
@@ -14,10 +12,9 @@ interface ProgressProps extends React.ComponentProps<typeof ProgressPrimitive.Ro
 }
 
 const characterImageMap: Record<CharacterType, string> = {
-  yellow,
-  orange,
+  yellow: "/img/character/yellow-face.svg",
+  orange: "/img/character/orange-face.svg",
 };
-
 function Progress({
   className,
   value = 0,
@@ -30,7 +27,7 @@ function Progress({
     <div className="relative w-full h-[24px]">
       <ProgressPrimitive.Root
         data-slot="progress"
-        className={cn("bg-green-400 relative h-1 w-full overflow-hidden rounded-full", className)}
+        className={cn("bg-[#B5CDB7] relative h-1 w-full overflow-hidden rounded-full", className)}
         {...props}>
         <ProgressPrimitive.Indicator
           data-slot="progress-indicator"
