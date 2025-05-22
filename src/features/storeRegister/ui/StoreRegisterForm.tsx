@@ -68,11 +68,13 @@ export default function StoreRegisterForm() {
         ownerName: data.ownerName,
         ownerPhone: data.ownerPhone,
         businessNumber: data.businessNumber,
+        roadAddress: data.address,
         latitude: parseFloat(coords.y),
         longitude: parseFloat(coords.x),
         maxStampCount: 10,
         characterType: data.mood,
         rewardDescription: data.reward,
+        businessRegistrationPdf: data.file,
       };
 
       await registerCafe(payload);
