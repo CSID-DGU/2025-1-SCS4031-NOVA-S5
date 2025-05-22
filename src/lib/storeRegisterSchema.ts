@@ -4,7 +4,7 @@ export const storeRegisterSchema = z.object({
   storeName: z.string().min(1, "매장명을 입력해주세요."),
   branchName: z.string().min(1, "지점명을 입력해주세요."),
   address: z.string().min(1, "주소를 입력해주세요."),
-  phone: z.string().min(1, "전화번호를 입력해주세요."),
+  cafePhone: z.string().min(1, "전화번호를 입력해주세요."),
   // openTime: z.string().min(1, "시작시간을 선택해주세요."),
   // closeTime: z.string().min(1, "종료시간을 선택해주세요."),
   // lastOrder: z.string().min(1, "라스트오더를 선택해주세요."),

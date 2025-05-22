@@ -2,12 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface AddCafeCardProps {
   status: "none" | "pending";
 }
 
 export function AddCafeCard({ status }: AddCafeCardProps) {
+  const router = useRouter();
+
   return (
     <div className="relative bg-green-400 w-full h-[175px] rounded-xl">
       <div className="absolute right-0">
@@ -25,7 +28,9 @@ export function AddCafeCard({ status }: AddCafeCardProps) {
             <h1 className="font-bold text-[16px]">아직 등록된 매장이 없어요.</h1>
             <p className="text-disabledfont text-[12px]">매장 등록 후 이용해 주세요!</p>
           </div>
-          <Button className="bg-font-green text-[12px] font-bold rounded-full">
+          <Button
+            className="bg-font-green text-[12px] font-bold rounded-full"
+            onClick={() => router.push("/owner/register")}>
             매장 등록하러 가기
           </Button>
         </div>

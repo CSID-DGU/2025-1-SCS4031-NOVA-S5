@@ -30,13 +30,10 @@ export default function CustomHeader() {
             className="cursor-pointer"
           />
         </div>
-        <div className="flex items-center gap-[15px]">
-          <p className="text-[#25443480] text-md font-bold cursor-pointer">임시저장</p>
-          <button className="flex items-center justify-center gap-1 bg-green-300 rounded-full pl-2 py-[6px] w-[72px] w-[33px] text-font-green text-md font-bold">
-            다음
-            <ChevronRight className="w-5 h-5 text-font-green" />
-          </button>
-        </div>
+        <button className="flex items-center justify-center gap-1 bg-green-300 rounded-full pl-2 py-[6px] w-[72px] w-[33px] text-font-green text-md font-bold">
+          다음
+          <ChevronRight className="w-5 h-5 text-font-green" />
+        </button>
       </div>
     </header>
   );
