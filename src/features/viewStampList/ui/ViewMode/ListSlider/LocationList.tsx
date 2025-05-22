@@ -8,7 +8,7 @@ function LocationSlider() {
     <div className="flex flex-col gap-5 px-[28px] mt-[35px]">
       <div className="w-[331px] flex items-center px-1">
         <div className="flex gap-[14px]">
-          <p className="text-md font-extrabold text-[#254434]">내 주변 카페 스탬프북</p>
+          <p className="text-md font-extrabold text-[#254434]">입점 카페 스탬프북</p>
         </div>
       </div>
 
