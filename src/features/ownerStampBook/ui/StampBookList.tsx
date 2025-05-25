@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getStampBookList } from "@/shared/api/stampbook";
+import Hamburger from "./Hamburger";
+import { useState } from "react";
 
 interface StampBookItem {
   designId: number;
@@ -20,14 +22,31 @@ interface StampBookItem {
   characterType: string;
 }
 
+interface HamburgerPosition {
+  designId: number;
+  top: number;
+  right: number;
+}
+
 export default function StampBookList() {
   const router = useRouter();
+  const [hamburgerPosition, setHamburgerPosition] = useState<HamburgerPosition | null>(null);
   const { data: stampBooks = [] } = useQuery<StampBookItem[]>({
     queryKey: ["stampBooks"],
     queryFn: getStampBookList,
   });
 
   const hasBooks = stampBooks.length > 0;
+  const selectedBook = stampBooks.find(book => book.designId === hamburgerPosition?.designId);
+
+  const handleHamburgerClick = (e: React.MouseEvent<HTMLImageElement>, designId: number) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHamburgerPosition({
+      designId,
+      top: rect.bottom + window.scrollY,
+      right: window.innerWidth - rect.right,
+    });
+  };
 
   return (
     <div className="w-full flex flex-col gap-5 mt-[30px] mb-[100px]">
@@ -64,6 +83,7 @@ export default function StampBookList() {
                         height={15}
                         alt="hamburger"
                         className="cursor-pointer"
+                        onClick={e => handleHamburgerClick(e, book.designId)}
                       />
                     </>
                   )}
@@ -101,6 +121,16 @@ export default function StampBookList() {
               스탬프북 만들기
             </Button>
           }
+        />
+      )}
+
+      {selectedBook && hamburgerPosition && (
+        <Hamburger
+          designId={selectedBook.designId}
+          isOpen={true}
+          onClose={() => setHamburgerPosition(null)}
+          exposed={selectedBook.exposed}
+          position={hamburgerPosition}
         />
       )}
     </div>

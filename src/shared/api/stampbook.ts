@@ -43,3 +43,11 @@ export const getStampBookList = async () => {
   const response = await api.get("/owner/cafes/stampbook-designs");
   return response.data.data;
 };
+
+// 스탬프북 노출 여부 변경
+export const changeStampBookExposed = async (designId: number, exposed: boolean) => {
+  const response = await api.patch(`/owner/cafes/stampbook-design/${designId}/expose`, {
+    exposed,
+  });
+  return response.data.data;
+};
