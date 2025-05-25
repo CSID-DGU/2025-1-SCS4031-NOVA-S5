@@ -7,7 +7,7 @@ export interface Cafe {
   cafeIntroduction: string;
   maxStampCount: number;
   characterType: string;
-  rewardItem: string;
+  rewardDescription: string;
   isOpenNow: boolean;
   registrationStatus: string;
   address?: string;
