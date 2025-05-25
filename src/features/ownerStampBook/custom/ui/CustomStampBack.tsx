@@ -2,7 +2,9 @@
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { Stage, Layer, Rect, Image as KonvaImage, Text } from "react-konva";
+import { Stage as KonvaStage } from "konva/lib/Stage";
 import { useCustomStore } from "@/shared/store/customStore";
+import { useCreateStampStore } from "@/shared/store/createStampStore";
 
 interface CustomStampBackProps {
   backgroundColor?: string;
@@ -16,12 +18,21 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
   const texts = useCustomStore(state => state.texts);
   const updateText = useCustomStore(state => state.updateText);
   const removeText = useCustomStore(state => state.removeText);
+  const setBackStageRef = useCreateStampStore(state => state.setBackStageRef);
+
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState<string>("");
   const [overlayPos, setOverlayPos] = useState<{ x: number; y: number } | null>(null);
   const [stageSize, setStageSize] = useState({ width: 400, height: 154 });
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<KonvaStage>(null);
+
+  useEffect(() => {
+    if (stageRef.current) {
+      setBackStageRef(stageRef as React.RefObject<KonvaStage>);
+    }
+  }, [setBackStageRef]);
 
   useEffect(() => {
     if (!backgroundImage) {
@@ -81,7 +92,11 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
         ref={containerRef}
         className="relative w-full h-[154px] rounded-[10px] shadow-md overflow-hidden bg-yellow-100"
         style={{ backgroundColor: backgroundColor ? backgroundColor : "#FFFDF7" }}>
-        <Stage width={stageSize.width} height={stageSize.height} className="absolute inset-0">
+        <Stage
+          ref={stageRef}
+          width={stageSize.width}
+          height={stageSize.height}
+          className="absolute inset-0">
           <Layer>
             <Rect width={stageSize.width} height={stageSize.height} fill={backgroundColor} />
             {bgImage && (
