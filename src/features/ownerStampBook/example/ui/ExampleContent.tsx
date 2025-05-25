@@ -19,8 +19,14 @@ export default function ExampleContent() {
     queryFn: getSelectedCafe,
   });
 
-  const { stampBookName, cafeIntroduction, conceptIntroduction, rewardDescription } =
-    useCreateStampStore();
+  const {
+    stampBookName,
+    cafeIntroduction,
+    conceptIntroduction,
+    rewardDescription,
+    exposed,
+    resetStore,
+  } = useCreateStampStore();
 
   const { mutate: createStampBookMutation } = useMutation({
     mutationFn: async () => {
@@ -29,10 +35,12 @@ export default function ExampleContent() {
         cafeIntroduction,
         conceptIntroduction,
         rewardDescription,
+        exposed: exposed === null ? false : exposed,
       });
       return result;
     },
     onSuccess: () => {
+      resetStore();
       router.push("/owner/stampbook");
     },
     onError: () => {

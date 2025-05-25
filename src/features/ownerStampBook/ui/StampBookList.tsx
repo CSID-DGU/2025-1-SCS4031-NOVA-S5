@@ -30,50 +30,60 @@ export default function StampBookList() {
   const hasBooks = stampBooks.length > 0;
 
   return (
-    <div className="flex flex-col gap-5 mt-[30px]">
+    <div className="w-full flex flex-col gap-5 mt-[30px] mb-[100px]">
       {hasBooks ? (
-        stampBooks.map(book => (
-          <div key={book.designId} className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <div className="flex gap-[10px] items-center">
-                <p className="text-lg text-font-green font-extrabold">{book.stampBookName}</p>
-                {book.exposed && <Chip />}
+        <div className="w-full flex flex-col gap-5">
+          {stampBooks.map(book => (
+            <div key={book.designId} className="flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div className="flex gap-[10px] items-center">
+                  <p className="text-lg text-font-green font-extrabold">{book.stampBookName}</p>
+                  {book.exposed && <Chip />}
+                </div>
+
+                <div className="flex gap-[10px] items-center">
+                  <Image
+                    src="/icon/pencil.svg"
+                    width={15}
+                    height={15}
+                    alt="pencil"
+                    className="cursor-pointer"
+                  />
+                  {!book.exposed && (
+                    <>
+                      <Image
+                        src="/icon/bin.svg"
+                        width={15}
+                        height={15}
+                        alt="bin"
+                        className="cursor-pointer"
+                      />
+                      <Image
+                        src="/icon/hamburger.svg"
+                        width={15}
+                        height={15}
+                        alt="hamburger"
+                        className="cursor-pointer"
+                      />
+                    </>
+                  )}
+                </div>
               </div>
 
-              <div className="flex gap-[10px] items-center">
-                <Image
-                  src="/icon/pencil.svg"
-                  width={15}
-                  height={15}
-                  alt="pencil"
-                  className="cursor-pointer"
-                />
-                {!book.exposed && (
-                  <>
-                    <Image
-                      src="/icon/bin.svg"
-                      width={15}
-                      height={15}
-                      alt="bin"
-                      className="cursor-pointer"
-                    />
-                    <Image
-                      src="/icon/hamburger.svg"
-                      width={15}
-                      height={15}
-                      alt="hamburger"
-                      className="cursor-pointer"
-                    />
-                  </>
-                )}
+              <div className="flex justify-center">
+                <OwnerStampBook />
               </div>
             </div>
-
-            <div className="flex justify-center">
-              <OwnerStampBook />
-            </div>
-          </div>
-        ))
+          ))}
+          <Image
+            src={"/icon/plus.svg"}
+            alt="plus"
+            width={35}
+            height={35}
+            className="cursor-pointer mx-auto"
+            onClick={() => router.push("/owner/stampbook/create")}
+          />
+        </div>
       ) : (
         <CharacterBgCard
           top={

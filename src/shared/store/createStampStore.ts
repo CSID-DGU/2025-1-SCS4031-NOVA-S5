@@ -8,7 +8,7 @@ interface CreateStampState {
   conceptIntroduction: string;
   rewardDescription: string;
   designJson: string;
-  isExposed: boolean | null;
+  exposed: boolean | null;
   frontStageRef: React.RefObject<KonvaStage> | null;
   backStageRef: React.RefObject<KonvaStage> | null;
   setStampBookName: (name: string) => void;
@@ -18,7 +18,9 @@ interface CreateStampState {
   setDesignJson: (json: string) => void;
   setFrontStageRef: (ref: React.RefObject<KonvaStage>) => void;
   setBackStageRef: (ref: React.RefObject<KonvaStage>) => void;
+  setExposed: (exposed: boolean) => void;
   saveDesignToJson: () => void;
+  resetStore: () => void;
 }
 
 export const useCreateStampStore = create<CreateStampState>((set, get) => ({
@@ -29,7 +31,7 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
   designJson: "",
   frontStageRef: null,
   backStageRef: null,
-  isExposed: null,
+  exposed: null,
   setStampBookName: (name: string) => set({ stampBookName: name }),
   setCafeIntroduction: (intro: string) => set({ cafeIntroduction: intro }),
   setConceptIntroduction: (intro: string) => set({ conceptIntroduction: intro }),
@@ -37,7 +39,18 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
   setDesignJson: (json: string) => set({ designJson: json }),
   setFrontStageRef: (ref: React.RefObject<KonvaStage>) => set({ frontStageRef: ref }),
   setBackStageRef: (ref: React.RefObject<KonvaStage>) => set({ backStageRef: ref }),
-
+  setExposed: (exposed: boolean) => set({ exposed: exposed }),
+  resetStore: () =>
+    set({
+      stampBookName: "",
+      cafeIntroduction: "",
+      conceptIntroduction: "",
+      rewardDescription: "",
+      designJson: "",
+      frontStageRef: null,
+      backStageRef: null,
+      exposed: null,
+    }),
   saveDesignToJson: () => {
     const customStore = useCustomStore.getState();
     const { frontBackground, backBackground, frontImage, backImage, texts } = customStore;

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -12,14 +11,20 @@ interface InfoFormData {
   stampBookName: string;
   cafeIntroduction: string;
   conceptIntroduction: string;
-  isExposed: boolean | null;
+  exposed: boolean | null;
   rewardDescription: string;
 }
 
 export default function InfoForm() {
-  const [isExposed, setIsExposed] = useState<boolean | null>(null);
-  const { setStampBookName, setCafeIntroduction, setConceptIntroduction, setRewardDescription } =
-    useCreateStampStore();
+  const {
+    exposed,
+    setStampBookName,
+    setCafeIntroduction,
+    setConceptIntroduction,
+    setRewardDescription,
+    setExposed,
+    resetStore,
+  } = useCreateStampStore();
   const router = useRouter();
 
   const { register, handleSubmit, watch } = useForm<InfoFormData>({
@@ -28,7 +33,7 @@ export default function InfoForm() {
       cafeIntroduction: "",
       conceptIntroduction: "",
       rewardDescription: "",
-      isExposed: null,
+      exposed: null,
     },
     mode: "onChange",
   });
@@ -43,7 +48,7 @@ export default function InfoForm() {
       cafeIntroduction &&
       conceptIntroduction &&
       rewardDescription &&
-      isExposed !== null
+      exposed !== null
   );
 
   const onSubmit = (data: InfoFormData) => {
@@ -51,9 +56,11 @@ export default function InfoForm() {
     setCafeIntroduction(data.cafeIntroduction);
     setConceptIntroduction(data.conceptIntroduction);
     setRewardDescription(data.rewardDescription);
-    setIsExposed(data.isExposed);
-
     router.push("/owner/stampbook/example");
+  };
+
+  const handleExposedChange = (value: boolean) => {
+    setExposed(value);
   };
 
   return (
@@ -109,18 +116,18 @@ export default function InfoForm() {
             type="button"
             className={cn(
               "w-1/2 h-[51px] border border-[#E7E8EB] rounded-[20px] text-sm font-medium",
-              isExposed === true ? "bg-font-green text-white" : "bg-yellow-300 text-[#DCDCDC]"
+              exposed === true ? "bg-font-green text-white" : "bg-yellow-300 text-[#DCDCDC]"
             )}
-            onClick={() => setIsExposed(true)}>
+            onClick={() => handleExposedChange(true)}>
             네
           </Button>
           <Button
             type="button"
             className={cn(
               "w-1/2 h-[51px] border border-[#E7E8EB] rounded-[20px] text-sm font-medium",
-              isExposed === false ? "bg-font-green text-white" : "bg-yellow-300 text-[#DCDCDC]"
+              exposed === false ? "bg-font-green text-white" : "bg-yellow-300 text-[#DCDCDC]"
             )}
-            onClick={() => setIsExposed(false)}>
+            onClick={() => handleExposedChange(false)}>
             아니요
           </Button>
         </div>

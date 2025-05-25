@@ -29,6 +29,7 @@ interface CreateStampBookData {
   cafeIntroduction: string;
   conceptIntroduction: string;
   rewardDescription: string;
+  exposed: boolean;
 }
 
 // 스탬프북 등록 (사장)
