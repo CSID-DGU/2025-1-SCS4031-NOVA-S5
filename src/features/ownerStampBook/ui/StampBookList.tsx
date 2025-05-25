@@ -6,31 +6,38 @@ import OwnerStampBook from "./OwnerStampBook";
 import CharacterBgCard from "./CharacterBgCard";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getStampBookList } from "@/shared/api/stampbook";
 
 interface StampBookItem {
-  id: number;
-  title: string;
-  isVisible: boolean;
+  designId: number;
+  stampBookName: string;
+  exposed: boolean;
+  cafeIntroduction: string;
+  conceptIntroduction: string;
+  rewardDescription: string;
+  stampBookDesignJson: string;
+  characterType: string;
 }
 
-const mockStampBooks: StampBookItem[] = [
-  // { id: 1, title: "스탬프북 1번", isVisible: true },
-  // { id: 2, title: "스탬프북 2번", isVisible: false },
-];
-
 export default function StampBookList() {
-  const hasBooks = mockStampBooks.length > 0;
   const router = useRouter();
+  const { data: stampBooks = [] } = useQuery<StampBookItem[]>({
+    queryKey: ["stampBooks"],
+    queryFn: getStampBookList,
+  });
+
+  const hasBooks = stampBooks.length > 0;
 
   return (
     <div className="flex flex-col gap-5 mt-[30px]">
       {hasBooks ? (
-        mockStampBooks.map(book => (
-          <div key={book.id} className="flex flex-col gap-4">
+        stampBooks.map(book => (
+          <div key={book.designId} className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="flex gap-[10px] items-center">
-                <p className="text-lg text-font-green font-extrabold">{book.title}</p>
-                {book.isVisible && <Chip />}
+                <p className="text-lg text-font-green font-extrabold">{book.stampBookName}</p>
+                {book.exposed && <Chip />}
               </div>
 
               <div className="flex gap-[10px] items-center">
@@ -41,7 +48,7 @@ export default function StampBookList() {
                   alt="pencil"
                   className="cursor-pointer"
                 />
-                {!book.isVisible && (
+                {!book.exposed && (
                   <>
                     <Image
                       src="/icon/bin.svg"

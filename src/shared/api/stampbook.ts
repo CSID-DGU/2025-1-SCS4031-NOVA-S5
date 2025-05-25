@@ -36,3 +36,9 @@ export const createStampBook = async (data: CreateStampBookData) => {
   const response = await api.post("/owner/cafes/stampbook-design", data);
   return response.data.data;
 };
+
+// 스탬프북 리스트 조회 (사장)
+export const getStampBookList = async () => {
+  const response = await api.get("/owner/cafes/stampbook-designs");
+  return response.data.data;
+};

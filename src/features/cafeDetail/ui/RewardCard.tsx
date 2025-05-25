@@ -1,14 +1,12 @@
-import { getSelectedCafe } from "@/features/owner/service/api";
-import { Cafe } from "@/features/ownerStampBook/example/model/cafe";
+"use client";
+
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import { useQuery } from "@tanstack/react-query";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 
 function RewardCard({ isOwner = false }: { isOwner: boolean }) {
   const cafe = useCafeStore(state => state.cafe);
-  const { data: selectedCafe } = useQuery<Cafe>({
-    queryKey: ["selectedCafe"],
-    queryFn: getSelectedCafe,
-  });
+  const { selectedCafe } = useSelectedCafe();
+
   const displayCafeDetail = isOwner ? selectedCafe?.cafeIntroduction : cafe?.cafe_detail;
 
   return (

@@ -1,25 +1,24 @@
+"use client";
+
 import Image from "next/image";
 import { useStampEditStore } from "@/shared/store/stampEditStore";
+import { useEffect } from "react";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 
 // 추후에 현재 선택된 카페 조회 API 연결되면 cafeName, characterType 쿼리에 저장해두고 쓰기
 export default function OwnerStampBook() {
-  const { frontName } = useStampEditStore();
+  const { frontName, setFrontName } = useStampEditStore();
+  const { selectedCafe } = useSelectedCafe();
+
+  useEffect(() => {
+    if (selectedCafe?.cafeName && !frontName) {
+      setFrontName(selectedCafe.cafeName);
+    }
+  }, [selectedCafe?.cafeName, frontName, setFrontName]);
+
   const totalStamps = 10;
   const stampedCount = 3;
-
-  // const queryClient = useQueryClient();
-
-  // const registeredCafe = queryClient.getQueryData<{ characterType: string }>(["registeredCafe"]);
-  // const type = registeredCafe?.characterType ?? "YELLOW";
-  // const lowerType = type === "BLACK" ? "beige" : type.toLowerCase();
-
-  // useEffect(() => {
-  //   const registered = queryClient.getQueryData<{ cafeName: string }>(["registeredCafe"]);
-  //   if (registered?.cafeName) {
-  //     setFrontName(registered.cafeName);
-  //     setBackName(registered.cafeName);
-  //   }
-  // }, [setFrontName, setBackName, queryClient]);
+  const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
 
   return (
     <div className="w-[320px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
@@ -33,8 +32,8 @@ export default function OwnerStampBook() {
             key={index}
             src={
               index < stampedCount
-                ? "/img/character/yellow-face.svg"
-                : "/img/character/yellow-face-gray.svg"
+                ? `/img/character/${characterType}-face.svg`
+                : `/img/character/${characterType}-face-gray.svg`
             }
             alt="stamp"
             width={35}

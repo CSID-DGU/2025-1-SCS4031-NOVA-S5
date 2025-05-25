@@ -33,7 +33,7 @@ export default function ExampleContent() {
       return result;
     },
     onSuccess: () => {
-      router.push("/owner/main");
+      router.push("/owner/stampbook");
     },
     onError: () => {
       alert("스탬프북 등록에 실패했습니다.");
@@ -61,7 +61,7 @@ export default function ExampleContent() {
             phone={selectedCafe.cafePhone}
             address={selectedCafe.address || "주소 정보 없음"}
           />
-          <RewardCard />
+          <RewardCard isOwner={true} />
           <CafeCharacter isOwner={true} />
           <CafeStamp
             guideText="스탬프북은 등록 후에도 언제든지 수정할 수 있어요."

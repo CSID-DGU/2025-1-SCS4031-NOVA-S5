@@ -1,20 +1,24 @@
+"use client";
+
 import Image from "next/image";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 
 export default function CharacterCard() {
-  const characterType = "YELLOW";
+  const { selectedCafe } = useSelectedCafe();
+  const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
   const type = characterType.toLowerCase();
 
-  const characterInfo: Record<"YELLOW" | "ORANGE" | "BEIGE" | "GREEN", { name: string }> = {
-    YELLOW: {
+  const characterInfo: Record<string, { name: string }> = {
+    yellow: {
       name: "팡이",
     },
-    ORANGE: {
+    orange: {
       name: "쿡이",
     },
-    BEIGE: {
+    black: {
       name: "콕이",
     },
-    GREEN: {
+    green: {
       name: "꼭이",
     },
   };

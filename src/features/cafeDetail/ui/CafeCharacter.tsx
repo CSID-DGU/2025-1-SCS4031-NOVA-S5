@@ -1,8 +1,7 @@
 "use client";
 
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import { useQuery } from "@tanstack/react-query";
-import { getSelectedCafe } from "@/features/owner/service/api";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { getSilhouetteInfo } from "@/shared/utils/getSilhouetteInfo";
 import { SilhouetteColor } from "@/shared/model";
 
@@ -11,13 +10,9 @@ interface CafeCharacterProps {
   isOwner?: boolean;
 }
 
-function CafeCharacter({ characterType, isOwner = false }: CafeCharacterProps) {
+function CafeCharacter({ isOwner = false }: CafeCharacterProps) {
   const cafe = useCafeStore(state => state.cafe);
-  const { data: selectedCafe } = useQuery({
-    queryKey: ["selectedCafe"],
-    queryFn: getSelectedCafe,
-    enabled: isOwner,
-  });
+  const { selectedCafe } = useSelectedCafe();
 
   const displayCharacterType = isOwner
     ? selectedCafe?.characterType?.toLowerCase()
