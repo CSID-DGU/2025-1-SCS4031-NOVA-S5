@@ -6,7 +6,9 @@ import { useCafes } from "../hooks/useCafes";
 import { useCurrentLocation } from "../hooks/useCurrentLocation";
 // import { filterCafe } from "../utils";
 import { useCafeStore } from "@/shared/store/cafeStore";
-// import { useEffect } from "react";
+import { useEffect } from "react";
+
+type CharacterType = "BLACK" | "ORANGE" | "YELLOW" | "GREEN";
 
 const ViewSwitcher = () => {
   const { viewMode } = useViewModeStore();
@@ -14,9 +16,18 @@ const ViewSwitcher = () => {
   const { data, isLoading, isError } = useCafes({ approved: true });
   const setCafes = useCafeStore((state) => state.setCafes);
   
-  if (data) {
-    setCafes(data);
-  }
+  useEffect(() => {
+    if (data) {
+      const transformedData = data.map(cafe => ({
+        ...cafe,
+        branchName: cafe.cafeName,
+        cafeIntroduction: "",
+        conceptIntroduction: "",
+        characterType: "GREEN" as CharacterType
+      }));
+      setCafes(transformedData);
+    }
+  }, [data, setCafes]);
 
   // useEffect(() => {
   //   if (data && lat !== null && lng !== null) {

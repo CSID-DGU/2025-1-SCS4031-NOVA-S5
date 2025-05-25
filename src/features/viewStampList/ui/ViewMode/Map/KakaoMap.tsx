@@ -1,17 +1,29 @@
 "use client";
 
-import { mockLocationData } from "@/shared/mocks/mockLocationData";
 import { useEffect, useRef, useState } from "react";
 import MapMarker from "./MapMarker";
 import InfoCard from "@/shared/ui/InfoCard";
+import { useCafeStore } from "@/shared/store/cafeStore";
 
 function KakaoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
+  const { cafes } = useCafeStore();
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [center, setCenter] = useState<kakao.maps.LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
+  const [activeMarkerId, setActiveMarkerId] = useState<number | null>(null);
   const [mapHeight, setMapHeight] = useState("65vh");
+
+  // 유효한 좌표를 가진 카페만 필터링
+  const validCafes = cafes.filter(
+    cafe =>
+      typeof cafe.latitude === "number" &&
+      typeof cafe.longitude === "number" &&
+      cafe.latitude >= -90 &&
+      cafe.latitude <= 90 &&
+      cafe.longitude >= -180 &&
+      cafe.longitude <= 180
+  );
 
   useEffect(() => {
     const calculateMapHeight = () => {
@@ -42,26 +54,26 @@ function KakaoMap() {
 
       if (!mapRef.current) return;
 
-      const centerLatLng = new window.kakao.maps.LatLng(
-        mockLocationData.myLocation.lat,
-        mockLocationData.myLocation.lng
-      );
-      setCenter(centerLatLng);
+      // 기본 중심점 설정 (서울시청)
+      const defaultCenter = new window.kakao.maps.LatLng(37.5665, 126.978);
+      setCenter(defaultCenter);
 
       const options = {
-        center: centerLatLng,
+        center: defaultCenter,
         level: 3,
       };
 
       const kakaoMap = new window.kakao.maps.Map(mapRef.current, options);
       setMap(kakaoMap);
 
-      const bounds = new window.kakao.maps.LatLngBounds();
-      mockLocationData.location.forEach(location => {
-        bounds.extend(new window.kakao.maps.LatLng(location.lat, location.lng));
-      });
-
-      kakaoMap.setBounds(bounds);
+      // 유효한 좌표가 있는 경우에만 bounds 설정
+      if (validCafes.length > 0) {
+        const bounds = new window.kakao.maps.LatLngBounds();
+        validCafes.forEach(cafe => {
+          bounds.extend(new window.kakao.maps.LatLng(cafe.latitude, cafe.longitude));
+        });
+        kakaoMap.setBounds(bounds);
+      }
     };
 
     const loadKakaoMapsScript = () => {
@@ -101,9 +113,9 @@ function KakaoMap() {
         script.remove();
       }
     };
-  }, []);
+  }, [validCafes]);
 
-  const activeLocation = mockLocationData.location.find(loc => loc.id === activeMarkerId);
+  const activeCafe = validCafes.find(cafe => cafe.cafeId === activeMarkerId);
 
   if (error) {
     return (
@@ -131,25 +143,25 @@ function KakaoMap() {
         right: 0,
       }}>
       {map &&
-        mockLocationData.location.map(location => (
+        validCafes.map(cafe => (
           <MapMarker
-            key={location.id}
+            key={cafe.cafeId}
             map={map}
-            position={{ lat: location.lat, lng: location.lng }}
-            title={location.name}
-            isActive={activeMarkerId === location.id}
-            onClick={() => setActiveMarkerId(prev => (prev === location.id ? null : location.id))}
+            position={{ lat: cafe.latitude, lng: cafe.longitude }}
+            title={cafe.cafeName}
+            isActive={activeMarkerId === cafe.cafeId}
+            onClick={() => setActiveMarkerId(prev => (prev === cafe.cafeId ? null : cafe.cafeId))}
           />
         ))}
 
-      {activeLocation && (
+      {activeCafe && (
         <div className="absolute bottom-[15%] left-1/2 transform -translate-x-1/2 z-10 w-[90%] max-w-md">
           <InfoCard
-            id={activeLocation.id}
-            name={activeLocation.name}
-            cafe_status={activeLocation.cafe_status}
-            business_hour={activeLocation.business_hour}
-            img_url={activeLocation.img_url}
+            id={activeCafe.cafeId}
+            name={activeCafe.cafeName}
+            cafe_status="운영중"
+            business_hour="매일 10:00 - 20:00"
+            img_url={activeCafe.cafeImage || ""}
           />
         </div>
       )}

@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 interface InfoCardProps {
-  id: string;
+  id: number;
   name: string;
   cafe_status: string;
   business_hour: string;
@@ -16,7 +16,7 @@ function InfoCard(info: InfoCardProps) {
     <div
       className="flex flex-row gap-2 pl-3 items-center bg-[#FBFBEE] w-full h-[100px] rounded-[10px] cursor-pointer"
       onClick={() => router.push(`/stamplist/${info.id}`)}>
-      <img src={info.img_url} className="w-[80px] h-[80px] rounded-[10px]" />
+      <img src={info.img_url || "/default-cafe.jpg"} className="w-[80px] h-[80px] rounded-[10px]" />
       <div className="flex flex-col gap-1">
         <div className="bg-[#E2ECDC] w-[45px] text-center rounded-full">
           <p className="text-[10px] text-font-green font-[]">{info.cafe_status}</p>
