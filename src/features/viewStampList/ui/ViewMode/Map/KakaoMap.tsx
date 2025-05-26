@@ -13,6 +13,7 @@ function KakaoMap() {
   const [error, setError] = useState<string | null>(null);
   const [activeMarkerId, setActiveMarkerId] = useState<number | null>(null);
   const [mapHeight, setMapHeight] = useState("65vh");
+  const markersRef = useRef<kakao.maps.Marker[]>([]);
 
   // 유효한 좌표를 가진 카페만 필터링
   const validCafes = cafes.filter(
@@ -45,6 +46,7 @@ function KakaoMap() {
     };
   }, []);
 
+  // 지도 초기화
   useEffect(() => {
     const initializeMap = () => {
       if (!window.kakao || !window.kakao.maps) {
@@ -65,15 +67,6 @@ function KakaoMap() {
 
       const kakaoMap = new window.kakao.maps.Map(mapRef.current, options);
       setMap(kakaoMap);
-
-      // 유효한 좌표가 있는 경우에만 bounds 설정
-      if (validCafes.length > 0) {
-        const bounds = new window.kakao.maps.LatLngBounds();
-        validCafes.forEach(cafe => {
-          bounds.extend(new window.kakao.maps.LatLng(cafe.latitude, cafe.longitude));
-        });
-        kakaoMap.setBounds(bounds);
-      }
     };
 
     const loadKakaoMapsScript = () => {
@@ -113,7 +106,26 @@ function KakaoMap() {
         script.remove();
       }
     };
-  }, [validCafes]);
+  }, []); // 지도 초기화는 한 번만 실행
+
+  // 마커 생성 및 업데이트
+  useEffect(() => {
+    if (!map || !validCafes.length) return;
+
+    // 기존 마커 제거
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    // 새로운 마커 생성
+    const bounds = new window.kakao.maps.LatLngBounds();
+    validCafes.forEach(cafe => {
+      const position = new window.kakao.maps.LatLng(cafe.latitude, cafe.longitude);
+      bounds.extend(position);
+    });
+
+    // 지도 영역 설정
+    map.setBounds(bounds);
+  }, [map, validCafes]);
 
   const activeCafe = validCafes.find(cafe => cafe.cafeId === activeMarkerId);
 
