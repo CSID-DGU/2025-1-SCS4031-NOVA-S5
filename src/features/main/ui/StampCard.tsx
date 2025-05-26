@@ -13,7 +13,7 @@ export default function StampCard({ stampBookId }: StampCardProps) {
 
   if (!book) return null;
 
-  const { cafeId, cafeName, rewardItem, currentStampCount, remainingStampCount } = book;
+  const { cafeId, cafeName, rewardDescription, currentStampCount, remainingStampCount } = book;
 
   return (
     <div
@@ -41,7 +41,7 @@ export default function StampCard({ stampBookId }: StampCardProps) {
       </div>
       <div className="flex flex-col gap-[7px] mt-4">
         <div className="flex">
-          <p className="text-[#254434] font-semibold text-xs">{rewardItem}</p>
+          <p className="text-[#254434] font-semibold text-xs">{rewardDescription}</p>
           <p className="text-[#121212] font-semibold text-xs">까지</p>
         </div>
         <div className="flex gap-[2px]">
