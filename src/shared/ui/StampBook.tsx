@@ -7,7 +7,7 @@ import { useStampBookStore } from "@/shared/store/stampBookStore";
 interface StampCardProps {
   cafeName?: string;
   stampBookId?: number;
-  characterType?: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  characterType?: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
 }
 
 export default function StampBook({ stampBookId, cafeName }: StampCardProps) {

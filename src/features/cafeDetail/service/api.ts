@@ -1,7 +1,7 @@
 import api from "@/shared/api/axios";
-import { CafeDetail } from "../model";
+import { ApiResponse, CafeDetail } from "../model";
 
 export const getCafeById = async (cafeId: number): Promise<CafeDetail> => {
-  const res = await api.get<CafeDetail>(`/cafes/${cafeId}`);
-  return res.data;
+  const res = await api.get<ApiResponse<CafeDetail>>(`/cafes/${cafeId}`);
+  return res.data.data;
 };

@@ -15,7 +15,7 @@ interface CafeInfo {
   cafa_img: string;
   cafe_detail: string;
   desc: string;
-  character: string;
+  character: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
   stamp: StampInfo;
 }
 
