@@ -7,10 +7,10 @@ import { useStampBookStore } from "@/shared/store/stampBookStore";
 interface StampCardProps {
   cafeName?: string;
   stampBookId?: number;
-  characterType?: "YELLOW" | "GREEN" | "ORANGE" | "BEIGE";
+  characterType?: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
 }
 
-export default function StampBook({ stampBookId, cafeName }: StampCardProps) {
+export default function StampBook({ stampBookId, cafeName, characterType }: StampCardProps) {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
 
   const book = stampBooks.find(b => b.stampBookId === stampBookId);
@@ -24,7 +24,7 @@ export default function StampBook({ stampBookId, cafeName }: StampCardProps) {
   const totalStamp = book.maxStampCount;
   const cafe = book.cafeName ?? cafeName;
   const stampedCount = book.currentStampCount;
-  const lowerCharacterType = book.characterType.toLowerCase();
+  const lowerCharacterType = (characterType || book.characterType).toLowerCase();
   const stampedSrc = `/img/character/${lowerCharacterType}-face.svg`;
   const unstampedSrc = `/img/character/${lowerCharacterType}-face-gray.svg`;
 

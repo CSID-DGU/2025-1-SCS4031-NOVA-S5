@@ -47,6 +47,8 @@ export default function CafeDetailContent() {
     }
   };
 
+  const characterType = book.characterType === "BEIGE" ? "BLACK" : book.characterType;
+
   return (
     <section className="w-full flex flex-col gap-5">
       <div className="w-full h-[1px] bg-green-300" />
@@ -66,7 +68,7 @@ export default function CafeDetailContent() {
               리워드로 교환할 수 있는 쿠폰이 {rewardCount}개 있어요.
             </p>
             <div className="flex flex-col items-center justify-center">
-              <RewardCoupon characterType={book.characterType} id={id} />
+              <RewardCoupon characterType={characterType} id={id} />
             </div>
           </>
         ) : (
@@ -76,7 +78,7 @@ export default function CafeDetailContent() {
           으쌰으쌰, 리워드까지 {book.remainingStampCount}개 남았어요!
         </p>
         <div className="flex flex-col items-center justify-center">
-          <StampBook stampBookId={book?.cafeId} characterType={book.characterType} />
+          <StampBook stampBookId={book?.cafeId} characterType={characterType} />
           <Image
             src={"/img/doubletone.svg"}
             alt="카페 이미지"
@@ -105,7 +107,7 @@ export default function CafeDetailContent() {
       <StampModal
         isOpen={stampModalType !== null}
         setIsOpen={() => setStampModalType(null)}
-        characterType={book.characterType}
+        characterType={characterType}
         onDeleteConfirm={() => {
           setStampModalType("delete");
           setIsDeleted(true);

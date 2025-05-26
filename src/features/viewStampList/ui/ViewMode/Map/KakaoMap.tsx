@@ -1,17 +1,30 @@
 "use client";
 
-import { mockLocationData } from "@/shared/mocks/mockLocationData";
 import { useEffect, useRef, useState } from "react";
 import MapMarker from "./MapMarker";
 import InfoCard from "@/shared/ui/InfoCard";
+import { useCafeStore } from "@/shared/store/cafeStore";
 
 function KakaoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
+  const { cafes } = useCafeStore();
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [center, setCenter] = useState<kakao.maps.LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
+  const [activeMarkerId, setActiveMarkerId] = useState<number | null>(null);
   const [mapHeight, setMapHeight] = useState("65vh");
+  const markersRef = useRef<kakao.maps.Marker[]>([]);
+
+  // 유효한 좌표를 가진 카페만 필터링
+  const validCafes = cafes.filter(
+    cafe =>
+      typeof cafe.latitude === "number" &&
+      typeof cafe.longitude === "number" &&
+      cafe.latitude >= -90 &&
+      cafe.latitude <= 90 &&
+      cafe.longitude >= -180 &&
+      cafe.longitude <= 180
+  );
 
   useEffect(() => {
     const calculateMapHeight = () => {
@@ -33,6 +46,7 @@ function KakaoMap() {
     };
   }, []);
 
+  // 지도 초기화
   useEffect(() => {
     const initializeMap = () => {
       if (!window.kakao || !window.kakao.maps) {
@@ -42,26 +56,17 @@ function KakaoMap() {
 
       if (!mapRef.current) return;
 
-      const centerLatLng = new window.kakao.maps.LatLng(
-        mockLocationData.myLocation.lat,
-        mockLocationData.myLocation.lng
-      );
-      setCenter(centerLatLng);
+      // 기본 중심점 설정 (서울시청)
+      const defaultCenter = new window.kakao.maps.LatLng(37.5665, 126.978);
+      setCenter(defaultCenter);
 
       const options = {
-        center: centerLatLng,
+        center: defaultCenter,
         level: 3,
       };
 
       const kakaoMap = new window.kakao.maps.Map(mapRef.current, options);
       setMap(kakaoMap);
-
-      const bounds = new window.kakao.maps.LatLngBounds();
-      mockLocationData.location.forEach(location => {
-        bounds.extend(new window.kakao.maps.LatLng(location.lat, location.lng));
-      });
-
-      kakaoMap.setBounds(bounds);
     };
 
     const loadKakaoMapsScript = () => {
@@ -101,9 +106,28 @@ function KakaoMap() {
         script.remove();
       }
     };
-  }, []);
+  }, []); // 지도 초기화는 한 번만 실행
 
-  const activeLocation = mockLocationData.location.find(loc => loc.id === activeMarkerId);
+  // 마커 생성 및 업데이트
+  useEffect(() => {
+    if (!map || !validCafes.length) return;
+
+    // 기존 마커 제거
+    markersRef.current.forEach(marker => marker.setMap(null));
+    markersRef.current = [];
+
+    // 새로운 마커 생성
+    const bounds = new window.kakao.maps.LatLngBounds();
+    validCafes.forEach(cafe => {
+      const position = new window.kakao.maps.LatLng(cafe.latitude, cafe.longitude);
+      bounds.extend(position);
+    });
+
+    // 지도 영역 설정
+    map.setBounds(bounds);
+  }, [map, validCafes]);
+
+  const activeCafe = validCafes.find(cafe => cafe.cafeId === activeMarkerId);
 
   if (error) {
     return (
@@ -131,25 +155,28 @@ function KakaoMap() {
         right: 0,
       }}>
       {map &&
-        mockLocationData.location.map(location => (
+        validCafes.map(cafe => (
           <MapMarker
-            key={location.id}
+            key={cafe.cafeId}
             map={map}
-            position={{ lat: location.lat, lng: location.lng }}
-            title={location.name}
-            isActive={activeMarkerId === location.id}
-            onClick={() => setActiveMarkerId(prev => (prev === location.id ? null : location.id))}
+            position={{ lat: cafe.latitude, lng: cafe.longitude }}
+            title={cafe.cafeName}
+            isActive={activeMarkerId === cafe.cafeId}
+            onClick={() => setActiveMarkerId(prev => (prev === cafe.cafeId ? null : cafe.cafeId))}
           />
         ))}
 
-      {activeLocation && (
+      {activeCafe && (
         <div className="absolute bottom-[15%] left-1/2 transform -translate-x-1/2 z-10 w-[90%] max-w-md">
           <InfoCard
-            id={activeLocation.id}
-            name={activeLocation.name}
-            cafe_status={activeLocation.cafe_status}
-            business_hour={activeLocation.business_hour}
-            img_url={activeLocation.img_url}
+            id={activeCafe.cafeId}
+            name={activeCafe.cafeName}
+            cafe_status="운영중"
+            business_hour="매일 10:00 - 20:00"
+            img_url={
+              activeCafe.cafeImage ||
+              "https://plus.unsplash.com/premium_photo-1664970900025-1e3099ca757a?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixcafeId=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D"
+            }
           />
         </div>
       )}

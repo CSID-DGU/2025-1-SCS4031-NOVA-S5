@@ -2,7 +2,7 @@ import { useStampBookStore } from "@/shared/store/stampBookStore";
 import Image from "next/image";
 
 interface RewardCouponProps {
-  characterType: "YELLOW" | "ORANGE" | "BEIGE" | "GREEN";
+  characterType: "YELLOW" | "ORANGE" | "BLACK" | "GREEN";
   id: number;
 }
 
@@ -10,7 +10,7 @@ const bgColorMap: Record<RewardCouponProps["characterType"], string> = {
   YELLOW: "#fff3d4",
   ORANGE: "#ffddb9",
   GREEN: "#e2ecdc",
-  BEIGE: "#efe8dc",
+  BLACK: "#efe8dc",
 };
 
 export default function RewardCoupon({ characterType, id }: RewardCouponProps) {

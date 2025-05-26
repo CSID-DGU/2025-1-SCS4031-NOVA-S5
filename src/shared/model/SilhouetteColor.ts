@@ -1,1 +1,1 @@
-export type SilhouetteColor = "GREEN" | "YELLOW" | "ORANGE" | "BEIGE";
+export type SilhouetteColor = "GREEN" | "YELLOW" | "ORANGE" | "BLACK";

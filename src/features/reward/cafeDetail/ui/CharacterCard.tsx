@@ -11,11 +11,11 @@ export default function CharacterCard() {
   const params = useParams();
   const id = Number(params.id);
   const book = useStampBookStore(state => state.stampBooks.find(b => b.cafeId === id));
-  const characterType = book?.characterType || "YELLOW";
+  const characterType = book?.characterType === "BEIGE" ? "BLACK" : book?.characterType || "YELLOW";
   const type = characterType.toLowerCase();
 
   const characterInfo: Record<
-    "YELLOW" | "ORANGE" | "BEIGE" | "GREEN",
+    "YELLOW" | "ORANGE" | "BLACK" | "GREEN",
     { name: string; description: string }
   > = {
     YELLOW: {
@@ -26,7 +26,7 @@ export default function CharacterCard() {
       name: "쿡이",
       description: "저는 알록달록한 카페의 스탬프를 찍어요!",
     },
-    BEIGE: {
+    BLACK: {
       name: "콕이",
       description: "저는 힙한 카페의 스탬프를 찍어요!",
     },
