@@ -173,7 +173,10 @@ function KakaoMap() {
             name={activeCafe.cafeName}
             cafe_status="운영중"
             business_hour="매일 10:00 - 20:00"
-            img_url={activeCafe.cafeImage || ""}
+            img_url={
+              activeCafe.cafeImage ||
+              "https://plus.unsplash.com/premium_photo-1664970900025-1e3099ca757a?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixcafeId=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D"
+            }
           />
         </div>
       )}
