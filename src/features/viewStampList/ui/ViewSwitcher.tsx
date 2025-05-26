@@ -14,16 +14,16 @@ const ViewSwitcher = () => {
   const { viewMode } = useViewModeStore();
   const { lat, lng } = useCurrentLocation();
   const { data, isLoading, isError } = useCafes({ approved: true });
-  const setCafes = useCafeStore((state) => state.setCafes);
-  
+  const setCafes = useCafeStore(state => state.setCafes);
+
   useEffect(() => {
     if (data) {
       const transformedData = data.map(cafe => ({
         ...cafe,
-        branchName: cafe.cafeName,
-        cafeIntroduction: "",
-        conceptIntroduction: "",
-        characterType: "GREEN" as CharacterType
+        branchName: cafe.branchName || cafe.cafeName,
+        cafeIntroduction: cafe.cafeIntroduction || "",
+        conceptIntroduction: cafe.conceptIntroduction || "",
+        characterType: cafe.characterType || ("GREEN" as CharacterType),
       }));
       setCafes(transformedData);
     }

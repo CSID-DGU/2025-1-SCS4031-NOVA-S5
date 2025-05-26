@@ -4,7 +4,7 @@ import { useCafeStore } from "@/shared/store/cafeStore";
 import LocationCard from "./LocationCard";
 
 function LocationSlider() {
-  const cafes = useCafeStore((state) => state.cafes);
+  const cafes = useCafeStore(state => state.cafes);
 
   return (
     <div className="flex flex-col gap-5 px-[28px] mt-[35px]">
