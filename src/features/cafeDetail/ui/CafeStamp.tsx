@@ -1,12 +1,11 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import StampBook from "@/shared/ui/StampBook";
-import { useQuery } from "@tanstack/react-query";
 import { getSelectedCafe } from "@/features/owner/service/api";
+import CafeStampBook from "./CafeStampBook";
 
 interface CafeStampProps {
   guideText?: string;
@@ -21,23 +20,26 @@ interface CafeStampProps {
 function CafeStamp({
   guideText = "스탬프북을 저장하면 캐릭터를 확인할 수 있어요!",
   buttonText = "내 스탬프북에 저장",
-  onSubmit = () => saveStampBook(Number(useParams().id)),
+  onSubmit,
   successMessage = "스탬프북이 저장되었습니다!",
   errorMessage = "스탬프북 생성 실패",
   showAlert = true,
   isOwner = false,
 }: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
+  const params = useParams();
+
   const { data: selectedCafe } = useQuery({
     queryKey: ["selectedCafe"],
     queryFn: getSelectedCafe,
     enabled: isOwner,
   });
 
-  const displayName = isOwner ? selectedCafe?.cafeName : cafe?.name;
+  const cafeId = Number(params.id);
+  const displayCafe = isOwner ? selectedCafe : cafe;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: onSubmit,
+    mutationFn: onSubmit ?? (() => saveStampBook(cafeId)),
     onSuccess: () => {
       if (showAlert) {
         alert(successMessage);
@@ -52,7 +54,15 @@ function CafeStamp({
 
   return (
     <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
-      <StampBook cafeName={displayName} />
+      <CafeStampBook
+        data={{
+          stampBookId: cafeId,
+          cafeName: displayCafe?.name || displayCafe?.cafeName || "카페",
+          maxStampCount: 10,
+          currentStampCount: 0,
+          characterType: displayCafe?.character || "GREEN",
+        }}
+      />
       <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
       <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>
       <button
