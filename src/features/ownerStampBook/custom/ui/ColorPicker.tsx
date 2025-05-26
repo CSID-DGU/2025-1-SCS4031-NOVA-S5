@@ -9,7 +9,7 @@ const ColorPicker = memo(() => {
     backBackground,
     setFrontBackground,
     setBackBackground,
-    setShowColorPicker,
+    setShowBackgroundColorPicker,
   } = useCustomStore();
 
   const isDragging = useRef(false);
@@ -25,7 +25,7 @@ const ColorPicker = memo(() => {
   const handleChangeComplete = () => {
     if (isDragging.current) {
       isDragging.current = false;
-      setTimeout(() => setShowColorPicker(false), 100);
+      setTimeout(() => setShowBackgroundColorPicker(false), 100);
     }
   };
 

@@ -7,7 +7,7 @@ interface CreateStampState {
   cafeIntroduction: string;
   conceptIntroduction: string;
   rewardDescription: string;
-  designJson: string;
+  designJson: string | null;
   exposed: boolean | null;
   frontStageRef: React.RefObject<KonvaStage> | null;
   backStageRef: React.RefObject<KonvaStage> | null;
@@ -15,7 +15,7 @@ interface CreateStampState {
   setCafeIntroduction: (intro: string) => void;
   setConceptIntroduction: (intro: string) => void;
   setRewardDescription: (desc: string) => void;
-  setDesignJson: (json: string) => void;
+  setDesignJson: (json: CreateStampState["designJson"]) => void;
   setFrontStageRef: (ref: React.RefObject<KonvaStage>) => void;
   setBackStageRef: (ref: React.RefObject<KonvaStage>) => void;
   setExposed: (exposed: boolean) => void;
@@ -28,7 +28,7 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
   cafeIntroduction: "",
   conceptIntroduction: "",
   rewardDescription: "",
-  designJson: "",
+  designJson: null,
   frontStageRef: null,
   backStageRef: null,
   exposed: null,
@@ -36,7 +36,7 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
   setCafeIntroduction: (intro: string) => set({ cafeIntroduction: intro }),
   setConceptIntroduction: (intro: string) => set({ conceptIntroduction: intro }),
   setRewardDescription: (desc: string) => set({ rewardDescription: desc }),
-  setDesignJson: (json: string) => set({ designJson: json }),
+  setDesignJson: (json: CreateStampState["designJson"]) => set({ designJson: json }),
   setFrontStageRef: (ref: React.RefObject<KonvaStage>) => set({ frontStageRef: ref }),
   setBackStageRef: (ref: React.RefObject<KonvaStage>) => set({ backStageRef: ref }),
   setExposed: (exposed: boolean) => set({ exposed: exposed }),
@@ -46,7 +46,7 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
       cafeIntroduction: "",
       conceptIntroduction: "",
       rewardDescription: "",
-      designJson: "",
+      designJson: null,
       frontStageRef: null,
       backStageRef: null,
       exposed: null,
@@ -56,9 +56,13 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
     const { frontBackground, backBackground, frontImage, backImage, texts } = customStore;
     const { frontStageRef, backStageRef } = get();
 
-    // Konva Stage의 현재 상태를 가져옴
     const frontStage = frontStageRef?.current;
     const backStage = backStageRef?.current;
+
+    if (!frontStage || !backStage) {
+      console.error("Stage refs are not properly set");
+      return;
+    }
 
     const designData = {
       front: {
@@ -66,32 +70,32 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
         backgroundImage: frontImage ? URL.createObjectURL(frontImage) : null,
         texts: texts
           .filter(t => t.side === "front")
-          .map(t => ({
-            id: t.id,
-            text: t.text,
-            x: t.x,
-            y: t.y,
-            color: t.color,
-            font: t.font,
-            side: t.side,
+          .map(({ id, text, x, y, color, font, side }) => ({
+            id,
+            text,
+            x,
+            y,
+            color,
+            font,
+            side,
           })),
-        stage: frontStage ? frontStage.toJSON() : null,
+        stage: frontStage,
       },
       back: {
         backgroundColor: backBackground,
         backgroundImage: backImage ? URL.createObjectURL(backImage) : null,
         texts: texts
           .filter(t => t.side === "back")
-          .map(t => ({
-            id: t.id,
-            text: t.text,
-            x: t.x,
-            y: t.y,
-            color: t.color,
-            font: t.font,
-            side: t.side,
+          .map(({ id, text, x, y, color, font, side }) => ({
+            id,
+            text,
+            x,
+            y,
+            color,
+            font,
+            side,
           })),
-        stage: backStage ? backStage.toJSON() : null,
+        stage: backStage,
       },
     };
 

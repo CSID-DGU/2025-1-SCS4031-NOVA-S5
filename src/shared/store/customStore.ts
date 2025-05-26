@@ -43,6 +43,7 @@ interface CustomState {
   addText: (text: CustomText) => void;
   removeText: (id: string) => void;
   updateText: (id: string, props: Partial<CustomText>) => void;
+  resetStore: () => void;
 }
 
 export const useCustomStore = create<CustomState>(set => ({
@@ -81,4 +82,22 @@ export const useCustomStore = create<CustomState>(set => ({
     set(state => ({
       texts: state.texts.map(t => (t.id === id ? { ...t, ...props } : t)),
     })),
+  resetStore: () =>
+    set({
+      frontBackground: "#FFFDF7",
+      backBackground: "#FFFDF7",
+      frontImage: null,
+      backImage: null,
+      selectedSide: null,
+      modalType: null,
+      isModalOpen: false,
+      showBackgroundColorPicker: false,
+      showTextColorPicker: false,
+      tempBackgroundColor: "#FFFDF7",
+      textColor: "#B5CDB7",
+      isTextBottomSheetOpen: false,
+      selectedFont: null,
+      showText: false,
+      texts: [],
+    }),
 }));

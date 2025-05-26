@@ -2,8 +2,9 @@
 
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
+import Image from "next/image";
 
-function RewardCard({ isOwner = false }: { isOwner: boolean }) {
+function RewardCard({ isOwner = false }: { isOwner?: boolean }) {
   const cafe = useCafeStore(state => state.cafe);
   const { selectedCafe } = useSelectedCafe();
 

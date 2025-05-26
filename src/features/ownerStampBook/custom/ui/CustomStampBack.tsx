@@ -30,9 +30,10 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
 
   useEffect(() => {
     if (stageRef.current) {
+      console.log("Setting back stage ref");
       setBackStageRef(stageRef as React.RefObject<KonvaStage>);
     }
-  }, [setBackStageRef]);
+  }, [stageRef.current, setBackStageRef]);
 
   useEffect(() => {
     if (!backgroundImage) {

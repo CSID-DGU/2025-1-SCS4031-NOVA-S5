@@ -25,19 +25,26 @@ export default function ExampleContent() {
     conceptIntroduction,
     rewardDescription,
     exposed,
+    designJson,
     resetStore,
   } = useCreateStampStore();
 
   const { mutate: createStampBookMutation } = useMutation({
     mutationFn: async () => {
-      const result = await createStampBook({
-        stampBookName,
-        cafeIntroduction,
-        conceptIntroduction,
-        rewardDescription,
-        exposed: exposed === null ? false : exposed,
-      });
-      return result;
+      try {
+        const result = await createStampBook({
+          stampBookName,
+          cafeIntroduction,
+          conceptIntroduction,
+          rewardDescription,
+          exposed: exposed === null ? false : exposed,
+          designJson,
+        });
+        return result;
+      } catch (error) {
+        console.error("Error creating stamp book:", error);
+        throw error;
+      }
     },
     onSuccess: () => {
       resetStore();

@@ -31,9 +31,10 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
 
   useEffect(() => {
     if (stageRef.current) {
+      console.log("Setting front stage ref");
       setFrontStageRef(stageRef as React.RefObject<KonvaStage>);
     }
-  }, [setFrontStageRef]);
+  }, [stageRef.current, setFrontStageRef]);
 
   useEffect(() => {
     const loadImages = async () => {

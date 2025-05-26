@@ -30,6 +30,7 @@ interface CreateStampBookData {
   conceptIntroduction: string;
   rewardDescription: string;
   exposed: boolean;
+  designJson: any;
 }
 
 // 스탬프북 등록 (사장)
