@@ -1,23 +1,54 @@
 "use client";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
-import { createStampBook } from "@/shared/api/stampbook";
+import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
+import { getSelectedCafe } from "@/features/owner/service/api";
 import CafeStampBook from "./CafeStampBook";
 
-function CafeStamp() {
+interface CafeStampProps {
+  guideText?: string;
+  buttonText?: string;
+  onSubmit?: () => Promise<any>;
+  successMessage?: string;
+  errorMessage?: string;
+  showAlert?: boolean;
+  isOwner?: boolean;
+}
+
+function CafeStamp({
+  guideText = "스탬프북을 저장하면 캐릭터를 확인할 수 있어요!",
+  buttonText = "내 스탬프북에 저장",
+  onSubmit,
+  successMessage = "스탬프북이 저장되었습니다!",
+  errorMessage = "스탬프북 생성 실패",
+  showAlert = true,
+  isOwner = false,
+}: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
-  const { id } = useParams();
-  const cafeId = Number(id);
+  const params = useParams();
+
+  const { data: selectedCafe } = useQuery({
+    queryKey: ["selectedCafe"],
+    queryFn: getSelectedCafe,
+    enabled: isOwner,
+  });
+
+  const cafeId = Number(params.id);
+  const displayCafe = isOwner ? selectedCafe : cafe;
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => createStampBook(cafeId),
+    mutationFn: onSubmit ?? (() => saveStampBook(cafeId)),
     onSuccess: () => {
-      alert("스탬프북이 저장되었습니다!");
+      if (showAlert) {
+        alert(successMessage);
+      }
     },
     onError: () => {
-      alert("스탬프북 생성 실패");
+      if (showAlert) {
+        alert(errorMessage);
+      }
     },
   });
 
@@ -26,21 +57,19 @@ function CafeStamp() {
       <CafeStampBook
         data={{
           stampBookId: cafeId,
-          cafeName: cafe?.name || "카페",
+          cafeName: displayCafe?.name || displayCafe?.cafeName || "카페",
           maxStampCount: 10,
           currentStampCount: 0,
-          characterType: cafe?.character || "GREEN",
+          characterType: displayCafe?.character || "GREEN",
         }}
       />
       <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
-      <p className="text-[12px] text-[#8E8E93] text-center">
-        스탬프북을 저장하면 캐릭터를 확인할 수 있어요!
-      </p>
+      <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>
       <button
         className="bg-[#254434] text-[#FFF] text-[12px] font-[700] h-[41px] w-fit rounded-full px-[20px] hover:bg-green-800"
         disabled={isPending}
         onClick={() => mutate()}>
-        내 스탬프북에 저장
+        {buttonText}
       </button>
     </div>
   );

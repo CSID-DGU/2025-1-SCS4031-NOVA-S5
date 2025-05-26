@@ -12,7 +12,6 @@ interface StampCardProps {
 
 export default function StampBook({ stampBookId, cafeName, characterType }: StampCardProps) {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
-
   const book = stampBooks.find(b => b.stampBookId === stampBookId);
 
   useEffect(() => {
@@ -38,7 +37,13 @@ export default function StampBook({ stampBookId, cafeName, characterType }: Stam
         {Array.from({ length: totalStamp }).map((_, index) => (
           <img
             key={index}
-            src={index < stampedCount ? stampedSrc : unstampedSrc}
+            src={
+              book
+                ? index < stampedCount
+                  ? stampedSrc
+                  : unstampedSrc
+                : "/img/character/face-gray.svg"
+            }
             alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
             width={35}
             height={35}

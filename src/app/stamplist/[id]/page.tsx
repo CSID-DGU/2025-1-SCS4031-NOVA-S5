@@ -22,7 +22,7 @@ export default function CafeDetailPage() {
         tel: cafeData.cafePhone || "",
         address: `${cafeData.latitude}, ${cafeData.longitude}`, // TODO: 주소 변환 필요
         reward: "커피 한 잔", // TODO: API에서 받아오기
-        cafa_img: "", // TODO: API에서 이미지 URL 받아오기
+        cafe_img: "", // TODO: API에서 이미지 URL 받아오기
         cafe_detail: cafeData.cafeIntroduction || "",
         desc: cafeData.conceptIntroduction || "",
         character: cafeData.characterType || "GREEN",

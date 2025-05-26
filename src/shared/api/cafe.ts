@@ -1,6 +1,5 @@
 import axios from "axios";
 import api from "./axios";
-import { RegisterCafeRequest } from "@/features/storeRegister/model/RegisterCafe";
 
 // 카페 목록 조회
 export const fetchCafes = async () => {
@@ -22,7 +21,11 @@ export const addressToLatLng = async (query: string) => {
 };
 
 // 카페 등록
-export const registerCafe = async (data: RegisterCafeRequest) => {
-  const response = await api.post("/owner/cafes/register", data);
+export const registerCafe = async (data: FormData) => {
+  const response = await api.post("/owner/cafes/register", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response.data;
 };

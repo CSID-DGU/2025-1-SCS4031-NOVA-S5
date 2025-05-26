@@ -61,21 +61,23 @@ export default function StoreRegisterForm() {
       const coords = await addressToLatLng(data.address);
       if (!coords) throw new Error("주소를 찾을 수 없습니다.");
 
-      const payload = {
-        cafeName: data.storeName,
-        branchName: data.branchName,
-        cafePhone: data.phone,
-        ownerName: data.ownerName,
-        ownerPhone: data.ownerPhone,
-        businessNumber: data.businessNumber,
-        latitude: parseFloat(coords.y),
-        longitude: parseFloat(coords.x),
-        maxStampCount: 10,
-        characterType: data.mood,
-        rewardDescription: data.reward,
-      };
+      const formData = new FormData();
+      formData.append("cafeName", data.storeName);
+      formData.append("branchName", data.branchName);
+      formData.append("cafePhone", data.cafePhone);
+      formData.append("ownerName", data.ownerName);
+      formData.append("ownerPhone", data.ownerPhone);
+      formData.append("businessNumber", data.businessNumber);
+      formData.append("roadAddress", data.address);
+      formData.append("latitude", coords.y);
+      formData.append("longitude", coords.x);
+      formData.append("maxStampCount", "10");
+      formData.append("characterType", data.mood);
+      if (data.file) {
+        formData.append("businessRegistrationPdf", data.file);
+      }
 
-      await registerCafe(payload);
+      await registerCafe(formData);
       queryClient.setQueryData(["registeredCafe"], {
         cafeName: data.storeName,
         characterType: data.mood,
@@ -107,7 +109,7 @@ export default function StoreRegisterForm() {
           value={watch("address")}
           onChange={e => setValue("address", e.target.value, { shouldValidate: true })}
         />
-        <Input label="* 매장 전화번호" placeholder="02-1234-5678" {...register("phone")} />
+        <Input label="* 매장 전화번호" placeholder="02-1234-5678" {...register("cafePhone")} />
         <Input label="* 대표자 성함" placeholder="홍길동" {...register("ownerName")} />
         <Input
           label="* 대표자 휴대폰 번호"
@@ -178,8 +180,6 @@ export default function StoreRegisterForm() {
             }}
           />
         </div>
-
-        <Input label="* 증정할 리워드" placeholder="아메리카노" {...register("reward")} />
 
         <Button
           type="submit"

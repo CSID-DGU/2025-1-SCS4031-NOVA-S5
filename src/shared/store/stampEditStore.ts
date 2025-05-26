@@ -8,8 +8,8 @@ interface StampEditState {
 }
 
 export const useStampEditStore = create<StampEditState>(set => ({
-  frontName: "충무로 더블톤", // 여기 이름은 추후에 query에서 가져오기
-  setFrontName: frontName => set({ frontName }),
-  backName: "충무로 더블톤",
-  setBackName: backName => set({ backName }),
+  frontName: "",
+  backName: "",
+  setFrontName: (name: string) => set({ frontName: name }),
+  setBackName: (name: string) => set({ backName: name }),
 }));
