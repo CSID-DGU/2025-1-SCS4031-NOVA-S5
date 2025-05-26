@@ -73,7 +73,6 @@ export default function StoreRegisterForm() {
       formData.append("longitude", coords.x);
       formData.append("maxStampCount", "10");
       formData.append("characterType", data.mood);
-      formData.append("rewardDescription", data.reward);
       if (data.file) {
         formData.append("businessRegistrationPdf", data.file);
       }
@@ -181,8 +180,6 @@ export default function StoreRegisterForm() {
             }}
           />
         </div>
-
-        <Input label="* 증정할 리워드" placeholder="아메리카노" {...register("reward")} />
 
         <Button
           type="submit"
