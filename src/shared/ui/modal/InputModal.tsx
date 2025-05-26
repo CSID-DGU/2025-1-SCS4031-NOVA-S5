@@ -11,7 +11,7 @@ type TargetType = "front" | "back";
 interface InputModalProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  characterType?: "YELLOW" | "ORANGE" | "BEIGE" | "GREEN";
+  characterType?: "YELLOW" | "ORANGE" | "BLACK" | "GREEN";
   target: TargetType;
 }
 
@@ -46,7 +46,7 @@ export default function InputModal({
         <div className="w-[238px] h-[250px] flex flex-col gap-[30px] items-center justify-center py-[35px]">
           <p className="text-md text-font-green font-bold">매장명을 입력해 주세요.</p>
           <Image
-            src={`/img/character/${characterType}-all.svg`}
+            src={`/img/character/${characterType.toLowerCase()}-all.svg`}
             alt="character"
             width={70}
             height={79}
