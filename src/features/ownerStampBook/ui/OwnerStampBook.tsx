@@ -47,10 +47,13 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
   useEffect(() => {
     const loadImages = async () => {
       const imageObjects = await Promise.all(
-        Array.from({ length: 10 }).map(() => {
+        Array.from({ length: 10 }).map((_, index) => {
           return new Promise<HTMLImageElement>(resolve => {
             const img = new window.Image();
-            img.src = "/img/character/yellow-face-gray.svg";
+            img.src =
+              index < stampedCount
+                ? `/img/character/${characterType}-face.svg`
+                : `/img/character/${characterType}-face-gray.svg`;
             img.onload = () => resolve(img);
           });
         })
@@ -59,7 +62,7 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
     };
 
     loadImages();
-  }, []);
+  }, [characterType]);
 
   if (customDesign?.front) {
     return (
@@ -97,13 +100,7 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
             {images.map((_, index) => (
-              <Image
-                key={index}
-                src={`/img/character/${characterType}-face-gray.svg`}
-                alt="stamp"
-                width={35}
-                height={35}
-              />
+              <Image key={index} src={images[index].src} alt="stamp" width={35} height={35} />
             ))}
           </div>
         </div>
