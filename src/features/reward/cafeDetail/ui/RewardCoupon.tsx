@@ -30,7 +30,7 @@ export default function RewardCoupon({ characterType, id }: RewardCouponProps) {
         className="cursor-pointer"
       />
       <p className="text-sm font-bold text-font-black">
-        저를 클릭해서 {book.rewardItem}로 교환해주세요!
+        저를 클릭해서 {book.rewardDescription}로 교환해주세요!
       </p>
     </div>
   );
