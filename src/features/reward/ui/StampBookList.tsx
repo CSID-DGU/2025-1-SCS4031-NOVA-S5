@@ -3,7 +3,11 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
-import StampBook from "@/shared/ui/StampBook";
+import dynamic from "next/dynamic";
+
+const StampBook = dynamic(() => import("@/shared/ui/StampBook"), {
+  ssr: false,
+});
 
 export default function StampBookList() {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();

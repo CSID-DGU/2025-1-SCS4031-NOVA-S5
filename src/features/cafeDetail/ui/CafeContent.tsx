@@ -2,7 +2,11 @@ import { useCafeStore } from "@/shared/store/cafeDetailStore";
 import CafeInfo from "@/shared/ui/CafeInfo";
 import RewardCard from "./RewardCard";
 import CafeCharacter from "./CafeCharacter";
-import CafeStamp from "./CafeStamp";
+import dynamic from "next/dynamic";
+
+const CafeStamp = dynamic(() => import("@/features/cafeDetail/ui/CafeStamp"), {
+  ssr: false,
+});
 
 function CafeContent() {
   const cafe = useCafeStore(state => state.cafe);

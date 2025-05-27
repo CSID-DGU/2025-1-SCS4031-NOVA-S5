@@ -4,12 +4,17 @@ import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import CafeStampBook from "./CafeStampBook";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { useEffect, useState } from "react";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { Stage, Layer, Rect, Text } from "react-konva";
 import Image from "next/image";
+
+import dynamic from "next/dynamic";
+
+const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
+  ssr: false,
+});
 
 interface CafeStampProps {
   guideText?: string;
