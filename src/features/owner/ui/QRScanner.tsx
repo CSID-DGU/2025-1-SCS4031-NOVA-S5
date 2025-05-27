@@ -107,10 +107,6 @@ export function QrScanner({ onScan, onError, isScanning }: QrScannerProps) {
     return <p>카메라 권한이 필요합니다. 브라우저 설정을 확인해주세요.</p>;
   }
 
-  if (!isScanning) {
-    return <p>QR 코드 스캔이 완료되었습니다.</p>;
-  }
-
   return (
     <div className="w-full max-w-md mx-auto rounded overflow-hidden shadow relative">
       <video
