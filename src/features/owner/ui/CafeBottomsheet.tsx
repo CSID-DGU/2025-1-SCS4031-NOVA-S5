@@ -18,10 +18,9 @@ export function CafeBottomsheet({ cafeList, onClose }: CafeBottomsheetProps) {
   const { mutate: selectCafe, isPending } = useMutation({
     mutationFn: chooseCafe,
     onSuccess: () => {
-      // 선택 후 캐시 무효화 및 리페치 (예: 카페 목록 다시 가져오기)
-      queryClient.invalidateQueries({ queryKey: ["myCafes"] });
-      queryClient.invalidateQueries({ queryKey: ["selectedCafe"] });
-      // 선택 완료 후 바텀시트 닫기
+      // 선택 후 즉시 데이터 리페치
+      queryClient.refetchQueries({ queryKey: ["myCafeList"] });
+      queryClient.refetchQueries({ queryKey: ["selectedCafe"] });
       onClose();
     },
     onError: error => {

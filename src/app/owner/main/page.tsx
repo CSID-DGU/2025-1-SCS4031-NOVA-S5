@@ -28,7 +28,11 @@ export default function OwnerMain() {
     queryKey: ["selectedCafe"],
     queryFn: getSelectedCafe,
     retry: false,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
+
   useEffect(() => {
     if (!isSelectedCafeLoading && (isSelectedCafeError || !selectedCafe)) {
       // 선택된 카페가 없을 경우
@@ -48,7 +52,6 @@ export default function OwnerMain() {
     content = <AddCafeCard status="pending" />;
   } else if (selectedCafe?.registrationStatus === "APPROVED") {
     content = selectedCafe.hasStampBookDesign ? <QrCard /> : <AddStampbook />;
-    // content = <QrCard />;
   }
 
   return (
