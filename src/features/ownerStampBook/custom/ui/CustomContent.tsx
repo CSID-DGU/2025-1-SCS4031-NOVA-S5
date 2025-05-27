@@ -104,9 +104,7 @@ export default function CustomContent() {
           x: 0,
           y: 0,
         };
-        console.log("Adding new text:", newText);
         addText(newText);
-        console.log("Current texts after adding:", useCustomStore.getState().texts);
         setSelectedFont(null);
         setModalType(null);
       }

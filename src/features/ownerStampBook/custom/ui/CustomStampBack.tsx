@@ -30,7 +30,6 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
 
   useEffect(() => {
     if (stageRef.current) {
-      console.log("Setting back stage ref");
       setBackStageRef(stageRef as React.RefObject<KonvaStage>);
     }
   }, [stageRef.current, setBackStageRef]);
@@ -127,6 +126,7 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
                   updateText(text.id, { x, y });
                 }}
                 onClick={() => handleTextClick(text)}
+                onTap={() => handleTextClick(text)}
               />
             ))}
           </Layer>

@@ -31,7 +31,6 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
 
   useEffect(() => {
     if (stageRef.current) {
-      console.log("Setting front stage ref");
       setFrontStageRef(stageRef as React.RefObject<KonvaStage>);
     }
   }, [stageRef.current, setFrontStageRef]);
@@ -148,12 +147,13 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
                   updateText(text.id, { x, y });
                 }}
                 onClick={() => handleTextClick(text)}
+                onTap={() => handleTextClick(text)}
               />
             ))}
           </Layer>
         </Stage>
 
-        <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-none">
+        <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
             {images.map((_, index) => (
               <Image
