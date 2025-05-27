@@ -29,7 +29,7 @@ function CafeCharacter({ isOwner = false }: CafeCharacterProps) {
       </p>
       <div className="flex flex-row gap-[10px]">
         <img
-          src={`/img/silhouette/${displayCharacterType}.svg`}
+          src={`/img/silhouette/${displayCharacterType}-silhouette.svg`}
           alt="character"
           width={90}
           height={101}
