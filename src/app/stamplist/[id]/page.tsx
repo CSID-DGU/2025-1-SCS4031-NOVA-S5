@@ -12,9 +12,9 @@ export default function CafeDetailPage() {
   const cafeId = Number(id);
   const { data: cafeData, isLoading, isError } = useCafe(cafeId);
   const { cafe, setCafe } = useCafeStore();
-  const openTime = cafeData?.openHours[0].openTime.slice(0, 5); // "08:00"
-  const closeTime = cafeData?.openHours[0].closeTime.slice(0, 5); // "21:00"
-  const lastOrder = cafeData?.openHours[0].lastOrder.slice(0, 5); // "20:30"
+  const openTime = cafeData?.openHours?.[0]?.openTime?.slice(0, 5) ?? "";
+  const closeTime = cafeData?.openHours?.[0]?.closeTime?.slice(0, 5) ?? "";
+  const lastOrder = cafeData?.openHours?.[0]?.lastOrder?.slice(0, 5) ?? "";
 
   useEffect(() => {
     if (cafeData) {
