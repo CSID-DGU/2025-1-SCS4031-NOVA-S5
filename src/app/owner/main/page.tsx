@@ -44,11 +44,11 @@ export default function OwnerMain() {
 
   if (cafeList.length === 0) {
     content = <AddCafeCard status="none" />;
-  } else if (selectedCafe?.registrationStatus === "UNDER_REVIEW") {
+  } else if (selectedCafe?.registrationStatus === "REQUESTED") {
     content = <AddCafeCard status="pending" />;
   } else if (selectedCafe?.registrationStatus === "APPROVED") {
-    // content = selectedCafe.exist_stampbook ? <QrCard /> : <AddStampbook />;
-    content = <QrCard />;
+    content = selectedCafe.hasStampBookDesign ? <QrCard /> : <AddStampbook />;
+    // content = <QrCard />;
   }
 
   return (
