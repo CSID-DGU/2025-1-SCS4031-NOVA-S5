@@ -32,7 +32,7 @@ function UserCard() {
           <p className="whitespace-pre-line text-[12px] text-[#8E8E93] ml-[35px]">
             {mockUserData.fortuneOfToday}
           </p>
-          <img src="./icon/qr.svg" alt="qr" />
+          <img src="/icon/qr.svg" alt="qr" />
         </div>
       </div>
       <div className="mt-[30px]">
