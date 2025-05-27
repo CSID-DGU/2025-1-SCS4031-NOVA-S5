@@ -91,7 +91,7 @@ export default function StampBookList() {
               </div>
 
               <div className="flex justify-center">
-                <OwnerStampBook />
+                <OwnerStampBook designJson={book.stampBookDesignJson} />
               </div>
             </div>
           ))}

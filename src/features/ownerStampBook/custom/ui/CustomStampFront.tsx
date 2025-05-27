@@ -6,6 +6,7 @@ import { useCustomStore } from "@/shared/store/customStore";
 import { Stage as KonvaStage } from "konva/lib/Stage";
 import Image from "next/image";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 
 interface CustomStampFrontProps {
   backgroundColor?: string;
@@ -16,18 +17,22 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
   backgroundColor = "#FFFDF7",
   backgroundImage,
 }: CustomStampFrontProps) {
+  const { selectedCafe } = useSelectedCafe();
   const texts = useCustomStore(state => state.texts);
   const updateText = useCustomStore(state => state.updateText);
   const removeText = useCustomStore(state => state.removeText);
+
   const setFrontStageRef = useCreateStampStore(state => state.setFrontStageRef);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [stageSize, setStageSize] = useState({ width: 400, height: 154 });
   const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<KonvaStage>(null);
   const [selectedTextId, setSelectedTextId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState<string>("");
   const [overlayPos, setOverlayPos] = useState<{ x: number; y: number } | null>(null);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<KonvaStage>(null);
+  const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
 
   useEffect(() => {
     if (stageRef.current) {
@@ -41,7 +46,7 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
         Array.from({ length: 10 }).map(() => {
           return new Promise<HTMLImageElement>(resolve => {
             const img = new window.Image();
-            img.src = "/img/character/yellow-face-gray.svg";
+            img.src = `/img/character/${characterType}-face-gray.svg`;
             img.onload = () => resolve(img);
           });
         })
