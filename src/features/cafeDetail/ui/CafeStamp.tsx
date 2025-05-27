@@ -32,6 +32,7 @@ function CafeStamp({
 }: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
   const params = useParams();
+
   const { selectedCafe } = useSelectedCafe();
   const { designJson } = useCreateStampStore();
   const [customDesign, setCustomDesign] = useState<any>(null);
@@ -53,15 +54,18 @@ function CafeStamp({
   });
 
   useEffect(() => {
-    if (isOwner && designJson) {
+    if ((isOwner && designJson) || (!isOwner && cafe?.stampBookDesignJson)) {
       try {
-        const json = JSON.parse(designJson);
+        const json =
+          isOwner && designJson
+            ? JSON.parse(designJson)
+            : JSON.parse(cafe?.stampBookDesignJson || "");
         setCustomDesign(json);
       } catch (error) {
         console.error("Failed to parse designJson:", error);
       }
     }
-  }, [isOwner, designJson]);
+  }, [isOwner, designJson, cafe?.stampBookDesignJson]);
 
   return (
     <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
@@ -75,9 +79,10 @@ function CafeStamp({
           characterType: isOwner
             ? (selectedCafe?.characterType as "BLACK" | "ORANGE" | "YELLOW" | "GREEN") || "GREEN"
             : (cafe?.character as "BLACK" | "ORANGE" | "YELLOW" | "GREEN") || "GREEN",
+          stampBookDesignJson: cafe?.stampBookDesignJson || "",
         }}
       />
-      {isOwner && customDesign?.back && (
+      {customDesign?.back && (
         <div className="relative w-[380px] h-[154px]">
           <Stage width={380} height={154} className="absolute inset-0">
             <Layer>
@@ -115,7 +120,7 @@ function CafeStamp({
         </div>
       )}
 
-      {!isOwner && (
+      {!customDesign?.back && (
         <>
           <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
           <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>

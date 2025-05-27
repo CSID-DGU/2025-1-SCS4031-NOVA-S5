@@ -33,6 +33,7 @@ export default function CafeDetailPage() {
           logo: "/img/stamp/stamp-logo.svg",
           cover_img_url: "/img/stamp/stamp-cover.svg",
         },
+        stampBookDesignJson: cafeData.stampBookDesignJson || "",
       });
     }
   }, [cafeData, setCafe]);

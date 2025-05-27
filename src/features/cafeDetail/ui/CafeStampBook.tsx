@@ -13,36 +13,56 @@ interface StampBookProps {
     maxStampCount: number;
     currentStampCount: number;
     characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
+    stampBookDesignJson: string;
   };
   isOwner?: boolean;
 }
 
+interface StampBookDesign {
+  front: {
+    backgroundColor: string;
+    backgroundImage: string | null;
+    texts: Array<{
+      id: string;
+      text: string;
+      x: number;
+      y: number;
+      color: string;
+      font: string;
+      side: string;
+    }>;
+  };
+}
+
 export default function CafeStampBook({ data, isOwner = false }: StampBookProps) {
-  const { cafeName, maxStampCount, currentStampCount, characterType } = data;
+  const { cafeName, maxStampCount, currentStampCount, characterType, stampBookDesignJson } = data;
   const { designJson } = useCreateStampStore();
   const stageRef = useRef<KonvaStage>(null);
-  const [customDesign, setCustomDesign] = useState<any>(null);
+  const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
 
   const lowerCharacterType = characterType.toLowerCase();
   const stampedSrc = `/img/character/${lowerCharacterType}-face.svg`;
   const unstampedSrc = `/img/character/${lowerCharacterType}-face-gray.svg`;
 
+  console.log(stampBookDesignJson);
+
   useEffect(() => {
-    if (isOwner && designJson) {
+    if ((isOwner && designJson) || (!isOwner && stampBookDesignJson)) {
       try {
-        const json = JSON.parse(designJson);
+        const json =
+          isOwner && designJson ? JSON.parse(designJson) : JSON.parse(stampBookDesignJson);
         setCustomDesign(json);
       } catch (error) {
         console.error("Failed to parse designJson:", error);
       }
     }
-  }, [isOwner, designJson]);
+  }, [isOwner, designJson, stampBookDesignJson]);
 
   useEffect(() => {
     const loadImages = async () => {
       const imageObjects = await Promise.all(
-        Array.from({ length: 10 }).map(() => {
+        Array.from({ length: maxStampCount }).map(() => {
           return new Promise<HTMLImageElement>(resolve => {
             const img = new window.Image();
             img.src = unstampedSrc;
@@ -54,26 +74,30 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
     };
 
     loadImages();
-  }, []);
+  }, [maxStampCount, unstampedSrc]);
 
-  if (isOwner && customDesign?.front) {
-    const frontDesign = customDesign.front;
+  if (customDesign?.front) {
     return (
       <div className="w-[320px] h-[154px] relative rounded-lg overflow-hidden">
         <Stage ref={stageRef} width={320} height={154} className="absolute inset-0">
           <Layer>
-            <Rect width={320} height={154} fill={frontDesign.backgroundColor} />
-            {frontDesign.backgroundImage && (
-              <Image src={frontDesign.backgroundImage} alt="background" width={320} height={154} />
+            <Rect width={320} height={154} fill={customDesign.front.backgroundColor} />
+            {customDesign.front.backgroundImage && (
+              <KonvaImage
+                image={new window.Image()}
+                src={customDesign.front.backgroundImage}
+                width={320}
+                height={154}
+              />
             )}
-            {frontDesign.texts?.map((text: any) => (
+            {customDesign.front.texts?.map(text => (
               <Text
                 key={text.id}
                 text={text.text}
                 x={text.x}
                 y={text.y}
                 fontSize={24}
-                fontFamily={text.font || "Arial"}
+                fontFamily={text.font || "Pretendard"}
                 fill={text.color || "#000"}
                 align="center"
                 verticalAlign="middle"
@@ -84,11 +108,11 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
 
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
-            {images.map((_, index) => (
+            {Array.from({ length: maxStampCount }).map((_, index) => (
               <Image
                 key={index}
-                src={"/img/character/yellow-face-gray.svg"}
-                alt="stamp"
+                src={index < currentStampCount ? stampedSrc : unstampedSrc}
+                alt={index < currentStampCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
                 width={35}
                 height={35}
               />
