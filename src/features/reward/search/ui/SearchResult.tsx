@@ -22,7 +22,7 @@ export default function SearchResult({ stampBookId }: SearchResultProps) {
 
   return (
     <div
-      className="w-full h-[105px] flex gap-3 p-3 rounded-lg bg-yellow-300 cursor-pointer shadow-md"
+      className="min-w-[320px] h-[105px] flex gap-3 p-3 rounded-lg bg-yellow-300 cursor-pointer shadow-md"
       onClick={() => router.push(`/reward/${stampBookId}`)}>
       <div className="relative w-[80px] h-[80px] rounded-md overflow-hidden">
         <Image src="/img/doubletone.svg" alt="cafe img" fill className="object-cover" />

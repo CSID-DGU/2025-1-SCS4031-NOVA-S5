@@ -78,7 +78,7 @@ export default function CafeDetailContent() {
           으쌰으쌰, 리워드까지 {book.remainingStampCount}개 남았어요!
         </p>
         <div className="flex flex-col items-center justify-center">
-          <StampBook stampBookId={book?.cafeId} characterType={characterType} />
+          <StampBook stampBookId={book.stampBookId} characterType={characterType} />
           <Image
             src={"/img/doubletone.svg"}
             alt="카페 이미지"

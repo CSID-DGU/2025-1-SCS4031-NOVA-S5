@@ -1,15 +1,23 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import InputModal from "@/shared/ui/modal/InputModal";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { useStampEditStore } from "@/shared/store/stampEditStore";
 
 export default function StampBack() {
   const [isOpen, setIsOpen] = useState(false);
-  const { backName } = useStampEditStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const { backName, setBackName } = useStampEditStore();
+  const { selectedCafe } = useSelectedCafe();
+
+  useEffect(() => {
+    if (selectedCafe?.cafeName && !backName) {
+      setBackName(selectedCafe.cafeName);
+    }
+  }, [selectedCafe, backName, setBackName]);
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
@@ -24,6 +32,10 @@ export default function StampBack() {
       setImageUrl(reader.result as string);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleNameChange = (name: string) => {
+    setBackName(name);
   };
 
   return (
@@ -59,7 +71,12 @@ export default function StampBack() {
           />
         </div>
       </div>
-      <InputModal isOpen={isOpen} setIsOpen={setIsOpen} target="back" />
+      <InputModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        target="back"
+        onNameChange={handleNameChange}
+      />
     </>
   );
 }

@@ -5,6 +5,7 @@ import { useStampEditStore } from "@/shared/store/stampEditStore";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 
 type TargetType = "front" | "back";
 
@@ -13,21 +14,20 @@ interface InputModalProps {
   setIsOpen: (open: boolean) => void;
   characterType?: "YELLOW" | "ORANGE" | "BLACK" | "GREEN";
   target: TargetType;
+  onNameChange?: (name: string) => void;
 }
 
-export default function InputModal({
-  isOpen,
-  setIsOpen,
-  characterType = "YELLOW",
-  target,
-}: InputModalProps) {
+export default function InputModal({ isOpen, setIsOpen, target, onNameChange }: InputModalProps) {
   const { setFrontName, setBackName } = useStampEditStore();
   const [inputValue, setInputValue] = useState("");
+  const { selectedCafe } = useSelectedCafe();
+  const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
 
   const handleRegister = () => {
     if (inputValue.trim() !== "") {
       if (target === "front") {
         setFrontName(inputValue);
+        onNameChange?.(inputValue);
       } else {
         setBackName(inputValue);
       }
