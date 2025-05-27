@@ -28,7 +28,11 @@ export default function OwnerMain() {
     queryKey: ["selectedCafe"],
     queryFn: getSelectedCafe,
     retry: false,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
+
   useEffect(() => {
     if (!isSelectedCafeLoading && (isSelectedCafeError || !selectedCafe)) {
       // 선택된 카페가 없을 경우
@@ -44,11 +48,10 @@ export default function OwnerMain() {
 
   if (cafeList.length === 0) {
     content = <AddCafeCard status="none" />;
-  } else if (selectedCafe?.registrationStatus === "UNDER_REVIEW") {
+  } else if (selectedCafe?.registrationStatus === "REQUESTED") {
     content = <AddCafeCard status="pending" />;
   } else if (selectedCafe?.registrationStatus === "APPROVED") {
-    // content = selectedCafe.exist_stampbook ? <QrCard /> : <AddStampbook />;
-    content = <QrCard />;
+    content = selectedCafe.hasStampBookDesign ? <QrCard /> : <AddStampbook />;
   }
 
   return (

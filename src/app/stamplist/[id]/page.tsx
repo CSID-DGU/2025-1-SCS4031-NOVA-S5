@@ -12,15 +12,17 @@ export default function CafeDetailPage() {
   const cafeId = Number(id);
   const { data: cafeData, isLoading, isError } = useCafe(cafeId);
   const { cafe, setCafe } = useCafeStore();
-  console.log(cafeData);
+  const openTime = cafeData?.openHours?.[0]?.openTime?.slice(0, 5) ?? "";
+  const closeTime = cafeData?.openHours?.[0]?.closeTime?.slice(0, 5) ?? "";
+  const lastOrder = cafeData?.openHours?.[0]?.lastOrder?.slice(0, 5) ?? "";
 
   useEffect(() => {
     if (cafeData) {
       setCafe({
         name: cafeData.cafeName,
-        business_hour: "9:00~20:00 (Last Order 19:30)", // TODO: API에서 받아오기
+        business_hour: `${openTime}~${closeTime} (Last Order ${lastOrder})`, // TODO: API에서 받아오기
         tel: cafeData.cafePhone || "",
-        address: `${cafeData.latitude}, ${cafeData.longitude}`, // TODO: 주소 변환 필요
+        address: `${cafeData.roadAddress}`, // TODO: 주소 변환 필요
         reward: "커피 한 잔", // TODO: API에서 받아오기
         cafe_img: "", // TODO: API에서 이미지 URL 받아오기
         cafe_detail: cafeData.cafeIntroduction || "",

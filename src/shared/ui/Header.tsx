@@ -6,7 +6,7 @@ export default function Header() {
       <div className="px-2 h-full flex items-center">
         <div className="flex items-center pl-4">
           <Image
-            src="./icon/ecok-logo.svg"
+            src="/icon/ecok-logo.svg"
             alt="로고"
             width={80}
             height={24}
