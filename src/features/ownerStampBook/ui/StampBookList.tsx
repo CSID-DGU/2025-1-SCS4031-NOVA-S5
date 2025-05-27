@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Chip from "./Chip";
-import OwnerStampBook from "./OwnerStampBook";
 import CharacterBgCard from "./CharacterBgCard";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -10,6 +9,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getStampBookList } from "@/shared/api/stampbook";
 import Hamburger from "./Hamburger";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const OwnerStampBook = dynamic(() => import("@/features/ownerStampBook/ui/OwnerStampBook"), {
+  ssr: false,
+});
 
 interface StampBookItem {
   designId: number;

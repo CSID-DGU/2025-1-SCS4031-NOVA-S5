@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { Stage, Layer, Rect, Text } from "react-konva";
 import Image from "next/image";
-
 import dynamic from "next/dynamic";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
