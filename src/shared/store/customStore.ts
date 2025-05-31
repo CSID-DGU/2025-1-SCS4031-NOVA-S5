@@ -26,6 +26,7 @@ interface CustomState {
   selectedFont: string | null;
   showText: boolean;
   texts: CustomText[];
+
   setFrontBackground: (color: string) => void;
   setBackBackground: (color: string) => void;
   setFrontImage: (file: File | null) => void;
@@ -44,9 +45,14 @@ interface CustomState {
   removeText: (id: string) => void;
   updateText: (id: string, props: Partial<CustomText>) => void;
   resetStore: () => void;
+  pushHistory: () => void;
+  undo: () => void;
+  redo: () => void;
+  history: Partial<CustomState>[];
+  redoStack: Partial<CustomState>[];
 }
 
-export const useCustomStore = create<CustomState>(set => ({
+export const useCustomStore = create<CustomState>((set, get) => ({
   frontBackground: "#FFFDF7",
   backBackground: "#FFFDF7",
   frontImage: null,
@@ -62,10 +68,90 @@ export const useCustomStore = create<CustomState>(set => ({
   selectedFont: null,
   showText: false,
   texts: [],
-  setFrontBackground: color => set({ frontBackground: color }),
-  setBackBackground: color => set({ backBackground: color }),
-  setFrontImage: file => set({ frontImage: file }),
-  setBackImage: file => set({ backImage: file }),
+  history: [],
+  redoStack: [],
+
+  pushHistory: () => {
+    const { frontBackground, backBackground, frontImage, backImage, texts, history } = get();
+    set({
+      history: [
+        ...history,
+        {
+          frontBackground,
+          backBackground,
+          frontImage,
+          backImage,
+          texts: JSON.parse(JSON.stringify(texts)),
+        },
+      ],
+      redoStack: [],
+    });
+  },
+
+  undo: () => {
+    const { history, redoStack, frontBackground, backBackground, frontImage, backImage, texts } =
+      get();
+    if (history.length === 0) return;
+
+    const prevState = history[history.length - 1];
+    set({
+      ...prevState,
+      history: history.slice(0, -1),
+      redoStack: [
+        ...redoStack,
+        {
+          frontBackground,
+          backBackground,
+          frontImage,
+          backImage,
+          texts: JSON.parse(JSON.stringify(texts)),
+        },
+      ],
+    });
+  },
+
+  redo: () => {
+    const { redoStack, history, frontBackground, backBackground, frontImage, backImage, texts } =
+      get();
+    if (redoStack.length === 0) return;
+
+    const nextState = redoStack[redoStack.length - 1];
+    set({
+      ...nextState,
+      redoStack: redoStack.slice(0, -1),
+      history: [
+        ...history,
+        {
+          frontBackground,
+          backBackground,
+          frontImage,
+          backImage,
+          texts: JSON.parse(JSON.stringify(texts)),
+        },
+      ],
+    });
+  },
+
+  setFrontBackground: color => {
+    get().pushHistory();
+    set({ frontBackground: color });
+  },
+
+  setBackBackground: color => {
+    get().pushHistory();
+    set({ backBackground: color });
+  },
+
+  setFrontImage: file => {
+    get().pushHistory();
+    set({ frontImage: file });
+  },
+
+  setBackImage: file => {
+    get().pushHistory();
+    set({ backImage: file });
+  },
+
   setSelectedSide: side => set({ selectedSide: side }),
   setModalType: type => set({ modalType: type }),
   setIsModalOpen: open => set({ isModalOpen: open }),
@@ -76,12 +162,24 @@ export const useCustomStore = create<CustomState>(set => ({
   setIsTextBottomSheetOpen: open => set({ isTextBottomSheetOpen: open }),
   setSelectedFont: font => set({ selectedFont: font }),
   setShowText: show => set({ showText: show }),
-  addText: text => set(state => ({ texts: [...state.texts, text] })),
-  removeText: id => set(state => ({ texts: state.texts.filter(t => t.id !== id) })),
-  updateText: (id, props) =>
+
+  addText: text => {
+    get().pushHistory();
+    set(state => ({ texts: [...state.texts, text] }));
+  },
+
+  removeText: id => {
+    get().pushHistory();
+    set(state => ({ texts: state.texts.filter(t => t.id !== id) }));
+  },
+
+  updateText: (id, props) => {
+    get().pushHistory();
     set(state => ({
       texts: state.texts.map(t => (t.id === id ? { ...t, ...props } : t)),
-    })),
+    }));
+  },
+
   resetStore: () =>
     set({
       frontBackground: "#FFFDF7",
@@ -99,5 +197,7 @@ export const useCustomStore = create<CustomState>(set => ({
       selectedFont: null,
       showText: false,
       texts: [],
+      history: [],
+      redoStack: [],
     }),
 }));

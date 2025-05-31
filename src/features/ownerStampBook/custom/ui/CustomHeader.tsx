@@ -1,13 +1,17 @@
 "use client";
 
-import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, RedoIcon, UndoIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
+import { useCustomStore } from "@/shared/store/customStore";
 
 export default function CustomHeader() {
   const router = useRouter();
   const saveDesignToJson = useCreateStampStore(state => state.saveDesignToJson);
+  const undo = useCustomStore(state => state.undo);
+  const redo = useCustomStore(state => state.redo);
+  const history = useCustomStore(state => state.history);
+  const redoStack = useCustomStore(state => state.redoStack);
 
   const handleNext = () => {
     saveDesignToJson();
@@ -22,26 +26,25 @@ export default function CustomHeader() {
             className="text-[#254434B2] w-[25px] h-[25px] cursor-pointer"
             onClick={() => router.back()}
           />
-          <Image
-            src={"/icon/undo.svg"}
-            width={18}
-            height={18}
-            alt="undo"
-            className="cursor-pointer"
+          <UndoIcon
+            className={`cursor-pointer ${history.length === 0 ? "opacity-50" : "text-font-green"}`}
+            onClick={undo}
           />
-          <Image
-            src={"/icon/redo.svg"}
-            width={18}
-            height={18}
-            alt="redo"
-            className="cursor-pointer"
+          <RedoIcon
+            className={`cursor-pointer ${redoStack.length === 0 ? "opacity-50" : "text-font-green"}`}
+            onClick={redo}
           />
         </div>
         <button
-          className="flex items-center justify-center gap-1 bg-green-300 rounded-full pl-2 py-[6px] w-[72px] w-[33px] text-font-green text-md font-bold"
-          onClick={handleNext}>
+          className={`flex items-center justify-center gap-1 rounded-full pl-2 py-[6px] w-[72px] h-[33px] text-md font-bold ${
+            history.length === 0 ? "bg-[#dcdcdc] text-[#fafafa]" : "text-font-green bg-green-300"
+          }`}
+          onClick={handleNext}
+          disabled={history.length === 0}>
           다음
-          <ChevronRight className="w-5 h-5 text-font-green" />
+          <ChevronRight
+            className={`w-5 h-5 ${history.length === 0 ? "text-[#fafafa]" : "text-font-green"}`}
+          />
         </button>
       </div>
     </header>
