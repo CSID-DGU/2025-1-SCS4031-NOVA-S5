@@ -1,1 +1,1 @@
-export * from "./challenge.type";
+

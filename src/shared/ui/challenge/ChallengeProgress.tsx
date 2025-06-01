@@ -1,7 +1,12 @@
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
 
-export function ChallengeProgress() {
+interface ChallengeProgressProps {
+  currentDay: number;
+  totalDay: number;
+}
+
+export function ChallengeProgress({ currentDay, totalDay }: ChallengeProgressProps) {
   return (
     <div>
       <div className="flex flex-row gap-2">
@@ -19,8 +24,12 @@ export function ChallengeProgress() {
           <Image src="/img/fadedCharacter/beige.svg" width={45} height={62} alt="beige" />
         </div>
         <div className="absolute flex flex-col gap-5 bottom-2">
-          <label className="text-base font-bold">아직 진행 전인 챌린지에요!</label>
-          <Progress value={(0 / 10) * 100} character={true} characterType="orange" />
+          <label className="text-base font-bold">
+            {currentDay > 0
+              ? `${currentDay}/${totalDay}회 진행 중입니다!`
+              : "아직 진행 전인 챌린지에요!"}
+          </label>
+          <Progress value={(currentDay / totalDay) * 100} character={true} characterType="orange" />
         </div>
       </div>
     </div>
