@@ -1,9 +1,8 @@
 "use client";
 
 import CafeCharacter from "@/features/cafeDetail/ui/CafeCharacter";
-import CafeStamp from "@/features/cafeDetail/ui/CafeStamp";
-import RewardCard from "@/features/cafeDetail/ui/RewardCard";
 import CafeInfo from "@/shared/ui/CafeInfo";
+import RewardCard from "@/features/cafeDetail/ui/RewardCard";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { getSelectedCafe } from "@/features/owner/service/api";
 import { Cafe } from "../model/cafe";
@@ -11,6 +10,11 @@ import { formatBusinessHours } from "@/shared/utils/date";
 import { createStampBook } from "@/shared/api/stampbook";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const CafeStamp = dynamic(() => import("@/features/cafeDetail/ui/CafeStamp"), {
+  ssr: false,
+});
 
 export default function ExampleContent() {
   const router = useRouter();
