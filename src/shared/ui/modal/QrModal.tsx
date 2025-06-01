@@ -23,14 +23,16 @@ function QrModal({ title, isOpen, setIsOpen }: QrModalProps) {
       <DialogContent className="p-0 bg-[#FFFDF7] w-[340px] h-[500px] gap-0">
         <DialogHeader className="bg-[#E2ECDC] flex justify-center items-center rounded-t-[10px] h-[150px]">
           <DialogTitle className="text-center !text-title-medium !font-[800] text-[#254434]">
-            {title}
+            {qrValue?.name || ""}님의
+            <br />
+            프로필 QR
           </DialogTitle>
         </DialogHeader>
         <div className="flex justify-center items-center">
           <img src="/img/spring.svg" alt="spring" className="absolute top-[135px]" />
         </div>
         <div className="flex flex-col  items-center">
-          <QrSection uuid={qrValue} color="YELLOW" />
+          <QrSection uuid={qrValue?.qrCodeValue || ""} color="YELLOW" />
         </div>
       </DialogContent>
     </Dialog>
