@@ -15,7 +15,7 @@ function LocationSlider() {
       </div>
 
       <div
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory touch-pan-x scrollbar-hide px-1"
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide px-1"
         style={{ WebkitOverflowScrolling: "touch", scrollBehavior: "smooth" }}>
         {cafes.map(cafe => (
           <div key={cafe.cafeId} className="flex-shrink-0 snap-start">
