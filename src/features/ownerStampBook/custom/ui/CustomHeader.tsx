@@ -7,6 +7,7 @@ import { useCustomStore } from "@/shared/store/customStore";
 
 export default function CustomHeader() {
   const router = useRouter();
+  const { designJson } = useCreateStampStore();
   const saveDesignToJson = useCreateStampStore(state => state.saveDesignToJson);
   const undo = useCustomStore(state => state.undo);
   const redo = useCustomStore(state => state.redo);
@@ -14,6 +15,7 @@ export default function CustomHeader() {
   const redoStack = useCustomStore(state => state.redoStack);
 
   const handleNext = () => {
+    console.log(designJson);
     saveDesignToJson();
     router.push("/owner/stampbook/info");
   };

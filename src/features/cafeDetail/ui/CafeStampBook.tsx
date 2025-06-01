@@ -40,12 +40,11 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
   const stageRef = useRef<KonvaStage>(null);
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
 
   const lowerCharacterType = characterType.toLowerCase();
   const stampedSrc = `/img/character/${lowerCharacterType}-face.svg`;
   const unstampedSrc = `/img/character/${lowerCharacterType}-face-gray.svg`;
-
-  console.log(stampBookDesignJson);
 
   useEffect(() => {
     if ((isOwner && designJson) || (!isOwner && stampBookDesignJson)) {
@@ -58,6 +57,14 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
       }
     }
   }, [isOwner, designJson, stampBookDesignJson]);
+
+  useEffect(() => {
+    if (customDesign?.front.backgroundImage) {
+      const img = new window.Image();
+      img.src = customDesign.front.backgroundImage;
+      img.onload = () => setBgImage(img);
+    }
+  }, [customDesign?.front.backgroundImage]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -82,14 +89,7 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
         <Stage ref={stageRef} width={320} height={154} className="absolute inset-0">
           <Layer>
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor} />
-            {customDesign.front.backgroundImage && (
-              <KonvaImage
-                image={new window.Image()}
-                src={customDesign.front.backgroundImage}
-                width={320}
-                height={154}
-              />
-            )}
+            {bgImage && <KonvaImage image={bgImage} width={320} height={154} />}
             {customDesign.front.texts?.map(text => (
               <Text
                 key={text.id}

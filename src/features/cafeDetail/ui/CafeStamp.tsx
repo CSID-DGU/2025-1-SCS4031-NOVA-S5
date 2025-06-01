@@ -1,15 +1,13 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { useEffect, useState } from "react";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
-import { Stage, Layer, Rect, Text } from "react-konva";
-import Image from "next/image";
+import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import dynamic from "next/dynamic";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
@@ -41,6 +39,7 @@ function CafeStamp({
   const { selectedCafe } = useSelectedCafe();
   const { designJson } = useCreateStampStore();
   const [customDesign, setCustomDesign] = useState<any>(null);
+  const [backImage, setBackImage] = useState<HTMLImageElement | null>(null);
 
   const cafeId = Number(params.id);
 
@@ -57,6 +56,14 @@ function CafeStamp({
       }
     },
   });
+
+  useEffect(() => {
+    if (customDesign?.back.backgroundImage) {
+      const img = new window.Image();
+      img.src = customDesign.back.backgroundImage;
+      img.onload = () => setBackImage(img);
+    }
+  }, [customDesign?.back.backgroundImage]);
 
   useEffect(() => {
     if ((isOwner && designJson) || (!isOwner && cafe?.stampBookDesignJson)) {
@@ -96,6 +103,7 @@ function CafeStamp({
                 height={154}
                 fill={customDesign.back.backgroundColor || "#FFFDF7"}
               />
+              {backImage && <KonvaImage image={backImage} width={320} height={154} />}
             </Layer>
             <Layer>
               {customDesign.back.texts?.map((text: any) => (
@@ -113,15 +121,6 @@ function CafeStamp({
               ))}
             </Layer>
           </Stage>
-          {customDesign.back.backgroundImage && (
-            <Image
-              src={customDesign.back.backgroundImage}
-              alt="background"
-              width={320}
-              height={154}
-              className="absolute inset-0"
-            />
-          )}
         </div>
       )}
 
