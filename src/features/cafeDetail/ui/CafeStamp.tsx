@@ -1,10 +1,9 @@
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import { getSelectedCafe } from "@/features/owner/service/api";
 import CafeStampBook from "./CafeStampBook";
 
 interface CafeStampProps {
@@ -28,15 +27,7 @@ function CafeStamp({
 }: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
   const params = useParams();
-
-  const { data: selectedCafe } = useQuery({
-    queryKey: ["selectedCafe"],
-    queryFn: getSelectedCafe,
-    enabled: isOwner,
-  });
-
   const cafeId = Number(params.id);
-  const displayCafe = isOwner ? selectedCafe : cafe;
 
   const { mutate, isPending } = useMutation({
     mutationFn: onSubmit ?? (() => saveStampBook(cafeId)),
@@ -57,10 +48,10 @@ function CafeStamp({
       <CafeStampBook
         data={{
           stampBookId: cafeId,
-          cafeName: displayCafe?.name || displayCafe?.cafeName || "카페",
+          cafeName: cafe?.name || "카페",
           maxStampCount: 10,
           currentStampCount: 0,
-          characterType: displayCafe?.character || "GREEN",
+          characterType: cafe?.character || "GREEN",
         }}
       />
       <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
