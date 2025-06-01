@@ -14,7 +14,7 @@ export function Preview() {
         reward={reward}
       />
       <CertificationCard challengeType={challengeType} />
-      <ChallengeProgress />
+      <ChallengeProgress currentDay={0} totalDay={10} />
       <div className="flex justify-center">
         <Button className="bg-font-green rounded-3xl h-10 w-[139px]">챌린지 개최하기</Button>
       </div>

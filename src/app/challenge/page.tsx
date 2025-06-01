@@ -1,11 +1,11 @@
 "use client";
 
-import { ChallengeStatus } from "@/features/cafeOwnerChallenge/model";
 import { mockChallenges } from "@/features/cafeOwnerChallenge/model/mockChallenges";
-import { ChallengeTab, PlusButton, StartChallenge } from "@/features/cafeOwnerChallenge/ui";
-import ChallengeCard from "@/features/cafeOwnerChallenge/ui/ChallengeCard";
+import { PlusButton, StartChallenge } from "@/features/cafeOwnerChallenge/ui";
 import { getChallengeInfo, getChallengeStatus } from "@/features/cafeOwnerChallenge/utils";
-import { OwnerGNB } from "@/shared";
+import { ChallengeTab, OwnerGNB } from "@/shared";
+import { ChallengeStatus } from "@/shared/model";
+import ChallengeCard from "@/shared/ui/ChallengeCard";
 import { useState } from "react";
 
 export default function ChallengePage() {
@@ -23,7 +23,7 @@ export default function ChallengePage() {
       <div className="pb-9">
         <h1 className="text-xl font-extrabold text-font-green">{cafename}의 챌린지 리스트</h1>
       </div>
-      <ChallengeTab status={status} setStatus={setStatus} />
+      <ChallengeTab status={status} setStatus={setStatus} isOwner={true} />
 
       <div className="mt-6 space-y-4">
         {filtered.length > 0 ? (

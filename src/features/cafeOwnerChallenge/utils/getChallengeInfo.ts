@@ -1,4 +1,4 @@
-import { ChallengeStatus } from "../model";
+import { ChallengeStatus } from "@/shared/model";
 
 export const getChallengeInfo = (status: ChallengeStatus) => {
   switch (status) {

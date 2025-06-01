@@ -4,10 +4,15 @@ import { useEffect } from "react";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampCard from "./StampCard";
 import EmptyState from "./EmptyState";
+import { useRouter } from "next/navigation";
 
 export default function StampSlider() {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
   const visibleBooks = stampBooks.filter(book => book.inHome).slice(0, 5);
+  const route = useRouter();
+  const handleToReward = () => {
+    route.push("/reward");
+  };
 
   useEffect(() => {
     fetchAndSetStampBooks();
@@ -20,7 +25,9 @@ export default function StampSlider() {
           <p className="text-md font-extrabold text-[#254434]">나의 스탬프북</p>
           <p className="text-md font-extrabold text-green-100">{stampBooks.length}</p>
         </div>
-        <p className="text-xs text-[#8A8A8A99] cursor-pointer">더보기</p>
+        <p className="text-xs text-[#8A8A8A99] cursor-pointer" onClick={handleToReward}>
+          더보기
+        </p>
       </div>
 
       {visibleBooks.length === 0 ? (

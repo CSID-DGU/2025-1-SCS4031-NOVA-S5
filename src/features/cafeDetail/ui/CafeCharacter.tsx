@@ -1,7 +1,6 @@
 "use client";
 
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { getSilhouetteInfo } from "@/shared/utils/getSilhouetteInfo";
 import { SilhouetteColor } from "@/shared/model";
 
@@ -12,11 +11,7 @@ interface CafeCharacterProps {
 
 function CafeCharacter({ isOwner = false }: CafeCharacterProps) {
   const cafe = useCafeStore(state => state.cafe);
-  const { selectedCafe } = useSelectedCafe();
-
-  const displayCharacterType = isOwner
-    ? selectedCafe?.characterType?.toLowerCase()
-    : cafe?.character?.toLowerCase() || "yellow";
+  const displayCharacterType = cafe?.character?.toLowerCase() || "yellow";
 
   const [name, description] = getSilhouetteInfo(
     displayCharacterType?.toUpperCase() as SilhouetteColor

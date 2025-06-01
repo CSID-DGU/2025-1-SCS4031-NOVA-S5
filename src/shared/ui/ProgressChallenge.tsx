@@ -1,18 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import { Progress } from "@/components/ui/progress";
-import { useChallengeStore } from "@/shared/store/challengeStore";
 import { useEffect, useState } from "react";
 
-interface ChallengeCardProps {
-  challengeId: number;
+interface ProgressChallengeProps {
+  challenge: {
+    id: number;
+    challengeTitle: string;
+    currentDay: number;
+    totalDay: number;
+  };
+  onClick?: () => void;
 }
 
-export default function ChallengeCard({ challengeId }: ChallengeCardProps) {
+export default function ProgressChallenge({ challenge, onClick }: ProgressChallengeProps) {
   const [show, setShow] = useState(false);
-  const challenge = useChallengeStore(state => state.challenges.find(b => b.id === challengeId));
-
-  if (!challenge) return null;
-
   const { challengeTitle, currentDay, totalDay } = challenge;
 
   useEffect(() => {
@@ -21,8 +24,10 @@ export default function ChallengeCard({ challengeId }: ChallengeCardProps) {
   }, []);
 
   return (
-    <div className="w-[280px] h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg">
-      <div className="flex justify-between items-center gap-3 w-full h-[60px]">
+    <div
+      className="w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg"
+      onClick={onClick}>
+      <div className="flex justify-start items-center gap-3 w-full h-[60px]">
         <div className="w-[60px] h-[60px] bg-green-400 rounded-lg">
           <Image
             src={"/img/coffee-cup.svg"}
@@ -42,7 +47,7 @@ export default function ChallengeCard({ challengeId }: ChallengeCardProps) {
             <div className="flex gap-1">
               <p className="text-[#254434] text-xs font-semibold">{currentDay}</p>
               <p className="text-[#254434] text-opacity-50 text-xs font-semibold">
-                / {totalDay}일 진행 중!
+                / {totalDay}회 진행 중!
               </p>
             </div>
           </div>

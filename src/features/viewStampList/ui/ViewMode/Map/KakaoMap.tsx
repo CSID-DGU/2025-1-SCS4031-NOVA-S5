@@ -13,7 +13,6 @@ function KakaoMap() {
   const [error, setError] = useState<string | null>(null);
   const [activeMarkerId, setActiveMarkerId] = useState<number | null>(null);
   const [mapHeight, setMapHeight] = useState("65vh");
-  const markersRef = useRef<kakao.maps.Marker[]>([]);
 
   // 유효한 좌표를 가진 카페만 필터링
   const validCafes = cafes.filter(
@@ -56,8 +55,8 @@ function KakaoMap() {
 
       if (!mapRef.current) return;
 
-      // 기본 중심점 설정 (서울시청)
-      const defaultCenter = new window.kakao.maps.LatLng(37.5665, 126.978);
+      // 기본 중심점 설정 (충무로역)
+      const defaultCenter = new window.kakao.maps.LatLng(37.5612, 126.9947);
       setCenter(defaultCenter);
 
       const options = {
@@ -108,24 +107,9 @@ function KakaoMap() {
     };
   }, []); // 지도 초기화는 한 번만 실행
 
-  // 마커 생성 및 업데이트
-  useEffect(() => {
-    if (!map || !validCafes.length) return;
-
-    // 기존 마커 제거
-    markersRef.current.forEach(marker => marker.setMap(null));
-    markersRef.current = [];
-
-    // 새로운 마커 생성
-    const bounds = new window.kakao.maps.LatLngBounds();
-    validCafes.forEach(cafe => {
-      const position = new window.kakao.maps.LatLng(cafe.latitude, cafe.longitude);
-      bounds.extend(position);
-    });
-
-    // 지도 영역 설정
-    map.setBounds(bounds);
-  }, [map, validCafes]);
+  const handleMarkerClick = (cafeId: number) => {
+    setActiveMarkerId(prev => (prev === cafeId ? null : cafeId));
+  };
 
   const activeCafe = validCafes.find(cafe => cafe.cafeId === activeMarkerId);
 
@@ -162,7 +146,7 @@ function KakaoMap() {
             position={{ lat: cafe.latitude, lng: cafe.longitude }}
             title={cafe.cafeName}
             isActive={activeMarkerId === cafe.cafeId}
-            onClick={() => setActiveMarkerId(prev => (prev === cafe.cafeId ? null : cafe.cafeId))}
+            onClick={() => handleMarkerClick(cafe.cafeId)}
           />
         ))}
 

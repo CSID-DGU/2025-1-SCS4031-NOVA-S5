@@ -12,9 +12,10 @@ interface ChallengeData {
 
 interface ChallengeCardProps {
   challenge: ChallengeData;
+  onClick?: () => void;
 }
 
-export default function ChallengeCard({ challenge }: ChallengeCardProps) {
+export default function ChallengeCard({ challenge, onClick }: ChallengeCardProps) {
   const [show, setShow] = useState(false);
   const { challengeTitle, description, startDate, endDate } = challenge;
 
@@ -26,7 +27,9 @@ export default function ChallengeCard({ challenge }: ChallengeCardProps) {
   }, []);
 
   return (
-    <div className="relative w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg">
+    <div
+      className="relative w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg"
+      onClick={onClick}>
       {/* 오른쪽 상단 남은 일자 표시 */}
       <div className="absolute top-2 right-3 text-[11px] text-right text-[#254434] font-semibold">
         {message}
