@@ -51,11 +51,7 @@ function CafeStamp({
           cafeName: cafe?.name || "카페",
           maxStampCount: 10,
           currentStampCount: 0,
-<<<<<<< HEAD
           characterType: cafe?.character || "GREEN",
-=======
-          characterType: displayCafe?.characterType || "GREEN",
->>>>>>> 1e5e41f3b0953dbad11bb593b3031a2e510d794d
         }}
       />
       <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
