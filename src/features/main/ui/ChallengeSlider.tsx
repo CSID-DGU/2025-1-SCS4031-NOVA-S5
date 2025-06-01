@@ -3,10 +3,15 @@
 import { useChallengeStore } from "@/shared/store/challengeStore";
 import ChallengeCard from "./ChallengeCard";
 import EmptyState from "./EmptyState";
+import { useRouter } from "next/navigation";
 
 export default function ChallengeSlider() {
   const challenges = useChallengeStore(state => state.challenges);
   const visibleChallenges = challenges.slice(0, 5);
+  const route = useRouter();
+  const handleToChallenge = () => {
+    route.push("/myChallenge");
+  };
 
   return (
     <div className="flex flex-col gap-5">
@@ -15,7 +20,9 @@ export default function ChallengeSlider() {
           <p className="text-md font-extrabold text-[#254434]">참여 중인 챌린지</p>
           <p className="text-md font-extrabold text-green-100">{challenges.length}</p>
         </div>
-        <p className="text-xs text-[#8A8A8A99] cursor-pointer">더보기</p>
+        <p className="text-xs text-[#8A8A8A99] cursor-pointer" onClick={handleToChallenge}>
+          더보기
+        </p>
       </div>
 
       {challenges.length === 0 ? (
