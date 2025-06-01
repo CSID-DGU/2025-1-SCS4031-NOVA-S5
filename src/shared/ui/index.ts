@@ -7,3 +7,4 @@ export * from "./BottomSheet/index";
 export * from "./CloseHeader";
 export * from "./challenge/index";
 export * from "./ChallengeTab";
+export * from "./ProgressChallenge";

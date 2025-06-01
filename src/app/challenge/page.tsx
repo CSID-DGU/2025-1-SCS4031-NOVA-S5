@@ -2,10 +2,10 @@
 
 import { mockChallenges } from "@/features/cafeOwnerChallenge/model/mockChallenges";
 import { PlusButton, StartChallenge } from "@/features/cafeOwnerChallenge/ui";
-import ChallengeCard from "@/features/cafeOwnerChallenge/ui/ChallengeCard";
 import { getChallengeInfo, getChallengeStatus } from "@/features/cafeOwnerChallenge/utils";
 import { ChallengeTab, OwnerGNB } from "@/shared";
 import { ChallengeStatus } from "@/shared/model";
+import ChallengeCard from "@/shared/ui/ChallengeCard";
 import { useState } from "react";
 
 export default function ChallengePage() {

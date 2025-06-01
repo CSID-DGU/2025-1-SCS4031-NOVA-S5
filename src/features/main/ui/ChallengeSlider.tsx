@@ -1,9 +1,9 @@
 "use client";
 
 import { useChallengeStore } from "@/shared/store/challengeStore";
-import ChallengeCard from "./ChallengeCard";
 import EmptyState from "./EmptyState";
 import { useRouter } from "next/navigation";
+import ProgressChallenge from "@/shared/ui/ProgressChallenge";
 
 export default function ChallengeSlider() {
   const challenges = useChallengeStore(state => state.challenges);
@@ -40,7 +40,14 @@ export default function ChallengeSlider() {
               key={challenge.id}
               className="flex-shrink-0 scroll-snap-align-start transition-transform ease-in-out duration-700"
               style={{ scrollSnapAlign: "start" }}>
-              <ChallengeCard challengeId={challenge.id} />
+              <ProgressChallenge
+                challenge={{
+                  id: challenge.id,
+                  challengeTitle: challenge.challengeTitle,
+                  currentDay: challenge.currentDay,
+                  totalDay: challenge.totalDay,
+                }}
+              />
             </div>
           ))}
         </div>

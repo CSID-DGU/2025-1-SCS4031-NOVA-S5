@@ -1,4 +1,4 @@
-import { ChallengeStatus } from "../model";
+import { ChallengeStatus } from "@/shared/model";
 
 export function getChallengeStatus(startDate: string, endDate: string): ChallengeStatus {
   const now = new Date();

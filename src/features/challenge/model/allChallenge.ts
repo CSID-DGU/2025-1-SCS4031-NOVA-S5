@@ -5,6 +5,7 @@ export const allChallengesMock = [
     description: "아메리카노",
     startDate: "2025-06-01",
     endDate: "2025-06-30",
+    progressCount: 0,
   },
   {
     challengeId: 2,
@@ -12,6 +13,7 @@ export const allChallengesMock = [
     description: "아메리카노",
     startDate: "2025-06-05",
     endDate: "2025-06-25",
+    progressCount: 0,
   },
   {
     challengeId: 3,
@@ -19,5 +21,6 @@ export const allChallengesMock = [
     description: "아메리카노",
     startDate: "2025-06-10",
     endDate: "2025-07-10",
+    progressCount: 0,
   },
 ];
