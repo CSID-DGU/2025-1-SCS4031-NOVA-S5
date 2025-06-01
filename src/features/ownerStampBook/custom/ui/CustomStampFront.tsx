@@ -113,7 +113,7 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
       </div>
       <div
         ref={containerRef}
-        className="relative w-full h-[154px] rounded-[10px] shadow-md overflow-hidden"
+        className="relative w-[320px] h-[154px] rounded-[10px] shadow-md overflow-hidden mx-auto"
         style={{ backgroundColor: backgroundColor ? backgroundColor : "#FFFDF7" }}>
         <Stage
           ref={stageRef}

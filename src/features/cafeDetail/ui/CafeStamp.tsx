@@ -87,11 +87,11 @@ function CafeStamp({
         }}
       />
       {customDesign?.back && (
-        <div className="relative w-[380px] h-[154px]">
-          <Stage width={380} height={154} className="absolute inset-0">
+        <div className="relative w-[320px] h-[154px] rounded-lg overflow-hidden">
+          <Stage width={320} height={154} className="absolute inset-0">
             <Layer>
               <Rect
-                width={380}
+                width={320}
                 height={154}
                 fill={customDesign.back.backgroundColor || "#FFFDF7"}
               />
@@ -116,7 +116,7 @@ function CafeStamp({
             <Image
               src={customDesign.back.backgroundImage}
               alt="background"
-              width={380}
+              width={320}
               height={154}
               className="absolute inset-0"
             />

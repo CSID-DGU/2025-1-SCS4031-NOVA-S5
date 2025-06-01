@@ -90,7 +90,7 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
       </div>
       <div
         ref={containerRef}
-        className="relative w-full h-[154px] rounded-[10px] shadow-md overflow-hidden bg-yellow-100"
+        className="relative w-[320px] h-[154px] rounded-[10px] shadow-md overflow-hidden bg-yellow-100 mx-auto"
         style={{ backgroundColor: backgroundColor ? backgroundColor : "#FFFDF7" }}>
         <Stage
           ref={stageRef}
