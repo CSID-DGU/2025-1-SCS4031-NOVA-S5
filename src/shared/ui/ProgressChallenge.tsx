@@ -9,9 +9,10 @@ interface ProgressChallengeProps {
     currentDay: number;
     totalDay: number;
   };
+  onClick?: () => void;
 }
 
-export default function ProgressChallenge({ challenge }: ProgressChallengeProps) {
+export default function ProgressChallenge({ challenge, onClick }: ProgressChallengeProps) {
   const [show, setShow] = useState(false);
   const { challengeTitle, currentDay, totalDay } = challenge;
 
@@ -21,7 +22,9 @@ export default function ProgressChallenge({ challenge }: ProgressChallengeProps)
   }, []);
 
   return (
-    <div className="w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg">
+    <div
+      className="w-full h-[111px] bg-yellow-300 p-4 flex flex-col gap-4 justify-center items-center rounded-lg"
+      onClick={onClick}>
       <div className="flex justify-start items-center gap-3 w-full h-[60px]">
         <div className="w-[60px] h-[60px] bg-green-400 rounded-lg">
           <Image

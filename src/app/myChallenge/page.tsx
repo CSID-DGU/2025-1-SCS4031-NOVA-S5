@@ -16,6 +16,10 @@ export default function MyChallenge() {
     route.back();
   };
 
+  const handleDetail = (id: string) => {
+    route.push(`/myChallenge/${id}`);
+  };
+
   const displayChallenges = (() => {
     switch (status) {
       case "ongoing":
@@ -46,6 +50,7 @@ export default function MyChallenge() {
                   currentDay: challenge.progressCount,
                   totalDay: 10,
                 }}
+                onClick={() => handleDetail(String(challenge.challengeId))}
               />
             ))
           : displayChallenges.map(challenge => (
@@ -58,6 +63,7 @@ export default function MyChallenge() {
                   startDate: challenge.startDate,
                   endDate: challenge.endDate,
                 }}
+                onClick={() => handleDetail(String(challenge.challengeId))}
               />
             ))}
       </div>
