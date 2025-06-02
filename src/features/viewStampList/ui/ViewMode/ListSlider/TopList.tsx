@@ -1,6 +1,5 @@
 "use client";
 
-import { LocationMock } from "@/shared/mocks/StampList/LocationMock";
 import TopCard from "./TopCard";
 import { usePopularCafe } from "@/features/viewStampList/hooks";
 import { Cafe } from "@/shared/store/cafeStore";
