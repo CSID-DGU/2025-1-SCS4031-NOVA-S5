@@ -1,8 +1,26 @@
-function LocationContent() {
+"use client";
+
+import Toast from "@/shared/ui/Toast";
+import { useState } from "react";
+
+interface LocationContentProps {
+  onClose: () => void;
+  onSetLocation: () => void;
+}
+
+function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
+  const [showToast, setShowToast] = useState(false);
+  const handleSetLocation = () => {
+    onSetLocation();
+    onClose();
+  };
+
   return (
     <div>
       <p className="text-[20px] font-[800] pb-[30px]">위치 설정</p>
-      <button className="flex gap-2 items-center justify-center bg-[#E2ECDC] w-full py-[13px] rounded-[10px] hover:bg-[#c6d3bf]">
+      <button
+        className="flex gap-2 items-center justify-center bg-[#E2ECDC] w-full py-[13px] rounded-[10px] hover:bg-[#c6d3bf]"
+        onClick={handleSetLocation}>
         <img src="./icon/bottomsheet/location.svg" alt="current location" />
         <p className="text-font-green text-[15px] font-[700]">현재 위치로 설정</p>
       </button>
@@ -10,6 +28,7 @@ function LocationContent() {
         <img src="./icon/bottomsheet/search-location.svg" alt="search location" />
         <p className="text-white font-[700] text-[15px]">위치 추가하기</p>
       </button>
+      {showToast && <Toast message="현재 위치로 설정되었습니다!" />}
     </div>
   );
 }
