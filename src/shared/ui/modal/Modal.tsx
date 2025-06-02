@@ -30,16 +30,16 @@ export default function Modal({
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent
         showClose={false}
-        className="w-[300px] rounded-[15px] p-0 gap-0 bg-yellow-300 flex flex-col items-center justify-center ">
+        className="w-[300px] rounded-[15px] py-0 px-[10px] gap-0 bg-yellow-300 flex flex-col items-center justify-center ">
         <DialogHeader>
           <DialogTitle className="sr-only">스탬프북 모달</DialogTitle>
         </DialogHeader>
-        <div className="w-[238px] h-[250px] flex flex-col gap-[30px] items-center justify-center py-[35px]">
+        <div className="w-full h-[250px] flex flex-col gap-[30px] items-center justify-center py-[35px]">
           <Image
             src={`/img/character/${characterType.toLowerCase()}-all.svg`}
             alt="character"
-            width={70}
-            height={79}
+            width={90}
+            height={101}
           />
           <div className="flex flex-col gap-[15px] items-center justify-center">
             {mainText}

@@ -164,8 +164,7 @@ export default function StampBookList() {
         button="double"
         mainText={
           <p className="text-md text-font-green font-bold text-center">
-            '{pendingBook?.stampBookName}'을
-            <br /> 노출하시겠어요?
+            '{pendingBook?.stampBookName}'을 노출하시겠어요?
           </p>
         }
         subText={
