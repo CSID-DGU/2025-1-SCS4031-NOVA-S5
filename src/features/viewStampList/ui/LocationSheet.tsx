@@ -43,10 +43,8 @@ function LocationSheet({ isOpen, onClose, onSetLocation }: LocationSheetProps) {
     };
   }, [isOpen, onClose, onSetLocation, setCurrentAddress]);
 
-  if (!isOpen) return null;
-
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose}>
+    <BottomSheet isOpen={isOpen} onClose={onClose} onOpen={() => {}}>
       <BottomSheet.Header></BottomSheet.Header>
       <BottomSheet.Content>
         <LocationContent onClose={onClose} onSetLocation={onSetLocation} />
