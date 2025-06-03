@@ -4,6 +4,7 @@ import Toast from "@/shared/ui/Toast";
 import { useState } from "react";
 import DaumPostcode from "react-daum-postcode";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useMapStore } from "@/shared/store/mapStore";
 
 interface LocationContentProps {
   onClose: () => void;
@@ -13,6 +14,7 @@ interface LocationContentProps {
 function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   const [showToast, setShowToast] = useState(false);
   const [isPostCodeOpen, setIsPostCodeOpen] = useState(false);
+  const { setCurrentAddress } = useMapStore();
 
   const handleSetLocation = () => {
     onSetLocation();
@@ -25,7 +27,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
 
   const handlePostCodeComplete = (data: any) => {
     console.log("Selected address:", data);
-    // TODO: 선택된 주소로 위치 설정 로직 구현
+    setCurrentAddress(data.address);
     setShowToast(true);
     setIsPostCodeOpen(false);
     onClose();
@@ -40,7 +42,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
         <img src="./icon/bottomsheet/location.svg" alt="current location" />
         <p className="text-font-green text-[15px] font-[700]">현재 위치로 설정</p>
       </button>
-      <button 
+      <button
         className="flex gap-2 items-center justify-center bg-[#254434] w-full py-[13px] rounded-[10px] hover:bg-[#345e48] mt-3"
         onClick={handleSearchAddress}>
         <img src="./icon/bottomsheet/search-location.svg" alt="search location" />
@@ -61,7 +63,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
         </DialogContent>
       </Dialog>
 
-      {showToast && <Toast message="현재 위치로 설정되었습니다!" />}
+      {showToast && <Toast message="위치가 설정되었습니다!" />}
     </div>
   );
 }
