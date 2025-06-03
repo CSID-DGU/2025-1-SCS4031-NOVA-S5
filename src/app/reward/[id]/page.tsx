@@ -1,8 +1,15 @@
 "use client";
 
-import CafeDetailContent from "@/features/reward/cafeDetail/ui/CafeDetailContent";
 import CafeDetailHeader from "@/features/reward/cafeDetail/ui/CafeDetailHeader";
 import GNB from "@/shared/ui/GNB";
+import dynamic from "next/dynamic";
+
+const CafeDetailContent = dynamic(
+  () => import("@/features/reward/cafeDetail/ui/CafeDetailContent"),
+  {
+    ssr: false,
+  }
+);
 
 export default function StampBookDetailPage() {
   return (

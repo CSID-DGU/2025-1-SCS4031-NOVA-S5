@@ -163,7 +163,7 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
             {images.map((_, index) => (
               <Image
                 key={index}
-                src={"/img/character/yellow-face-gray.svg"}
+                src={`/img/character/${characterType.toLowerCase()}-face-gray.svg`}
                 alt="stamp"
                 width={35}
                 height={35}

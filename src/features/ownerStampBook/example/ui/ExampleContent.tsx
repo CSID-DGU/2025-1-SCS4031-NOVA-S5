@@ -85,7 +85,7 @@ export default function ExampleContent() {
               address={selectedCafe.address || "주소 정보 없음"}
             />
             <RewardCard isOwner={true} />
-            <CafeCharacter isOwner={true} />
+            <CafeCharacter isOwner={true} characterType={selectedCafe.characterType} />
             <CafeStamp
               guideText="스탬프북은 등록 후에도 언제든지 수정할 수 있어요."
               buttonText="이대로 등록하기"

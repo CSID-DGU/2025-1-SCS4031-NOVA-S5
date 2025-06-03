@@ -40,7 +40,6 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
   const stageRef = useRef<KonvaStage>(null);
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
 
   const lowerCharacterType = characterType.toLowerCase();
   const stampedSrc = `/img/character/${lowerCharacterType}-face.svg`;
@@ -57,14 +56,6 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
       }
     }
   }, [isOwner, designJson, stampBookDesignJson]);
-
-  useEffect(() => {
-    if (customDesign?.front.backgroundImage) {
-      const img = new window.Image();
-      img.src = customDesign.front.backgroundImage;
-      img.onload = () => setBgImage(img);
-    }
-  }, [customDesign?.front.backgroundImage]);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -89,7 +80,6 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
         <Stage ref={stageRef} width={320} height={154} className="absolute inset-0">
           <Layer>
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor} />
-            {bgImage && <KonvaImage image={bgImage} width={320} height={154} />}
             {customDesign.front.texts?.map(text => (
               <Text
                 key={text.id}
@@ -105,6 +95,15 @@ export default function CafeStampBook({ data, isOwner = false }: StampBookProps)
             ))}
           </Layer>
         </Stage>
+        {customDesign.front.backgroundImage && (
+          <Image
+            src={customDesign.front.backgroundImage}
+            alt="background"
+            width={320}
+            height={154}
+            className="absolute inset-0"
+          />
+        )}
 
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">

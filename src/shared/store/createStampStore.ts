@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { useCustomStore } from "./customStore";
 import { Stage as KonvaStage } from "konva/lib/Stage";
+import { uploadAndGetFileUrl } from "@/features/ownerStampBook/custom/hooks/uploadPresignedImage";
 
 interface CreateStampState {
   stampBookName: string;
@@ -51,7 +52,7 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
       backStageRef: null,
       exposed: null,
     }),
-  saveDesignToJson: () => {
+  saveDesignToJson: async () => {
     const customStore = useCustomStore.getState();
     const { frontBackground, backBackground, frontImage, backImage, texts } = customStore;
     const { frontStageRef, backStageRef } = get();
@@ -64,10 +65,20 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
       return;
     }
 
+    let frontImageUrl: string | null = null;
+    let backImageUrl: string | null = null;
+
+    if (frontImage) {
+      frontImageUrl = await uploadAndGetFileUrl(frontImage, "front");
+    }
+    if (backImage) {
+      backImageUrl = await uploadAndGetFileUrl(backImage, "back");
+    }
+
     const designData = {
       front: {
         backgroundColor: frontBackground,
-        backgroundImage: frontImage ? URL.createObjectURL(frontImage) : null,
+        backgroundImage: frontImageUrl,
         texts: texts
           .filter(t => t.side === "front")
           .map(({ id, text, x, y, color, font, side }) => ({
@@ -83,7 +94,7 @@ export const useCreateStampStore = create<CreateStampState>((set, get) => ({
       },
       back: {
         backgroundColor: backBackground,
-        backgroundImage: backImage ? URL.createObjectURL(backImage) : null,
+        backgroundImage: backImageUrl,
         texts: texts
           .filter(t => t.side === "back")
           .map(({ id, text, x, y, color, font, side }) => ({
