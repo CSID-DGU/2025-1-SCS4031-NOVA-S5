@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import dynamic from "next/dynamic";
+import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
   ssr: false,
@@ -41,7 +42,13 @@ function CafeStamp({
   const { selectedCafe } = useSelectedCafe();
   const { designJson } = useCreateStampStore();
   const [customDesign, setCustomDesign] = useState<any>(null);
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [bgImage, setBgImage] = useState<{
+    element: HTMLImageElement;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } | null>(null);
 
   const cafeId = Number(params.id);
 
@@ -78,7 +85,13 @@ function CafeStamp({
     if (customDesign?.back?.backgroundImage) {
       const img = new window.Image();
       img.src = customDesign.back.backgroundImage;
-      img.onload = () => setBgImage(img);
+      img.onload = () => {
+        const transform = getCoverTransform(img.width, img.height);
+        setBgImage({
+          element: img,
+          ...transform,
+        });
+      };
     }
   }, [customDesign?.back?.backgroundImage]);
 
@@ -108,7 +121,16 @@ function CafeStamp({
               />
             </Layer>
             <Layer>
-              {bgImage && <KonvaImage image={bgImage} alt="background" width={320} height={154} />}
+              {bgImage && (
+                <KonvaImage
+                  image={bgImage.element}
+                  x={bgImage.x}
+                  y={bgImage.y}
+                  width={bgImage.width}
+                  height={bgImage.height}
+                  listening={false}
+                />
+              )}
             </Layer>
             <Layer>
               {customDesign.back.texts?.map((text: any) => (

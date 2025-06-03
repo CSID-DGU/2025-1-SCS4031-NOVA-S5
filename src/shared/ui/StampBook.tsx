@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Stage, Layer, Rect, Image as KonvaImage, Text } from "react-konva";
 import { Stage as KonvaStage } from "konva/lib/Stage";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
+import { getCoverTransform } from "../utils/getCoverTransform";
 
 interface StampBookProps {
   stampBookId: number;
@@ -32,7 +33,13 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
   const book = stampBooks.find(b => b.stampBookId === stampBookId);
   const stageRef = useRef<KonvaStage>(null);
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [bgImage, setBgImage] = useState<{
+    element: HTMLImageElement;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } | null>(null);
 
   useEffect(() => {
     if (!book) fetchAndSetStampBooks();
@@ -53,7 +60,13 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
     if (customDesign?.front?.backgroundImage) {
       const img = new window.Image();
       img.src = customDesign.front.backgroundImage;
-      img.onload = () => setBgImage(img);
+      img.onload = () => {
+        const transform = getCoverTransform(img.width, img.height);
+        setBgImage({
+          element: img,
+          ...transform,
+        });
+      };
     }
   }, [customDesign?.front?.backgroundImage]);
 
@@ -77,11 +90,12 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
           <Layer>
             {bgImage && (
               <KonvaImage
-                image={bgImage}
-                width={320}
-                height={154}
-                alt="background"
-                className="absolute inset-0"
+                image={bgImage.element}
+                x={bgImage.x}
+                y={bgImage.y}
+                width={bgImage.width}
+                height={bgImage.height}
+                listening={false}
               />
             )}
           </Layer>

@@ -10,6 +10,7 @@ import RewardCoupon from "./RewardCoupon";
 import CafeInfo from "@/shared/ui/CafeInfo";
 import { Layer, Rect, Stage, Text as KonvaText, Image as KonvaImage } from "react-konva";
 import { getStampBook } from "@/shared/api/stampbook";
+import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 
 export default function CafeDetailContent() {
   const params = useParams();
@@ -22,7 +23,13 @@ export default function CafeDetailContent() {
   const [rewardCount, setRewardCount] = useState<number>(0);
   const [isDeleted, setIsDeleted] = useState(false);
   const [backDesign, setBackDesign] = useState<any>(null);
-  const [backBgImage, setBackBgImage] = useState<HTMLImageElement | null>(null);
+  const [backBgImage, setBackBgImage] = useState<{
+    element: HTMLImageElement;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } | null>(null);
 
   useEffect(() => {
     const fetchStampBook = async () => {
@@ -40,7 +47,13 @@ export default function CafeDetailContent() {
           if (back?.backgroundImage) {
             const img = new window.Image();
             img.src = back.backgroundImage;
-            img.onload = () => setBackBgImage(img);
+            img.onload = () => {
+              const transform = getCoverTransform(img.width, img.height);
+              setBackBgImage({
+                element: img,
+                ...transform,
+              });
+            };
           }
         }
       } catch (err) {
@@ -104,11 +117,12 @@ export default function CafeDetailContent() {
                   <Rect width={320} height={154} fill={backDesign.backgroundColor || "#ffffff"} />
                   {backBgImage && (
                     <KonvaImage
-                      image={backBgImage}
-                      width={320}
-                      height={154}
-                      alt="background"
-                      className="inset-0 absolute"
+                      image={backBgImage.element}
+                      x={backBgImage.x}
+                      y={backBgImage.y}
+                      width={backBgImage.width}
+                      height={backBgImage.height}
+                      listening={false}
                     />
                   )}
                   {backDesign.texts?.map((text: any) => (

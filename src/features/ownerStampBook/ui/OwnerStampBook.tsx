@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import { useEffect, useState } from "react";
+import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 
 interface StampBookDesign {
   front: {
@@ -29,7 +30,14 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
   const { selectedCafe } = useSelectedCafe();
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
+  const [bgImage, setBgImage] = useState<{
+    element: HTMLImageElement;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } | null>(null);
+
   const totalStamps = 10;
   const stampedCount = 3;
   const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
@@ -69,7 +77,13 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
     if (customDesign?.front?.backgroundImage) {
       const img = new window.Image();
       img.src = customDesign.front.backgroundImage;
-      img.onload = () => setBgImage(img);
+      img.onload = () => {
+        const transform = getCoverTransform(img.width, img.height);
+        setBgImage({
+          element: img,
+          ...transform,
+        });
+      };
     }
   }, [customDesign?.front?.backgroundImage]);
 
@@ -81,7 +95,16 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor || "#FEF08A"} />
           </Layer>
           <Layer>
-            {bgImage && <KonvaImage image={bgImage} alt="background" width={320} height={154} />}
+            {bgImage && (
+              <KonvaImage
+                image={bgImage.element}
+                x={bgImage.x}
+                y={bgImage.y}
+                width={bgImage.width}
+                height={bgImage.height}
+                listening={false}
+              />
+            )}
           </Layer>
           <Layer>
             {customDesign.front.texts?.map(text => (
