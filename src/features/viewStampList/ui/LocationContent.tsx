@@ -57,7 +57,11 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   };
 
   const handlePostCodeComplete = (data: any) => {
-    console.log("Selected address:", data);
+    if (savedLocations.length >= 3) {
+      setShowToast(true);
+      setIsPostCodeOpen(false);
+      return;
+    }
     setCurrentAddress(data.address);
     setIsCurrentLocation(false);
     addLocation(data.address);
@@ -150,7 +154,15 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
         </DialogContent>
       </Dialog>
 
-      {showToast && <Toast message="위치가 설정되었습니다!" />}
+      {showToast && (
+        <Toast
+          message={
+            savedLocations.length >= 3
+              ? "최대 3개의 위치만 저장할 수 있습니다."
+              : "위치가 설정되었습니다!"
+          }
+        />
+      )}
     </div>
   );
 }
