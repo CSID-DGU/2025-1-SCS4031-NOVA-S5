@@ -8,6 +8,9 @@ import SideSelectModal from "./SideSelectModal";
 import { useCustomStore } from "@/shared/store/customStore";
 import TextBottomSheet from "./TextBottomSheet";
 import { v4 as uuidv4 } from "uuid";
+import { useQuery } from "@tanstack/react-query";
+import { Cafe } from "../../example/model/cafe";
+import { getSelectedCafe } from "@/features/owner/service/api";
 
 const CustomStampFront = dynamic(
   () => import("@/features/ownerStampBook/custom/ui/CustomStampFront"),
@@ -104,14 +107,17 @@ export default function CustomContent() {
           x: 0,
           y: 0,
         };
-        console.log("Adding new text:", newText);
         addText(newText);
-        console.log("Current texts after adding:", useCustomStore.getState().texts);
         setSelectedFont(null);
         setModalType(null);
       }
     }
   };
+
+  const { data: selectedCafe } = useQuery<Cafe>({
+    queryKey: ["selectedCafe"],
+    queryFn: getSelectedCafe,
+  });
 
   return (
     <>
@@ -165,7 +171,8 @@ export default function CustomContent() {
       />
       <SideSelectModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        setIsOpen={setIsModalOpen}
+        characterType={selectedCafe?.characterType}
         onSelect={handleSideSelect}
       />
       <TextBottomSheet

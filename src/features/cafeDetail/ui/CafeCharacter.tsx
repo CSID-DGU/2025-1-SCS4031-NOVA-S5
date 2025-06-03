@@ -9,9 +9,10 @@ interface CafeCharacterProps {
   isOwner?: boolean;
 }
 
-function CafeCharacter({ isOwner = false }: CafeCharacterProps) {
+function CafeCharacter({ isOwner = false, characterType }: CafeCharacterProps) {
   const cafe = useCafeStore(state => state.cafe);
-  const displayCharacterType = cafe?.character?.toLowerCase() || "yellow";
+  const displayCharacterType =
+    cafe?.character?.toLowerCase() || characterType?.toLocaleLowerCase() || "yellow";
 
   const [name, description] = getSilhouetteInfo(
     displayCharacterType?.toUpperCase() as SilhouetteColor

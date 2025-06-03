@@ -4,7 +4,16 @@ import { useMutation } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
-import CafeStampBook from "./CafeStampBook";
+import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
+import { useEffect, useState } from "react";
+import { useCreateStampStore } from "@/shared/store/createStampStore";
+import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
+import dynamic from "next/dynamic";
+import Image from "next/image";
+
+const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
+  ssr: false,
+});
 
 interface CafeStampProps {
   guideText?: string;
@@ -27,6 +36,11 @@ function CafeStamp({
 }: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
   const params = useParams();
+
+  const { selectedCafe } = useSelectedCafe();
+  const { designJson } = useCreateStampStore();
+  const [customDesign, setCustomDesign] = useState<any>(null);
+
   const cafeId = Number(params.id);
 
   const { mutate, isPending } = useMutation({
@@ -43,19 +57,80 @@ function CafeStamp({
     },
   });
 
+  useEffect(() => {
+    if ((isOwner && designJson) || (!isOwner && cafe?.stampBookDesignJson)) {
+      try {
+        const json =
+          isOwner && designJson
+            ? JSON.parse(designJson)
+            : JSON.parse(cafe?.stampBookDesignJson || "");
+        setCustomDesign(json);
+      } catch (error) {
+        console.error("Failed to parse designJson:", error);
+      }
+    }
+  }, [isOwner, designJson, cafe?.stampBookDesignJson]);
+
   return (
     <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
       <CafeStampBook
+        isOwner={isOwner}
         data={{
           stampBookId: cafeId,
-          cafeName: cafe?.name || "카페",
+          cafeName: isOwner ? selectedCafe?.cafeName || "카페" : cafe?.name || "카페",
           maxStampCount: 10,
           currentStampCount: 0,
-          characterType: cafe?.character || "GREEN",
+          characterType: isOwner
+            ? (selectedCafe?.characterType as "BLACK" | "ORANGE" | "YELLOW" | "GREEN") || "GREEN"
+            : (cafe?.character as "BLACK" | "ORANGE" | "YELLOW" | "GREEN") || "GREEN",
+          stampBookDesignJson: cafe?.stampBookDesignJson || "",
         }}
       />
-      <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
-      <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>
+      {customDesign?.back && (
+        <div className="relative w-[320px] h-[154px] rounded-lg overflow-hidden">
+          <Stage width={320} height={154} className="absolute inset-0">
+            <Layer>
+              <Rect
+                width={320}
+                height={154}
+                fill={customDesign.back.backgroundColor || "#FFFDF7"}
+              />
+            </Layer>
+            <Layer>
+              {customDesign.back.texts?.map((text: any) => (
+                <Text
+                  key={text.id}
+                  text={text.text}
+                  x={text.x}
+                  y={text.y}
+                  fontSize={24}
+                  fontFamily={text.font || "Pretendard"}
+                  fill={text.color || "#000"}
+                  align="center"
+                  verticalAlign="middle"
+                />
+              ))}
+            </Layer>
+          </Stage>
+          {customDesign.back.backgroundImage && (
+            <Image
+              src={customDesign.back.backgroundImage}
+              alt="background"
+              width={320}
+              height={154}
+              className="absolute inset-0"
+            />
+          )}
+        </div>
+      )}
+
+      {!customDesign?.back && (
+        <>
+          <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
+          <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>
+        </>
+      )}
+
       <button
         className="bg-[#254434] text-[#FFF] text-[12px] font-[700] h-[41px] w-fit rounded-full px-[20px] hover:bg-green-800"
         disabled={isPending}
