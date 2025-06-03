@@ -2,6 +2,8 @@
 
 import Toast from "@/shared/ui/Toast";
 import { useState } from "react";
+import DaumPostcode from "react-daum-postcode";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface LocationContentProps {
   onClose: () => void;
@@ -10,8 +12,22 @@ interface LocationContentProps {
 
 function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   const [showToast, setShowToast] = useState(false);
+  const [isPostCodeOpen, setIsPostCodeOpen] = useState(false);
+
   const handleSetLocation = () => {
     onSetLocation();
+    onClose();
+  };
+
+  const handleSearchAddress = () => {
+    setIsPostCodeOpen(true);
+  };
+
+  const handlePostCodeComplete = (data: any) => {
+    console.log("Selected address:", data);
+    // TODO: 선택된 주소로 위치 설정 로직 구현
+    setShowToast(true);
+    setIsPostCodeOpen(false);
     onClose();
   };
 
@@ -24,10 +40,27 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
         <img src="./icon/bottomsheet/location.svg" alt="current location" />
         <p className="text-font-green text-[15px] font-[700]">현재 위치로 설정</p>
       </button>
-      <button className="flex gap-2 items-center justify-center bg-[#254434] w-full py-[13px] rounded-[10px] hover:bg-[#345e48] mt-3">
+      <button 
+        className="flex gap-2 items-center justify-center bg-[#254434] w-full py-[13px] rounded-[10px] hover:bg-[#345e48] mt-3"
+        onClick={handleSearchAddress}>
         <img src="./icon/bottomsheet/search-location.svg" alt="search location" />
         <p className="text-white font-[700] text-[15px]">위치 추가하기</p>
       </button>
+
+      <Dialog open={isPostCodeOpen} onOpenChange={setIsPostCodeOpen}>
+        <DialogContent className="max-w-[500px] h-[90vh] p-0 !gap-0 flex flex-col">
+          <DialogHeader className="py-1 px-3 border-b shrink-0 h-12">
+            <DialogTitle className="text-sm">주소 검색</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 min-h-0">
+            <DaumPostcode
+              onComplete={handlePostCodeComplete}
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {showToast && <Toast message="현재 위치로 설정되었습니다!" />}
     </div>
   );
