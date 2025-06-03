@@ -17,7 +17,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   const [showToast, setShowToast] = useState(false);
   const [isPostCodeOpen, setIsPostCodeOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const { setCurrentAddress } = useMapStore();
+  const { setCurrentAddress, currentAddress } = useMapStore();
   const { savedLocations, addLocation, removeLocation } = useLocationStore();
 
   const handleSetLocation = () => {
@@ -68,19 +68,28 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
             {savedLocations.map(location => (
               <div
                 key={location.id}
-                className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-100 border-b border-gray-50"
+                className="flex flex-col items-start p-3 cursor-pointer hover:bg-gray-100 border-b border-gray-50"
                 onClick={() => handleLocationClick(location.address)}>
-                <div>
-                  <p className="text-[14px] font-[500]">{location.address}</p>
-                  <p className="text-[12px] text-gray-500">[주소] {location.address}</p>
+                <div className="flex flex-row justify-between w-full items-center">
+                  <div>
+                    {currentAddress === location.address && (
+                      <div className="bg-[#E2ECDC] p-1 rounded-md mb-1 w-fit">
+                        <p className="text-[10px] font-[500] text-font-green">현재 설정된 위치</p>
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-[14px] font-[500]">{location.address}</p>
+                      <p className="text-[12px] text-gray-500">[주소] {location.address}</p>
+                    </div>
+                  </div>
+                  {isEditMode && (
+                    <button
+                      onClick={e => handleRemoveLocation(e, location.id)}
+                      className="text-gray-400 hover:text-gray-600">
+                      <Image src="/icon/delete.svg" alt="delete" width={18} height={18} />
+                    </button>
+                  )}
                 </div>
-                {isEditMode && (
-                  <button
-                    onClick={e => handleRemoveLocation(e, location.id)}
-                    className="text-gray-400 hover:text-gray-600">
-                    <Image src="/icon/delete.svg" alt="delete" width={18} height={18} />
-                  </button>
-                )}
               </div>
             ))}
           </div>
