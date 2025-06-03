@@ -59,7 +59,7 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
 
   if (book.isCustomized && customDesign?.front) {
     return (
-      <div className="w-[320px] h-[154px] relative rounded-lg overflow-hidden">
+      <div className="w-[320px] h-[154px] relative rounded-lg overflow-hidden shadow-md">
         <Stage ref={stageRef} width={320} height={154} className="absolute inset-0">
           <Layer>
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor} />
