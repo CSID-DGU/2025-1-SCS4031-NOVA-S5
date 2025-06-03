@@ -12,6 +12,12 @@ export const fetchMyStampBooks = async () => {
   return response.data.data;
 };
 
+// 단일 스탬프북 조회
+export const getStampBook = async (stampBookId: number) => {
+  const response = await api.get(`/stampbooks/${stampBookId}`);
+  return response.data.data;
+};
+
 // 스탬프북 홈에 추가
 export const addHomeStampBook = async (stampBookId: number) => {
   const response = await api.post(`/stampbooks/${stampBookId}/home`);
