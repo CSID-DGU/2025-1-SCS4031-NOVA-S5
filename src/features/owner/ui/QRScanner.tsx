@@ -66,16 +66,24 @@ export function QrScanner({ onScan, onError, isScanning }: QrScannerProps) {
 
     const startScanner = async () => {
       try {
-        const devices = await BrowserQRCodeReader.listVideoInputDevices();
+        // 모바일 기기인지 확인
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-        const backCamera = devices.find(device => device.label.toLowerCase().includes("back"));
+        if (isMobile) {
+          // 모바일에서는 facingMode를 사용하여 후면 카메라 강제
+          const constraints = {
+            video: {
+              facingMode: { exact: "environment" },
+            },
+          };
 
-        if (devices.length === 0) throw new Error("No camera found");
-        const selectedDeviceId = backCamera?.deviceId ?? devices[0].deviceId;
-        await codeReader.current?.decodeFromVideoDevice(
-          selectedDeviceId,
-          videoRef.current!,
-          (result, err) => {
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            streamRef.current = stream;
+          }
+
+          await codeReader.current?.decodeFromVideoElement(videoRef.current!, (result, err) => {
             if (result && !hasScanned.current) {
               hasScanned.current = true;
               stopScanner();
@@ -84,11 +92,29 @@ export function QrScanner({ onScan, onError, isScanning }: QrScannerProps) {
             if (err && !(err.name === "NotFoundException")) {
               onError?.(err);
             }
-          }
-        );
+          });
+        } else {
+          // 데스크톱에서는 일반 카메라 사용
+          const constraints = {
+            video: true,
+          };
 
-        if (videoRef.current?.srcObject) {
-          streamRef.current = videoRef.current.srcObject as MediaStream;
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            streamRef.current = stream;
+          }
+
+          await codeReader.current?.decodeFromVideoElement(videoRef.current!, (result, err) => {
+            if (result && !hasScanned.current) {
+              hasScanned.current = true;
+              stopScanner();
+              onScan(result.getText());
+            }
+            if (err && !(err.name === "NotFoundException")) {
+              onError?.(err);
+            }
+          });
         }
       } catch (e) {
         setHasPermission(false);
@@ -104,7 +130,7 @@ export function QrScanner({ onScan, onError, isScanning }: QrScannerProps) {
   }, [onScan, onError, isScanning]);
 
   if (!hasPermission) {
-    return <p>카메라 권한이 필요합니다. 브라우저 설정을 확인해주세요.</p>;
+    return <p>카메라에 접근할 수 없습니다. 브라우저 설정을 확인해주세요.</p>;
   }
 
   return (
