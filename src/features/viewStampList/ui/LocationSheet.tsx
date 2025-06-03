@@ -43,16 +43,18 @@ function LocationSheet({ isOpen, onClose, onSetLocation }: LocationSheetProps) {
   }, [isOpen, onSetLocation, setCurrentAddress]);
 
   return (
-    <BottomSheet isOpen={isOpen} onClose={onClose} onOpen={() => {}}>
-      <BottomSheet.Header></BottomSheet.Header>
-      <BottomSheet.Content>
-        <LocationContent
-          key={isOpen ? "open" : "closed"}
-          onClose={onClose}
-          onSetLocation={onSetLocation}
-        />
-      </BottomSheet.Content>
-    </BottomSheet>
+    <div className="relative z-[100]">
+      <BottomSheet isOpen={isOpen} onClose={onClose} onOpen={() => {}}>
+        <BottomSheet.Header></BottomSheet.Header>
+        <BottomSheet.Content>
+          <LocationContent
+            key={isOpen ? "open" : "closed"}
+            onClose={onClose}
+            onSetLocation={onSetLocation}
+          />
+        </BottomSheet.Content>
+      </BottomSheet>
+    </div>
   );
 }
 
