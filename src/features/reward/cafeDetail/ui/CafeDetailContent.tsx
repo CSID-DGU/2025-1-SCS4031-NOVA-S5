@@ -11,6 +11,7 @@ import CafeInfo from "@/shared/ui/CafeInfo";
 import { Layer, Rect, Stage, Text as KonvaText, Image as KonvaImage } from "react-konva";
 import { getStampBook } from "@/shared/api/stampbook";
 import { getCoverTransform } from "@/shared/utils/getCoverTransform";
+import { formatBusinessHours } from "@/shared/utils/date";
 
 export default function CafeDetailContent() {
   const params = useParams();
@@ -80,6 +81,8 @@ export default function CafeDetailContent() {
 
   const characterType = book.characterType === "BEIGE" ? "BLACK" : book.characterType;
 
+  const businessHours = formatBusinessHours(cafe.openHours, cafe.specialDays);
+
   return (
     <section className="w-full flex flex-col gap-5">
       <div className="w-full h-[1px] bg-green-300" />
@@ -87,7 +90,7 @@ export default function CafeDetailContent() {
         name={cafe?.cafeName}
         address={cafe?.roadAddress}
         phone={cafe?.cafePhone}
-        hours={cafe?.openHours}
+        hours={businessHours}
       />
       <div className="w-full h-[1px] bg-green-300 mb-5" />
       <CharacterCard />
