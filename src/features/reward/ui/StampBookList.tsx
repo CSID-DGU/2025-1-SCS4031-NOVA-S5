@@ -9,7 +9,11 @@ const StampBook = dynamic(() => import("@/shared/ui/StampBook"), {
   ssr: false,
 });
 
-export default function StampBookList() {
+interface StampBookListProps {
+  sortType: string;
+}
+
+export default function StampBookList({ sortType }: StampBookListProps) {
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
   const router = useRouter();
 
@@ -17,9 +21,17 @@ export default function StampBookList() {
     fetchAndSetStampBooks();
   }, []);
 
+  const sortedStampBooks = [...stampBooks].sort((a, b) => {
+    if (sortType === "latest") {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    } else {
+      return b.currentStampCount - a.currentStampCount;
+    }
+  });
+
   return (
     <div className="flex flex-col gap-10">
-      {stampBooks.map(stampBook => (
+      {sortedStampBooks.map(stampBook => (
         <div className="flex flex-col gap-5" key={stampBook.cafeId}>
           <p
             className="text-md font-extrabold text-[#254434] cursor-pointer"
