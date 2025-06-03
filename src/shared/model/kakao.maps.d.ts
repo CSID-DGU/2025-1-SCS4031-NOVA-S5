@@ -4,12 +4,23 @@ declare global {
   interface Window {
     kakao: typeof kakao;
     polylines: kakao.maps.Polyline[];
+    daum: {
+      Postcode: new (config: {
+        oncomplete: (data: { address: string }) => void;
+        width: string;
+        height: string;
+      }) => {
+        embed: (element: HTMLElement) => void;
+      };
+    };
   }
 
   namespace kakao {
     namespace maps {
       class LatLng {
         constructor(lat: number, lng: number);
+        getLat(): number;
+        getLng(): number;
       }
 
       class LatLngBounds {
@@ -19,6 +30,7 @@ declare global {
       class Map {
         constructor(container: HTMLElement, options: { center: LatLng; level: number });
         setBounds(bounds: LatLngBounds): void;
+        setCenter(latlng: LatLng): void;
       }
 
       class Marker {
@@ -44,6 +56,7 @@ declare global {
       class Point {
         constructor(x: number, y: number);
       }
+
       class MarkerImage {
         constructor(
           src: string,
@@ -56,9 +69,25 @@ declare global {
         );
       }
 
+      namespace services {
+        class Geocoder {
+          addressSearch(address: string, callback: (result: any, status: any) => void): void;
+          coord2Address(
+            lng: number,
+            lat: number,
+            callback: (result: any, status: any) => void
+          ): void;
+        }
+
+        enum Status {
+          OK = "OK",
+          ZERO_RESULT = "ZERO_RESULT",
+          ERROR = "ERROR",
+        }
+      }
+
       namespace event {
         function addListener(target: any, type: string, handler: () => void): void;
-
         function removeListener(target: any, type: string, handler: () => void): void;
       }
 

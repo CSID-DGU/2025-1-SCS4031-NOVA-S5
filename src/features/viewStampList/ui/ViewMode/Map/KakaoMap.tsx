@@ -4,10 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import MapMarker from "./MapMarker";
 import InfoCard from "@/shared/ui/InfoCard";
 import { useCafeStore } from "@/shared/store/cafeStore";
+import { useMapStore } from "@/shared/store/mapStore";
 
 function KakaoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const { cafes } = useCafeStore();
+  const { currentAddress } = useMapStore();
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [center, setCenter] = useState<kakao.maps.LatLng | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -105,7 +107,21 @@ function KakaoMap() {
         script.remove();
       }
     };
-  }, []); // 지도 초기화는 한 번만 실행
+  }, []);
+
+  // 주소가 변경될 때마다 지도 중심 업데이트
+  useEffect(() => {
+    if (currentAddress && map) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      geocoder.addressSearch(currentAddress, (result: any, status: any) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const newCenter = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+          map.setCenter(newCenter);
+          setCenter(newCenter);
+        }
+      });
+    }
+  }, [currentAddress, map]);
 
   const handleMarkerClick = (cafeId: number) => {
     setActiveMarkerId(prev => (prev === cafeId ? null : cafeId));
