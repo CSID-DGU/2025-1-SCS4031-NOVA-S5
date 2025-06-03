@@ -92,24 +92,13 @@ export default function ExampleContent() {
               onSubmit={async () => {
                 createStampBookMutation();
               }}
-              successMessage="스탬프북이 등록되었습니다!"
-              errorMessage="스탬프북 등록에 실패했습니다."
-              showAlert={true}
+              onSuccess={() => setIsModalOpen(true)}
+              showAlert={false}
               isOwner={true}
             />
           </div>
         </div>
       </section>
-      <Modal
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        characterType={selectedCafe.characterType}
-        button="single"
-        mainText={
-          <p className="text-md text-font-green font-bold">{stampBookName} 등록이 완료되었어요.</p>
-        }
-        rightButtonText="확인"
-      />
     </>
   );
 }
