@@ -10,16 +10,14 @@ import { useMapStore } from "@/shared/store/mapStore";
 function SearchHeader() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [isCurrentLocation, setIsCurrentLocation] = useState(false);
   const router = useRouter();
-  const { currentAddress } = useMapStore();
+  const { currentAddress, isCurrentLocation } = useMapStore();
 
   const handleClick = () => {
     router.push("/searchcafe");
   };
 
   const handleSetLocation = () => {
-    setIsCurrentLocation(true);
     setShowToast(true);
     // 토스트가 3초 후에 사라지도록 설정
     setTimeout(() => setShowToast(false), 3000);

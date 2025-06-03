@@ -1,7 +1,7 @@
 "use client";
 
 import Toast from "@/shared/ui/Toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DaumPostcode from "react-daum-postcode";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useMapStore } from "@/shared/store/mapStore";
@@ -18,12 +18,24 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   const [showToast, setShowToast] = useState(false);
   const [isPostCodeOpen, setIsPostCodeOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const { setCurrentAddress, currentAddress } = useMapStore();
+  const { setCurrentAddress, currentAddress, setIsCurrentLocation } = useMapStore();
   const { savedLocations, addLocation, removeLocation } = useLocationStore();
   const { lat, lng } = useCurrentLocation();
 
+  useEffect(() => {
+    // 카카오맵 API 로드
+    const script = document.createElement("script");
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_API_KEY}&libraries=services`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   const handleSetLocation = () => {
-    if (lat && lng) {
+    if (lat && lng && window.kakao?.maps) {
       const geocoder = new window.kakao.maps.services.Geocoder();
       const coord = new window.kakao.maps.LatLng(lat, lng);
 
@@ -31,6 +43,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
         if (status === window.kakao.maps.services.Status.OK) {
           const address = result[0].address.address_name;
           setCurrentAddress(address);
+          setIsCurrentLocation(true);
           setShowToast(true);
           onSetLocation();
           onClose();
@@ -46,6 +59,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   const handlePostCodeComplete = (data: any) => {
     console.log("Selected address:", data);
     setCurrentAddress(data.address);
+    setIsCurrentLocation(false);
     addLocation(data.address);
     setShowToast(true);
     setIsPostCodeOpen(false);
@@ -123,7 +137,7 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
       </button>
 
       <Dialog open={isPostCodeOpen} onOpenChange={setIsPostCodeOpen}>
-        <DialogContent className="max-w-[500px] h-[90vh] p-0 !gap-0 flex flex-col">
+        <DialogContent className="max-w-[430px] h-[90vh] p-0 !gap-0 flex flex-col z-[200]">
           <DialogHeader className="py-1 px-3 border-b shrink-0 h-12">
             <DialogTitle className="text-sm">주소 검색</DialogTitle>
           </DialogHeader>
