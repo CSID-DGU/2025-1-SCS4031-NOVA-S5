@@ -18,9 +18,7 @@ export default function ChallengeDetail() {
         <ChallengeStatus stoppedCount={2} inProgressCount={10} rewardedCount={7} />
         <NoticeCard />
       </div>
-      <div className="absolute bottom-0 left-0 right-0">
-        <OwnerGNB />
-      </div>
+      <OwnerGNB />
     </div>
   );
 }

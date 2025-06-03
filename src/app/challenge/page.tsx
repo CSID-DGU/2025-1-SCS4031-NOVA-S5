@@ -43,9 +43,7 @@ export default function ChallengePage() {
           <PlusButton />
         </div>
       )}
-      <div className="absolute bottom-0 left-0 right-0">
-        <OwnerGNB />
-      </div>
+      <OwnerGNB />
     </div>
   );
 }

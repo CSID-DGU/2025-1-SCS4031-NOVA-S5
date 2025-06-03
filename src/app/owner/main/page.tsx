@@ -62,9 +62,7 @@ export default function OwnerMain() {
         onNameClick={handleNameClick}
       />
       <div className="mt-8">{content}</div>
-      <div className="absolute bottom-0 left-0 right-0">
-        <OwnerGNB />
-      </div>
+      <OwnerGNB />
       {isBottomSheetOpen && (
         <CafeBottomsheet cafeList={cafeList} onClose={() => setIsBottomSheetOpen(false)} />
       )}
