@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { Stage, Layer, Rect, Image as KonvaImage, Text } from "react-konva";
+import { Stage, Layer, Rect, Text } from "react-konva";
 import { Stage as KonvaStage } from "konva/lib/Stage";
 import { useCustomStore } from "@/shared/store/customStore";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
+import Image from "next/image";
 
 interface CustomStampBackProps {
   backgroundColor?: string;
@@ -30,7 +31,6 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
 
   useEffect(() => {
     if (stageRef.current) {
-      console.log("Setting back stage ref");
       setBackStageRef(stageRef as React.RefObject<KonvaStage>);
     }
   }, [stageRef.current, setBackStageRef]);
@@ -91,7 +91,7 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
       </div>
       <div
         ref={containerRef}
-        className="relative w-full h-[154px] rounded-[10px] shadow-md overflow-hidden bg-yellow-100"
+        className="relative w-[320px] h-[154px] rounded-[10px] shadow-md overflow-hidden bg-yellow-100 mx-auto"
         style={{ backgroundColor: backgroundColor ? backgroundColor : "#FFFDF7" }}>
         <Stage
           ref={stageRef}
@@ -100,14 +100,6 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
           className="absolute inset-0">
           <Layer>
             <Rect width={stageSize.width} height={stageSize.height} fill={backgroundColor} />
-            {bgImage && (
-              <KonvaImage
-                image={bgImage}
-                width={stageSize.width}
-                height={stageSize.height}
-                listening={false}
-              />
-            )}
           </Layer>
           <Layer>
             {backTexts.map(text => (
@@ -127,10 +119,20 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
                   updateText(text.id, { x, y });
                 }}
                 onClick={() => handleTextClick(text)}
+                onTap={() => handleTextClick(text)}
               />
             ))}
           </Layer>
         </Stage>
+        {bgImage && (
+          <Image
+            src={bgImage}
+            width={stageSize.width}
+            height={stageSize.height}
+            alt="background"
+            className="absolute inset-0"
+          />
+        )}
 
         {selectedTextId && overlayPos && (
           <div

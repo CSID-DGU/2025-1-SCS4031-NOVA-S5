@@ -11,6 +11,8 @@ export type StampBook = {
   currentStampCount: number;
   maxStampCount: number;
   remainingStampCount: number;
+  isCustomized: boolean;
+  stampBookDesign: string;
 };
 
 export interface StampBookState {

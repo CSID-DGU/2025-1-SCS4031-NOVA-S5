@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import Image from "next/image";
 import CharacterCard from "@/features/reward/cafeDetail/ui/CharacterCard";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import StampBook from "@/shared/ui/StampBook";
@@ -12,6 +11,8 @@ import { useRewardStore } from "@/shared/store/rewardStore";
 import RewardCoupon from "./RewardCoupon";
 import CafeInfo from "@/shared/ui/CafeInfo";
 import { useCafeInfoStore } from "@/shared/store/cafeInfoStore";
+import Image from "next/image";
+import { Layer, Rect, Stage, Text as KonvaText, Image as KonvaImage } from "react-konva";
 
 export default function CafeDetailContent() {
   const params = useParams();
@@ -27,12 +28,32 @@ export default function CafeDetailContent() {
   const rewardCount = rewardCounts[id] ?? 0;
 
   const [isDeleted, setIsDeleted] = useState(false);
+  const [backDesign, setBackDesign] = useState<any>(null);
+  const [backBgImage, setBackBgImage] = useState<HTMLImageElement | null>(null);
 
   if (!book) return null;
 
   useEffect(() => {
     fetchAndSetCafes();
   }, []);
+
+  useEffect(() => {
+    if (book?.stampBookDesign) {
+      try {
+        const parsed = JSON.parse(book.stampBookDesign);
+        const back = parsed?.back;
+        setBackDesign(back ?? null);
+
+        if (back?.backgroundImage) {
+          const img = new window.Image();
+          img.src = back.backgroundImage;
+          img.onload = () => setBackBgImage(img);
+        }
+      } catch (err) {
+        console.error("스탬프북 디자인 파싱 실패", err);
+      }
+    }
+  }, [book?.stampBookDesign]);
 
   const handleRegisterToggle = () => {
     toggleInHome(id);
@@ -71,26 +92,52 @@ export default function CafeDetailContent() {
               <RewardCoupon characterType={characterType} id={id} />
             </div>
           </>
-        ) : (
-          ""
-        )}
+        ) : null}
+
         <p className="text-md text-font-green font-extrabold">
           으쌰으쌰, 리워드까지 {book.remainingStampCount}개 남았어요!
         </p>
         <div className="flex flex-col items-center justify-center">
           <StampBook stampBookId={book.stampBookId} characterType={characterType} />
-          <Image
-            src={"/img/doubletone.svg"}
-            alt="카페 이미지"
-            width={320}
-            height={154}
-            className="rounded-lg mt-[20px] shadow-sm"
-          />
+
+          {backDesign && (
+            <div className="w-[320px] h-[154px] relative mt-3 rounded-lg overflow-hidden shadow-md">
+              <Stage width={320} height={154} className="absolute inset-0">
+                <Layer>
+                  <Rect width={320} height={154} fill={backDesign.backgroundColor || "#ffffff"} />
+                  {backDesign.texts?.map((text: any) => (
+                    <KonvaText
+                      key={text.id}
+                      text={text.text}
+                      x={text.x}
+                      y={text.y}
+                      fontSize={24}
+                      fontFamily={text.font || "Pretendard"}
+                      fill={text.color || "#000"}
+                      align="center"
+                      verticalAlign="middle"
+                    />
+                  ))}
+                </Layer>
+              </Stage>
+              {backBgImage && (
+                <Image
+                  src={backBgImage}
+                  width={320}
+                  height={154}
+                  alt="background"
+                  className="inset-0 absolute"
+                />
+              )}
+            </div>
+          )}
+
           <p className="w-[320px] mt-[10px] pl-[215px] text-[10px] font-medium text-font-green cursor-pointer">
             적립 상세 내역 보러가기 &gt;
           </p>
         </div>
       </div>
+
       <div className="w-full h-[41px] flex items-center justify-center gap-[30px]">
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
