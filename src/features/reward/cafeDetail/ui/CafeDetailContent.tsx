@@ -8,8 +8,7 @@ import StampModal from "@/shared/ui/modal/CafeStampModal";
 import { useStampModalStore } from "@/shared/store/stampModalStore";
 import RewardCoupon from "./RewardCoupon";
 import CafeInfo from "@/shared/ui/CafeInfo";
-import Image from "next/image";
-import { Layer, Rect, Stage, Text as KonvaText } from "react-konva";
+import { Layer, Rect, Stage, Text as KonvaText, Image as KonvaImage } from "react-konva";
 import { getStampBook } from "@/shared/api/stampbook";
 
 export default function CafeDetailContent() {
@@ -18,8 +17,8 @@ export default function CafeDetailContent() {
 
   const { stampModalType, setStampModalType } = useStampModalStore();
 
-  const [book, setBook] = useState<any>(null); // stampBookInfo
-  const [cafe, setCafe] = useState<any>(null); // cafeDesignOverview
+  const [book, setBook] = useState<any>(null);
+  const [cafe, setCafe] = useState<any>(null);
   const [rewardCount, setRewardCount] = useState<number>(0);
   const [isDeleted, setIsDeleted] = useState(false);
   const [backDesign, setBackDesign] = useState<any>(null);
@@ -28,7 +27,7 @@ export default function CafeDetailContent() {
   useEffect(() => {
     const fetchStampBook = async () => {
       try {
-        const data = await getStampBook(id); // cafeId 기반 요청
+        const data = await getStampBook(id);
         setBook(data.stampBookInfo);
         setCafe(data.cafeDesignOverview);
         setRewardCount(data.rewardAvailableCount);
@@ -76,7 +75,6 @@ export default function CafeDetailContent() {
         address={cafe?.roadAddress}
         phone={cafe?.cafePhone}
         hours={cafe?.openHours}
-        lastOrder={cafe?.lastOrder}
       />
       <div className="w-full h-[1px] bg-green-300 mb-5" />
       <CharacterCard />
@@ -104,6 +102,15 @@ export default function CafeDetailContent() {
               <Stage width={320} height={154} className="absolute inset-0">
                 <Layer>
                   <Rect width={320} height={154} fill={backDesign.backgroundColor || "#ffffff"} />
+                  {backBgImage && (
+                    <KonvaImage
+                      image={backBgImage}
+                      width={320}
+                      height={154}
+                      alt="background"
+                      className="inset-0 absolute"
+                    />
+                  )}
                   {backDesign.texts?.map((text: any) => (
                     <KonvaText
                       key={text.id}
@@ -119,15 +126,6 @@ export default function CafeDetailContent() {
                   ))}
                 </Layer>
               </Stage>
-              {backBgImage && (
-                <Image
-                  src={backBgImage.src}
-                  width={320}
-                  height={154}
-                  alt="background"
-                  className="inset-0 absolute"
-                />
-              )}
             </div>
           )}
 

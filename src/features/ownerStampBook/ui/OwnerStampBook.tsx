@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
-import { Stage, Layer, Rect, Text } from "react-konva";
+import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import { useEffect, useState } from "react";
 
 interface StampBookDesign {
@@ -29,6 +29,7 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
   const { selectedCafe } = useSelectedCafe();
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
   const totalStamps = 10;
   const stampedCount = 3;
   const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
@@ -64,12 +65,23 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
     loadImages();
   }, [characterType]);
 
+  useEffect(() => {
+    if (customDesign?.front?.backgroundImage) {
+      const img = new window.Image();
+      img.src = customDesign.front.backgroundImage;
+      img.onload = () => setBgImage(img);
+    }
+  }, [customDesign?.front?.backgroundImage]);
+
   if (customDesign?.front) {
     return (
       <div className="relative w-[320px] h-[154px] rounded-[10px] shadow-md overflow-hidden">
         <Stage width={320} height={154} className="absolute inset-0">
           <Layer>
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor || "#FEF08A"} />
+          </Layer>
+          <Layer>
+            {bgImage && <KonvaImage image={bgImage} alt="background" width={320} height={154} />}
           </Layer>
           <Layer>
             {customDesign.front.texts?.map(text => (
@@ -87,15 +99,6 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
             ))}
           </Layer>
         </Stage>
-        {customDesign.front.backgroundImage && (
-          <Image
-            src={customDesign.front.backgroundImage}
-            alt="background"
-            width={320}
-            height={154}
-            className="absolute inset-0"
-          />
-        )}
 
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">

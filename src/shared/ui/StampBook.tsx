@@ -32,6 +32,7 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
   const book = stampBooks.find(b => b.stampBookId === stampBookId);
   const stageRef = useRef<KonvaStage>(null);
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
 
   useEffect(() => {
     if (!book) fetchAndSetStampBooks();
@@ -48,6 +49,14 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
     }
   }, [book?.isCustomized, book?.stampBookDesign]);
 
+  useEffect(() => {
+    if (customDesign?.front?.backgroundImage) {
+      const img = new window.Image();
+      img.src = customDesign.front.backgroundImage;
+      img.onload = () => setBgImage(img);
+    }
+  }, [customDesign?.front?.backgroundImage]);
+
   if (!book) return null;
 
   const totalStamp = book.maxStampCount;
@@ -63,6 +72,21 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
         <Stage ref={stageRef} width={320} height={154} className="absolute inset-0">
           <Layer>
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor} />
+          </Layer>
+
+          <Layer>
+            {bgImage && (
+              <KonvaImage
+                image={bgImage}
+                width={320}
+                height={154}
+                alt="background"
+                className="absolute inset-0"
+              />
+            )}
+          </Layer>
+
+          <Layer>
             {customDesign.front.texts.map(text => (
               <Text
                 key={text.id}
@@ -78,15 +102,6 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
             ))}
           </Layer>
         </Stage>
-        {customDesign.front.backgroundImage && (
-          <Image
-            src={customDesign.front.backgroundImage}
-            width={320}
-            height={154}
-            alt="background"
-            className="absolute inset-0"
-          />
-        )}
 
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-none">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">

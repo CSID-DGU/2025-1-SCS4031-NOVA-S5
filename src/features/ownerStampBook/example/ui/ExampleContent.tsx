@@ -12,7 +12,6 @@ import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Modal from "@/shared/ui/modal/Modal";
 
 const CafeStamp = dynamic(() => import("@/features/cafeDetail/ui/CafeStamp"), {
   ssr: false,

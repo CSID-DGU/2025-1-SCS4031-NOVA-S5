@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
   ssr: false,
@@ -42,6 +41,7 @@ function CafeStamp({
   const { selectedCafe } = useSelectedCafe();
   const { designJson } = useCreateStampStore();
   const [customDesign, setCustomDesign] = useState<any>(null);
+  const [bgImage, setBgImage] = useState<HTMLImageElement | null>(null);
 
   const cafeId = Number(params.id);
 
@@ -74,6 +74,14 @@ function CafeStamp({
     }
   }, [isOwner, designJson, cafe?.stampBookDesignJson]);
 
+  useEffect(() => {
+    if (customDesign?.back?.backgroundImage) {
+      const img = new window.Image();
+      img.src = customDesign.back.backgroundImage;
+      img.onload = () => setBgImage(img);
+    }
+  }, [customDesign?.back?.backgroundImage]);
+
   return (
     <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
       <CafeStampBook
@@ -100,6 +108,9 @@ function CafeStamp({
               />
             </Layer>
             <Layer>
+              {bgImage && <KonvaImage image={bgImage} alt="background" width={320} height={154} />}
+            </Layer>
+            <Layer>
               {customDesign.back.texts?.map((text: any) => (
                 <Text
                   key={text.id}
@@ -115,15 +126,6 @@ function CafeStamp({
               ))}
             </Layer>
           </Stage>
-          {customDesign.back.backgroundImage && (
-            <Image
-              src={customDesign.back.backgroundImage}
-              alt="background"
-              width={320}
-              height={154}
-              className="absolute inset-0"
-            />
-          )}
         </div>
       )}
 
