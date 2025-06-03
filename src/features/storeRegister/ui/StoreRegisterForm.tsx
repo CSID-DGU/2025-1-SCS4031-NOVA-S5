@@ -14,6 +14,7 @@ import { addressToLatLng, registerCafe } from "@/shared/api/cafe";
 import { useState } from "react";
 import CafeRegisterModal from "@/shared/ui/modal/CafeRegisterModal";
 import { useQueryClient } from "@tanstack/react-query";
+import { getCafePresignedUrl, uploadImageToS3 } from "@/shared/api/image";
 
 export default function StoreRegisterForm() {
   const {
@@ -26,21 +27,30 @@ export default function StoreRegisterForm() {
     resolver: zodResolver(storeRegisterSchema),
     mode: "onChange",
   });
-  const [isOpen, setIsOpen] = useState(false);
-  const queryClient = useQueryClient();
-  const file = watch("file");
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setValue("file", e.target.files[0], { shouldValidate: true });
+  const businessFile = watch("businessFile");
+  const cafeImage = watch("cafeImage");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
+
+  const handleBusinessFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setValue("businessFile", e.target.files[0], { shouldValidate: true });
     }
   };
 
-  const handleRemoveFile = () => {
-    setValue("file", undefined as unknown as File, { shouldValidate: true });
+  const handleCafeImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.[0]) {
+      setValue("cafeImage", e.target.files[0], { shouldValidate: true });
+    }
   };
 
-  const getFileIcon = () => {
+  const handleRemoveFile = (field: "businessFile" | "cafeImage") => {
+    setValue(field, undefined as unknown as File, { shouldValidate: true });
+  };
+
+  const getFileIcon = (file: File | undefined) => {
     if (!file) return null;
     const ext = file.name.split(".").pop()?.toLowerCase();
     switch (ext) {
@@ -58,6 +68,7 @@ export default function StoreRegisterForm() {
 
   const onSubmit = async (data: StoreRegisterFormValues) => {
     try {
+      setIsLoading(true);
       const coords = await addressToLatLng(data.address);
       if (!coords) throw new Error("주소를 찾을 수 없습니다.");
 
@@ -73,8 +84,16 @@ export default function StoreRegisterForm() {
       formData.append("longitude", coords.x);
       formData.append("maxStampCount", "10");
       formData.append("characterType", data.mood);
-      if (data.file) {
-        formData.append("businessRegistrationPdf", data.file);
+
+      if (data.businessFile) {
+        formData.append("businessRegistrationPdf", data.businessFile);
+      }
+
+      if (data.cafeImage) {
+        const { presignedUrl } = await getCafePresignedUrl();
+        await uploadImageToS3(data.cafeImage, presignedUrl);
+        const imageUrl = presignedUrl.split("?")[0];
+        formData.append("cafeUrl", imageUrl);
       }
 
       await registerCafe(formData);
@@ -87,6 +106,8 @@ export default function StoreRegisterForm() {
     } catch (err) {
       console.error("카페 등록 실패:", err);
       alert("카페 등록에 실패했습니다.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -132,6 +153,7 @@ export default function StoreRegisterForm() {
           value={watch("businessNumber") ?? ""}
         />
 
+        {/* 사업자 등록증 */}
         <div className="flex flex-col gap-3">
           <label className="text-sm text-font-green font-medium">* 사업자 등록증</label>
           <p className="text-xs text-[#8E8E93] font-medium">
@@ -139,57 +161,93 @@ export default function StoreRegisterForm() {
             <br />
             업로드 해 주세요.
           </p>
-          {!file ? (
+          {!businessFile ? (
             <>
               <label
-                htmlFor="business-license"
+                htmlFor="business-file"
+                className="cursor-pointer flex flex-col items-center justify-center w-full h-[102px] bg-green-300 rounded-[8px] gap-1">
+                <Image src="/icon/image-icon.svg" width={24} height={24} alt="image" />
+                <p className="text-xs font-medium text-font-green">파일 첨부하기</p>
+              </label>
+              <input
+                type="file"
+                id="business-file"
+                className="hidden"
+                accept=".pdf,.jpg,.jpeg,.png"
+                onChange={handleBusinessFileChange}
+              />
+            </>
+          ) : (
+            <div className="w-[175px] h-[35px] flex items-center justify-between bg-green-300 px-3 py-2 rounded-[8px]">
+              <div className="flex items-center gap-2">
+                <Image src={getFileIcon(businessFile)!} alt="file" width={24} height={24} />
+                <p className="text-sm font-medium text-font-green truncate max-w-[100px]">
+                  {businessFile.name}
+                </p>
+              </div>
+              <button type="button" onClick={() => handleRemoveFile("businessFile")}>
+                {" "}
+                <XIcon className="w-5 h-5 text-[#254434B2]" />{" "}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* 카페 이미지 */}
+        <div className="flex flex-col gap-3">
+          <label className="text-sm text-font-green font-medium">* 카페 이미지</label>
+          <p className="text-xs text-[#8E8E93] font-medium">
+            10MB 이하의 이미지 파일 (JPG, PNG)을
+            <br />
+            업로드 해 주세요.
+          </p>
+          {!cafeImage ? (
+            <>
+              <label
+                htmlFor="cafe-image"
                 className="cursor-pointer flex flex-col items-center justify-center w-full h-[102px] bg-green-300 rounded-[8px] gap-1">
                 <Image src="/icon/image-icon.svg" width={24} height={24} alt="image" />
                 <p className="text-xs font-medium text-font-green">사진 첨부하기</p>
               </label>
               <input
                 type="file"
-                id="business-license"
+                id="cafe-image"
                 className="hidden"
-                accept=".pdf, .jpg, .jpeg, .png"
-                onChange={handleFileChange}
+                accept=".jpg,.jpeg,.png"
+                onChange={handleCafeImageChange}
               />
             </>
           ) : (
             <div className="w-[175px] h-[35px] flex items-center justify-between bg-green-300 px-3 py-2 rounded-[8px]">
               <div className="flex items-center gap-2">
-                <Image src={getFileIcon()!} alt="file" width={24} height={24} />
+                <Image src={getFileIcon(cafeImage)!} alt="file" width={24} height={24} />
                 <p className="text-sm font-medium text-font-green truncate max-w-[100px]">
-                  {file.name}
+                  {cafeImage.name}
                 </p>
               </div>
-              <button type="button" onClick={handleRemoveFile}>
-                <XIcon className="w-5 h-5 text-[#254434B2]" />
+              <button type="button" onClick={() => handleRemoveFile("cafeImage")}>
+                {" "}
+                <XIcon className="w-5 h-5 text-[#254434B2]" />{" "}
               </button>
             </div>
           )}
         </div>
+
         <div className="flex flex-col gap-3">
           <label className="text-sm text-font-green font-medium">* 카페 특징</label>
-          <p className="text-xs text-[#8E8E93] font-medium">
-            캐릭터 매칭을 위해 사장님 카페의 특징을 선택해 주세요.
-          </p>
           <MoodDropdown
-            onChange={(_label, type) => {
-              setValue("mood", type, { shouldValidate: true });
-            }}
+            onChange={(_label, type) => setValue("mood", type, { shouldValidate: true })}
           />
         </div>
 
         <Button
           type="submit"
-          disabled={!isValid}
-          className={`w-full h-[50px] rounded-full ${
-            isValid ? "bg-font-green" : "bg-[#DCDCDC]"
-          } text-[#fff] text-md font-bold text-center mt-[35px] mb-[70px]`}>
-          매장 등록 신청하기
+          disabled={!isValid || isLoading}
+          className={`w-full h-[50px] rounded-full ${isValid ? "bg-font-green" : "bg-[#DCDCDC]"} text-[#fff] text-md font-bold text-center mt-[35px] mb-[70px]`}>
+          {isLoading ? "등록중 ..." : "매장 등록 신청하기"}
         </Button>
       </form>
+
       <CafeRegisterModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </main>
   );

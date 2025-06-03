@@ -23,6 +23,7 @@ interface CafeStampProps {
   errorMessage?: string;
   showAlert?: boolean;
   isOwner?: boolean;
+  onSuccess?: () => void;
 }
 
 function CafeStamp({
@@ -33,6 +34,7 @@ function CafeStamp({
   errorMessage = "스탬프북 생성 실패",
   showAlert = true,
   isOwner = false,
+  onSuccess,
 }: CafeStampProps) {
   const cafe = useCafeStore(state => state.cafe);
   const params = useParams();
@@ -49,6 +51,7 @@ function CafeStamp({
       if (showAlert) {
         alert(successMessage);
       }
+      onSuccess?.();
     },
     onError: () => {
       if (showAlert) {

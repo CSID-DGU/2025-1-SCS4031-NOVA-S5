@@ -32,11 +32,11 @@ export default function RewardContent() {
             className={`text-xs font-medium ${
               sortType === "reward" ? "text-green-100" : "text-[#8E8E93]"
             }`}>
-            리워드 많은 순
+            스탬프 많은 순
           </p>
         </div>
       </div>
-      <StampBookList />
+      <StampBookList sortType={sortType} />
     </section>
   );
 }

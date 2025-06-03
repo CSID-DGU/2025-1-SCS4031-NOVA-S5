@@ -11,9 +11,7 @@ export default function StampListPage() {
       <div className="flex-1 overflow-y-auto scrollbar-hide pb-[20px]">
         <ViewSwitcher />
       </div>
-      <div className="relative bottom-0 left-0 right-0">
-        <GNB />
-      </div>
+      <GNB />
     </div>
   );
 }

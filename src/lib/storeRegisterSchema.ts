@@ -12,8 +12,11 @@ export const storeRegisterSchema = z.object({
   ownerPhone: z.string().min(1, "대표자 연락처를 입력해주세요."),
   businessNumber: z.string().min(1, "사업자 등록번호를 입력해주세요."),
   mood: z.string().min(1, "카페 특징을 선택해주세요."),
-  file: z
-    .instanceof(File, { message: "파일을 첨부해주세요." })
+  businessFile: z
+    .custom<File>(file => file instanceof File, { message: "파일을 첨부해주세요." })
+    .refine(file => file.size <= 10 * 1024 * 1024, "10MB 이하의 파일만 가능합니다."),
+  cafeImage: z
+    .custom<File>(file => file instanceof File, { message: "파일을 첨부해주세요." })
     .refine(file => file.size <= 10 * 1024 * 1024, "10MB 이하의 파일만 가능합니다."),
 });
 

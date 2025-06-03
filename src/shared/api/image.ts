@@ -19,3 +19,10 @@ export const uploadImageToS3 = async (file: File, presignedUrl: string) => {
     body: file,
   });
 };
+
+// 카페 등록시 presignedUrl 받기
+export const getCafePresignedUrl = async () => {
+  const res = await api.post("/s3/presigned-url/cafe");
+
+  return res.data.data;
+};
