@@ -20,7 +20,7 @@ function TopCard({ cafe }: { cafe: Cafe }) {
       <div className=" pl-4">
         <img src="./img/diary.svg" alt="diary" className="relative ml-20" />
         <p className="text-[12px] font-[700] text-[#254434] truncate">{cafe.cafeName}</p>
-        <p className="text-[10px] text-gray-200">{cafe.conceptIntroduction}한 카페</p>
+        <p className="text-[10px] text-gray-200">{cafe.conceptIntroduction}</p>
       </div>
     </div>
   );
