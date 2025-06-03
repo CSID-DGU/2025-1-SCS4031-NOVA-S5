@@ -29,7 +29,6 @@ function LocationSheet({ isOpen, onClose, onSetLocation }: LocationSheetProps) {
         oncomplete: function (data: any) {
           setCurrentAddress(data.address);
           onSetLocation();
-          onClose();
         },
         width: "100%",
         height: "100%",
@@ -41,13 +40,17 @@ function LocationSheet({ isOpen, onClose, onSetLocation }: LocationSheetProps) {
     return () => {
       document.head.removeChild(script);
     };
-  }, [isOpen, onClose, onSetLocation, setCurrentAddress]);
+  }, [isOpen, onSetLocation, setCurrentAddress]);
 
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} onOpen={() => {}}>
       <BottomSheet.Header></BottomSheet.Header>
       <BottomSheet.Content>
-        <LocationContent onClose={onClose} onSetLocation={onSetLocation} />
+        <LocationContent
+          key={isOpen ? "open" : "closed"}
+          onClose={onClose}
+          onSetLocation={onSetLocation}
+        />
       </BottomSheet.Content>
     </BottomSheet>
   );
