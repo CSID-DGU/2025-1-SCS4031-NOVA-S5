@@ -19,6 +19,8 @@ declare global {
     namespace maps {
       class LatLng {
         constructor(lat: number, lng: number);
+        getLat(): number;
+        getLng(): number;
       }
 
       class LatLngBounds {
@@ -70,6 +72,11 @@ declare global {
       namespace services {
         class Geocoder {
           addressSearch(address: string, callback: (result: any, status: any) => void): void;
+          coord2Address(
+            lng: number,
+            lat: number,
+            callback: (result: any, status: any) => void
+          ): void;
         }
 
         enum Status {

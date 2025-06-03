@@ -6,6 +6,7 @@ import DaumPostcode from "react-daum-postcode";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useMapStore } from "@/shared/store/mapStore";
 import { useLocationStore } from "@/shared/store/locationStore";
+import { useCurrentLocation } from "../hooks/useCurrentLocation";
 import Image from "next/image";
 
 interface LocationContentProps {
@@ -19,10 +20,23 @@ function LocationContent({ onClose, onSetLocation }: LocationContentProps) {
   const [isEditMode, setIsEditMode] = useState(false);
   const { setCurrentAddress, currentAddress } = useMapStore();
   const { savedLocations, addLocation, removeLocation } = useLocationStore();
+  const { lat, lng } = useCurrentLocation();
 
   const handleSetLocation = () => {
-    onSetLocation();
-    onClose();
+    if (lat && lng) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+      const coord = new window.kakao.maps.LatLng(lat, lng);
+
+      geocoder.coord2Address(coord.getLng(), coord.getLat(), (result: any, status: any) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          const address = result[0].address.address_name;
+          setCurrentAddress(address);
+          setShowToast(true);
+          onSetLocation();
+          onClose();
+        }
+      });
+    }
   };
 
   const handleSearchAddress = () => {

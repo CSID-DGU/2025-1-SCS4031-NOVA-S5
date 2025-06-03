@@ -10,6 +10,7 @@ import { useMapStore } from "@/shared/store/mapStore";
 function SearchHeader() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [isCurrentLocation, setIsCurrentLocation] = useState(false);
   const router = useRouter();
   const { currentAddress } = useMapStore();
 
@@ -18,6 +19,7 @@ function SearchHeader() {
   };
 
   const handleSetLocation = () => {
+    setIsCurrentLocation(true);
     setShowToast(true);
     // 토스트가 3초 후에 사라지도록 설정
     setTimeout(() => setShowToast(false), 3000);
@@ -30,7 +32,9 @@ function SearchHeader() {
           <p className="text-[#254434] font-[800] text-[20px]">스탬프 북</p>
           <div className="flex gap-1" onClick={() => setIsSheetOpen(true)}>
             {/*클릭 시 바텀시트 노출 */}
-            <p className="text-fontgray text-[12px]">{currentAddress || "현재 위치"}</p>
+            <p className="text-fontgray text-[12px]">
+              {isCurrentLocation ? "현재 위치" : currentAddress || "현재 위치"}
+            </p>
             <img src="./icon/arrow-down.svg" alt="arrow" />
           </div>
         </div>
