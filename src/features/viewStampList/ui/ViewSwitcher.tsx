@@ -24,6 +24,20 @@ const ViewSwitcher = () => {
         cafeIntroduction: cafe.cafeIntroduction || "",
         conceptIntroduction: cafe.conceptIntroduction || "",
         characterType: cafe.characterType || ("GREEN" as CharacterType),
+        openHours: cafe.openHours.map(hour => ({
+          ...hour,
+          dayOfWeek: hour.dayOfWeek as
+            | "MONDAY"
+            | "TUESDAY"
+            | "WEDNESDAY"
+            | "THURSDAY"
+            | "FRIDAY"
+            | "SATURDAY"
+            | "SUNDAY",
+          openTime: hour.openTime.toString(),
+          closeTime: hour.closeTime.toString(),
+          lastOrder: hour.lastOrder.toString(),
+        })),
       }));
       setCafes(transformedData);
     }
