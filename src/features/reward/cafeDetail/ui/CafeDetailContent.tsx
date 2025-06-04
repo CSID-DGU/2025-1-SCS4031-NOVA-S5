@@ -159,7 +159,7 @@ export default function CafeDetailContent() {
               <div
                 className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
                 style={{
-                  backgroundColor: cafe.backImageUrl ? "" : "#FCD34D",
+                  backgroundColor: cafe.backImageUrl ? "" : "#0000004D",
                   backgroundImage: cafe.backImageUrl ? `url(${cafe.backImageUrl})` : "",
                   backgroundSize: "cover",
                   backgroundPosition: "center",

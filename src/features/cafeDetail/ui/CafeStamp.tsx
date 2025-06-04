@@ -182,7 +182,7 @@ function CafeStamp({
             <div
               className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
               style={{
-                backgroundColor: backImageUrl ? undefined : "#FCD34D",
+                backgroundColor: backImageUrl ? undefined : "#0000004D",
                 backgroundImage: backImageUrl ? `url(${backImageUrl})` : undefined,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
