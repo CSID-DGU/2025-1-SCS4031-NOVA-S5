@@ -12,7 +12,7 @@ import { useCreateStampStore } from "@/shared/store/createStampStore";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Modal from "@/shared/ui/modal/Modal";
+import { useStampEditStore } from "@/shared/store/stampEditStore";
 
 const CafeStamp = dynamic(() => import("@/features/cafeDetail/ui/CafeStamp"), {
   ssr: false,
@@ -36,6 +36,8 @@ export default function ExampleContent() {
     resetStore,
   } = useCreateStampStore();
 
+  const { frontName, backName, backImageUrl } = useStampEditStore();
+
   const { mutate: createStampBookMutation } = useMutation({
     mutationFn: async () => {
       try {
@@ -46,6 +48,9 @@ export default function ExampleContent() {
           rewardDescription,
           exposed: exposed === null ? false : exposed,
           designJson,
+          frontCafeName: frontName,
+          backCafeName: backName,
+          backImageUrl: backImageUrl,
         });
         return result;
       } catch (error) {
@@ -82,7 +87,7 @@ export default function ExampleContent() {
               name={selectedCafe.cafeName}
               hours={businessHours}
               phone={selectedCafe.cafePhone}
-              address={selectedCafe.address || "주소 정보 없음"}
+              address={selectedCafe.roadAddress || "주소 정보 없음"}
             />
             <RewardCard isOwner={true} />
             <CafeCharacter isOwner={true} characterType={selectedCafe.characterType} />

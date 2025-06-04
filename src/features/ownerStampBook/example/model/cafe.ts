@@ -10,7 +10,7 @@ export interface Cafe {
   rewardDescription: string;
   isOpenNow: boolean;
   registrationStatus: string;
-  address?: string;
+  roadAddress?: string;
   openHours: {
     dayOfWeek: string;
     isOpen: boolean;

@@ -25,14 +25,12 @@ export const formatBusinessHours = (
     isOpen: boolean;
     openTime: string;
     closeTime: string;
-    lastOrder: string;
   }[],
   specialDays: {
     specialDate: string;
     isOpen: boolean;
     openTime: string;
     closeTime: string;
-    lastOrder: string;
     note: string;
   }[] = []
 ) => {

@@ -156,21 +156,21 @@ const CustomStampFront = React.memo(function CustomStampFrontClient({
               />
             ))}
           </Layer>
-        </Stage>
 
-        <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
-          <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
-            {images.map((_, index) => (
-              <Image
+          <Layer>
+            {images.map((img, index) => (
+              <KonvaImage
                 key={index}
-                src={`/img/character/${characterType.toLowerCase()}-face-gray.svg`}
-                alt="stamp"
+                image={img}
                 width={35}
                 height={35}
+                x={(index % 5) * (35 + 20) + 32}
+                y={Math.floor(index / 5) * (35 + 12) + 54}
+                listening={false}
               />
             ))}
-          </div>
-        </div>
+          </Layer>
+        </Stage>
 
         {selectedTextId && overlayPos && (
           <div

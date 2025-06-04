@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
-import { Stage, Layer, Rect, Text } from "react-konva";
+import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import { useEffect, useState } from "react";
+import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 
 interface StampBookDesign {
   front: {
@@ -23,12 +24,21 @@ interface StampBookDesign {
 
 interface OwnerStampBookProps {
   designJson?: string;
+  frontName?: string;
 }
 
-export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
+export default function OwnerStampBook({ designJson, frontName }: OwnerStampBookProps) {
   const { selectedCafe } = useSelectedCafe();
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const [bgImage, setBgImage] = useState<{
+    element: HTMLImageElement;
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  } | null>(null);
+
   const totalStamps = 10;
   const stampedCount = 3;
   const characterType = selectedCafe?.characterType?.toLowerCase() || "yellow";
@@ -64,12 +74,38 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
     loadImages();
   }, [characterType]);
 
+  useEffect(() => {
+    if (customDesign?.front?.backgroundImage) {
+      const img = new window.Image();
+      img.src = customDesign.front.backgroundImage;
+      img.onload = () => {
+        const transform = getCoverTransform(img.width, img.height);
+        setBgImage({
+          element: img,
+          ...transform,
+        });
+      };
+    }
+  }, [customDesign?.front?.backgroundImage]);
+
   if (customDesign?.front) {
     return (
       <div className="relative w-[320px] h-[154px] rounded-[10px] shadow-md overflow-hidden">
         <Stage width={320} height={154} className="absolute inset-0">
           <Layer>
             <Rect width={320} height={154} fill={customDesign.front.backgroundColor || "#FEF08A"} />
+          </Layer>
+          <Layer>
+            {bgImage && (
+              <KonvaImage
+                image={bgImage.element}
+                x={bgImage.x}
+                y={bgImage.y}
+                width={bgImage.width}
+                height={bgImage.height}
+                listening={false}
+              />
+            )}
           </Layer>
           <Layer>
             {customDesign.front.texts?.map(text => (
@@ -87,15 +123,6 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
             ))}
           </Layer>
         </Stage>
-        {customDesign.front.backgroundImage && (
-          <Image
-            src={customDesign.front.backgroundImage}
-            alt="background"
-            width={320}
-            height={154}
-            className="absolute inset-0"
-          />
-        )}
 
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-auto">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
@@ -112,7 +139,7 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
     <div className="w-[320px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
       <div className="flex gap-[6px] items-center">
         <Image src="/icon/coffee.svg" alt="원두" width={16} height={16} />
-        <p className="text-sm font-bold text-[#254434]">{selectedCafe?.cafeName}</p>
+        <p className="text-sm font-bold text-[#254434]">{frontName || selectedCafe?.cafeName}</p>
       </div>
       <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center">
         {Array.from({ length: totalStamps }).map((_, index) => (

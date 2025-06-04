@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { Stage, Layer, Rect, Text } from "react-konva";
+import { Stage, Layer, Rect, Text, Image as KonvaImage } from "react-konva";
 import { Stage as KonvaStage } from "konva/lib/Stage";
 import { useCustomStore } from "@/shared/store/customStore";
 import { useCreateStampStore } from "@/shared/store/createStampStore";
@@ -100,6 +100,15 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
           className="absolute inset-0">
           <Layer>
             <Rect width={stageSize.width} height={stageSize.height} fill={backgroundColor} />
+            {bgImage && (
+              <KonvaImage
+                image={bgImage}
+                width={stageSize.width}
+                height={stageSize.height}
+                alt="background"
+                className="absolute inset-0"
+              />
+            )}
           </Layer>
           <Layer>
             {backTexts.map(text => (
@@ -124,15 +133,6 @@ const CustomStampBack = React.memo(function CustomStampBackClient({
             ))}
           </Layer>
         </Stage>
-        {bgImage && (
-          <Image
-            src={bgImage}
-            width={stageSize.width}
-            height={stageSize.height}
-            alt="background"
-            className="absolute inset-0"
-          />
-        )}
 
         {selectedTextId && overlayPos && (
           <div

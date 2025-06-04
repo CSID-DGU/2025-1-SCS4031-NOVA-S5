@@ -13,8 +13,8 @@ export const CAFE_MOOD = [
   { label: "따뜻말랑", type: "YELLOW" },
   { label: "알록달록", type: "ORANGE" },
   { label: "비비드", type: "ORANGE" },
-  { label: "깔끔", type: "GREEN" },
-  { label: "모던", type: "GREEN" },
-  { label: "힙한", type: "BLACK" },
-  { label: "개성 넘치는", type: "BLACK" },
+  { label: "깔끔", type: "BLACK" },
+  { label: "모던", type: "BLACK" },
+  { label: "힙한", type: "GREEN" },
+  { label: "개성 넘치는", type: "GREEN" },
 ];

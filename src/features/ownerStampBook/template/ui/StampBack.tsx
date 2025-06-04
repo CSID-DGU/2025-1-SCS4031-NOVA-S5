@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import InputModal from "@/shared/ui/modal/InputModal";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { useStampEditStore } from "@/shared/store/stampEditStore";
+import { getPresignedUrl, uploadImageToS3 } from "@/shared/api/image";
 
 export default function StampBack() {
   const [isOpen, setIsOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const { backName, setBackName } = useStampEditStore();
+  const { backName, setBackName, setBackImageUrl } = useStampEditStore();
   const { selectedCafe } = useSelectedCafe();
 
   useEffect(() => {
@@ -23,15 +24,20 @@ export default function StampBack() {
     fileInputRef.current?.click();
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageUrl(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    try {
+      const { presignedUrl } = await getPresignedUrl("stampbook/template/back", file.name);
+      const uploadUrl = presignedUrl.split("?")[0];
+
+      await uploadImageToS3(file, presignedUrl);
+      setImageUrl(uploadUrl);
+      setBackImageUrl(uploadUrl);
+    } catch (error) {
+      console.error("이미지 업로드 실패", error);
+    }
   };
 
   const handleNameChange = (name: string) => {

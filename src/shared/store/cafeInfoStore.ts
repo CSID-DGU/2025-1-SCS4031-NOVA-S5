@@ -6,7 +6,19 @@ export interface CafeInfo {
   cafeName: string;
   cafePhone: string;
   address: string;
-  openHours: string;
+  openHours: {
+    dayOfWeek: string;
+    isOpen: boolean;
+    openTime: string;
+    closeTime: string;
+  }[];
+  specialDays: {
+    specialDate: string;
+    isOpen: boolean;
+    openTime: string;
+    closeTime: string;
+    note: string;
+  }[];
   lastOrder: string;
   isOpenNow: boolean;
 }

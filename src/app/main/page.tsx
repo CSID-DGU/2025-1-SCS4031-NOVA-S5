@@ -7,9 +7,9 @@ import Header from "@/shared/ui/Header";
 
 export default function MainPage() {
   return (
-    <div className="relative flex flex-col h-screen">
+    <div className="flex flex-col min-h-real-screen">
       <Header />
-      <div className="flex-1 overflow-y-auto pb-[20px] scrollbar-hide">
+      <div className="flex-1 overflow-y-auto pb-[20px] pt-[50px] scrollbar-hide">
         <div className="flex flex-col mt-[20px] justify-center items-center gap-[20px]">
           <FortuneCard />
           <UserCard />

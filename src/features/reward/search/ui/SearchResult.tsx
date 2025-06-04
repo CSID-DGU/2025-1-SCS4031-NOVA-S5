@@ -1,31 +1,31 @@
 "use client";
 
-import { useCafeInfoStore } from "@/shared/store/cafeInfoStore";
-import { useStampBookStore } from "@/shared/store/stampBookStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { formatBusinessHours } from "@/shared/utils/date";
+import { useCafeDesignOverview } from "../hooks/useCafeDesignOverview";
+import { useStampBookInfo } from "../hooks/useStampBookInfo";
 
 interface SearchResultProps {
-  stampBookId?: number;
+  stampBookId: number;
 }
 
 export default function SearchResult({ stampBookId }: SearchResultProps) {
   const router = useRouter();
-  const book = useStampBookStore(state =>
-    stampBookId ? state.stampBooks.find(b => b.cafeId === stampBookId) : null
-  );
-  const cafe = useCafeInfoStore(state =>
-    stampBookId ? state.cafes.find(c => c.cafeId === stampBookId) : null
-  );
 
-  if (!book) return null;
+  const { data: cafe, isLoading: cafeLoading } = useCafeDesignOverview(stampBookId);
+  const { data: book, isLoading: bookLoading } = useStampBookInfo(stampBookId);
+
+  if (!cafe || !book || cafeLoading || bookLoading) return null;
+
+  const businessHours = formatBusinessHours(cafe.openHours, cafe.specialDays);
 
   return (
     <div
-      className="min-w-[320px] h-[105px] flex gap-3 p-3 rounded-lg bg-yellow-300 cursor-pointer shadow-md"
+      className="w-full min-w-[320px] h-[105px] flex gap-3 p-3 rounded-lg bg-yellow-300 cursor-pointer shadow-md"
       onClick={() => router.push(`/reward/${stampBookId}`)}>
       <div className="relative w-[80px] h-[80px] rounded-md overflow-hidden">
-        <Image src="/img/doubletone.svg" alt="cafe img" fill className="object-cover" />
+        <Image src={cafe.cafeUrl} alt="cafe img" fill className="object-cover" />
       </div>
       <div className="flex flex-col gap-[10px]">
         <p className="w-[121px] text-center py-[5px] rounded-full bg-green-300 text-[10px] font-medium text-font-green">
@@ -35,7 +35,7 @@ export default function SearchResult({ stampBookId }: SearchResultProps) {
         <div className="flex gap-[5px] items-center">
           <Image src="/icon/clock.svg" alt="clock" width={13} height={13} />
           <p className="text-sm text-[#254434B2] font-medium">
-            {cafe?.openHours} (Last order {cafe?.lastOrder})
+            {businessHours} (Last order {cafe.openHours?.[0]?.lastOrder?.slice(0, 5)})
           </p>
         </div>
       </div>

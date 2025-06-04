@@ -6,9 +6,20 @@ export const saveStampBook = async (cafeId: number) => {
   return response.data.data;
 };
 
+// 스탬프북 삭제
+export const deleteStampBook = async (stampBookId: number) => {
+  await api.delete(`/stampbooks/${stampBookId}`);
+};
+
 // 스탬프북 목록 조회
 export const fetchMyStampBooks = async () => {
   const response = await api.get("/stampbooks/my");
+  return response.data.data;
+};
+
+// 단일 스탬프북 조회
+export const getStampBook = async (stampBookId: number) => {
+  const response = await api.get(`/stampbooks/${stampBookId}`);
   return response.data.data;
 };
 
@@ -31,6 +42,9 @@ interface CreateStampBookData {
   rewardDescription: string;
   exposed: boolean;
   designJson: any;
+  frontCafeName?: string;
+  backCafeName?: string;
+  backImageUrl?: string;
 }
 
 // 스탬프북 등록 (사장)

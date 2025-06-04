@@ -25,6 +25,9 @@ interface StampBookItem {
   rewardDescription: string;
   stampBookDesignJson: string;
   characterType: string;
+  frontCafeName: string;
+  backCafeName: string;
+  backImageName: string;
 }
 
 interface HamburgerPosition {
@@ -115,7 +118,10 @@ export default function StampBookList() {
                 </div>
 
                 <div className="flex justify-center">
-                  <OwnerStampBook designJson={book.stampBookDesignJson} />
+                  <OwnerStampBook
+                    designJson={book.stampBookDesignJson}
+                    frontName={book.frontCafeName}
+                  />
                 </div>
               </div>
             ))}
