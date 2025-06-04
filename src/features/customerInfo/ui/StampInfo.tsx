@@ -16,14 +16,19 @@ export function StampInfo({ userData }: StampInfoProps) {
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const userTotalStampCount = userData.history.reduce((acc, book) => acc + book.stampCount, 0);
 
+  const activeBook = (() => {
+    const availableBook = userData.history.find(book => book.stampCount < book.maxStampCount);
+    return availableBook ?? userData.history.at(-1) ?? null;
+  })();
+
   return (
     <div className="flex flex-col">
       <h1 className="text-font-green text-lg font-extrabold mt-7">스탬프북 현황</h1>
       <div className="flex flex-col justify-center items-center mt-6">
         <CustomerStamp
           cafeName="충무로 더블톤"
-          maxStampCount={userData.history[0].maxStampCount}
-          currentStampCount={userTotalStampCount}
+          maxStampCount={activeBook!.maxStampCount}
+          currentStampCount={activeBook!.stampCount}
           characterType={userData.characterType}
         />
         <div className="flex flex-row justify-center gap-8 w-full mt-6">

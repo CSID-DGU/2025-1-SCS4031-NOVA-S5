@@ -39,8 +39,14 @@ export default function ChallengePage() {
         )}
       </div>
       {filtered.length > 0 && (
-        <div className="absolute bottom-[100px] right-6 z-50">
-          <PlusButton />
+        <div
+          className="fixed bottom-[150px] left-1/2 -translate-x-1/2 z-50"
+          style={{ width: "430px" }}>
+          <div className="relative">
+            <div className="absolute right-[40px]">
+              <PlusButton />
+            </div>
+          </div>
         </div>
       )}
       <OwnerGNB />
