@@ -8,13 +8,14 @@ import Image from "next/image";
 import { useQRStore } from "@/shared/store";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postStamp } from "../../service";
+import { useUserReward } from "../../hooks/useUserReward";
 
 interface StampModalProps {
   username: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   characterType: "YELLOW" | "GREEN" | "ORANGE" | "BLACK";
-  type: "stamp" | "challenge" | "stampReward" | "challengeReward"; // 타입에 따른 적립 요청 분기 나눌예정
+  type: "stamp" | "challenge" | "stampReward" | "challengeReward";
 }
 
 export function SaveModal({ open, onOpenChange, characterType, type, username }: StampModalProps) {
@@ -22,8 +23,9 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
   const [count, setCount] = useState("");
   const { scannedUuid } = useQRStore();
   const queryClient = useQueryClient();
+  const rewardMutation = useUserReward();
 
-  const mutation = useMutation({
+  const stampMutation = useMutation({
     mutationFn: postStamp,
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -45,10 +47,30 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
       return;
     }
 
-    mutation.mutate({
-      qrCodeValue: scannedUuid!,
-      count: Number(count),
-    });
+    if (type === "stampReward" || type === "challengeReward") {
+      rewardMutation.mutate(
+        {
+          qrCodeValue: scannedUuid!,
+          count: Number(count),
+        },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ["customerStatus", scannedUuid],
+            });
+            setStep(2);
+          },
+          onError: (error: any) => {
+            alert(error?.response?.data?.message || "리워드 사용에 실패했습니다.");
+          },
+        }
+      );
+    } else {
+      stampMutation.mutate({
+        qrCodeValue: scannedUuid!,
+        count: Number(count),
+      });
+    }
   };
 
   const resetModal = () => {
@@ -70,7 +92,9 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
             <div className="flex flex-col justify-between h-full">
               <div className="w-full p-6 h-full">
                 <DialogHeader>
-                  <DialogTitle className="text-base font-bold text-font-green">{`적립할 ${saveType} 개수를 입력해 주세요.`}</DialogTitle>
+                  <DialogTitle className="text-base font-bold text-font-green">
+                    {type.includes("Reward") ? "사용할" : "적립할"} {saveType} 개수를 입력해 주세요.
+                  </DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-col items-center justify-center gap-7 h-full">
                   <Image
@@ -106,7 +130,7 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
             <div className="flex flex-col items-center justify-between h-full">
               <DialogHeader className="bg-[#E2ECDC] flex justify-center items-center rounded-t-[10px] w-full h-[112px]">
                 <DialogTitle className="text-center !text-title-medium !font-[800] text-[#254434]">
-                  적립 완료!
+                  {type.includes("Reward") ? "사용" : "적립"} 완료!
                 </DialogTitle>
               </DialogHeader>
               <div className="flex flex-col gap-7 justify-center items-center p-6">
@@ -119,7 +143,7 @@ export function SaveModal({ open, onOpenChange, characterType, type, username }:
                 <p className="text-font-green text-base font-bold">
                   {username} 고객님께
                   <br />
-                  {saveType} {count}개 적립이 완료됐어요.
+                  {saveType} {count}개 {type.includes("Reward") ? "사용" : "적립"}이 완료됐어요.
                 </p>
                 <img src="/img/spring.svg" alt="spring" className="absolute top-[100px]" />
               </div>
