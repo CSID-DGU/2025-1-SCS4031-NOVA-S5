@@ -6,6 +6,7 @@ import { Stage, Layer, Rect, Image as KonvaImage, Text } from "react-konva";
 import { Stage as KonvaStage } from "konva/lib/Stage";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
 import { getCoverTransform } from "../utils/getCoverTransform";
+import { getStampBook } from "../api/stampbook";
 
 interface StampBookProps {
   stampBookId: number;
@@ -32,6 +33,7 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
   const { stampBooks, fetchAndSetStampBooks } = useStampBookStore();
   const book = stampBooks.find(b => b.stampBookId === stampBookId);
   const stageRef = useRef<KonvaStage>(null);
+
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [bgImage, setBgImage] = useState<{
     element: HTMLImageElement;
@@ -40,6 +42,8 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
     x: number;
     y: number;
   } | null>(null);
+
+  const [cafeInfo, setCafeInfo] = useState<any>(null);
 
   useEffect(() => {
     if (!book) fetchAndSetStampBooks();
@@ -70,7 +74,19 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
     }
   }, [customDesign?.front?.backgroundImage]);
 
-  if (!book) return null;
+  useEffect(() => {
+    const fetchCafeInfo = async () => {
+      try {
+        const res = await getStampBook(stampBookId);
+        setCafeInfo(res);
+      } catch (err) {
+        console.error("스탬프북 정보 조회 실패", err);
+      }
+    };
+    fetchCafeInfo();
+  }, [stampBookId]);
+
+  if (!book || !cafeInfo) return null;
 
   const totalStamp = book.maxStampCount;
   const cafe = book.cafeName;
@@ -139,7 +155,9 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
     <div className="w-[320px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
       <div className="flex gap-[6px] items-center">
         <Image src="/icon/coffee.svg" alt="원두" width={16} height={16} />
-        <p className="text-sm font-bold text-[#254434]">{cafe}</p>
+        <p className="text-sm font-bold text-[#254434]">
+          {cafeInfo.cafeDesignOverview.frontCafeName || cafe}
+        </p>
       </div>
       <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center">
         {Array.from({ length: totalStamp }).map((_, index) => (

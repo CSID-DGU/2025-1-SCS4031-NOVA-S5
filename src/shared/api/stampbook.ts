@@ -37,6 +37,9 @@ interface CreateStampBookData {
   rewardDescription: string;
   exposed: boolean;
   designJson: any;
+  frontCafeName?: string;
+  backCafeName?: string;
+  backImageUrl?: string;
 }
 
 // 스탬프북 등록 (사장)

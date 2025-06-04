@@ -118,7 +118,7 @@ export default function CafeDetailContent() {
         <p className="text-md text-font-green font-extrabold">
           으쌰으쌰, 리워드까지 {book.remainingStampCount}개 남았어요!
         </p>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-5">
           <StampBook stampBookId={book.stampBookId} characterType={characterType} />
 
           {backDesign && (
@@ -152,6 +152,23 @@ export default function CafeDetailContent() {
                 </Layer>
               </Stage>
             </div>
+          )}
+
+          {!backDesign && (
+            <>
+              <div
+                className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
+                style={{
+                  backgroundColor: cafe.backImageUrl ? "" : "#FCD34D",
+                  backgroundImage: cafe.backImageUrl ? `url(${cafe.backImageUrl})` : "",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}>
+                <p className="text-md text-[#fff] text-center">
+                  {cafe.backCafeName || book.cafeName}
+                </p>
+              </div>
+            </>
           )}
 
           <p className="w-[320px] mt-[10px] pl-[215px] text-[10px] font-medium text-font-green cursor-pointer">

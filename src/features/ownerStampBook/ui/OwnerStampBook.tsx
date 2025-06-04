@@ -24,9 +24,10 @@ interface StampBookDesign {
 
 interface OwnerStampBookProps {
   designJson?: string;
+  frontName?: string;
 }
 
-export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
+export default function OwnerStampBook({ designJson, frontName }: OwnerStampBookProps) {
   const { selectedCafe } = useSelectedCafe();
   const [customDesign, setCustomDesign] = useState<StampBookDesign | null>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
@@ -138,7 +139,7 @@ export default function OwnerStampBook({ designJson }: OwnerStampBookProps) {
     <div className="w-[320px] h-[154px] flex flex-col gap-4 py-5 px-4 bg-yellow-300 rounded-lg shadow-sm">
       <div className="flex gap-[6px] items-center">
         <Image src="/icon/coffee.svg" alt="원두" width={16} height={16} />
-        <p className="text-sm font-bold text-[#254434]">{selectedCafe?.cafeName}</p>
+        <p className="text-sm font-bold text-[#254434]">{frontName || selectedCafe?.cafeName}</p>
       </div>
       <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center">
         {Array.from({ length: totalStamps }).map((_, index) => (

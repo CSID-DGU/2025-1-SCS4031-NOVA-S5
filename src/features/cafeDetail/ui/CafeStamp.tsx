@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 import Modal from "@/shared/ui/modal/Modal";
 import { useUserInfo } from "@/shared/hooks";
+import { useStampEditStore } from "@/shared/store/stampEditStore";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
   ssr: false,
@@ -45,6 +46,8 @@ function CafeStamp({
   const { selectedCafe } = useSelectedCafe();
   const { userInfo } = useUserInfo();
   const { designJson } = useCreateStampStore();
+  const { frontName, backName, backImageUrl } = useStampEditStore();
+
   const [customDesign, setCustomDesign] = useState<any>(null);
   const [bgImage, setBgImage] = useState<{
     element: HTMLImageElement;
@@ -132,6 +135,7 @@ function CafeStamp({
             stampBookDesignJson: cafe?.stampBookDesignJson || "",
           }}
         />
+
         {customDesign?.back && (
           <div className="relative w-[320px] h-[154px] rounded-lg overflow-hidden">
             <Stage width={320} height={154} className="absolute inset-0">
@@ -175,8 +179,18 @@ function CafeStamp({
 
         {!customDesign?.back && (
           <>
-            <img src="/img/stamp/cafe-cover.svg" alt="cafe cover" />
-            <p className="text-[12px] text-[#8E8E93] text-center">{guideText}</p>
+            <div
+              className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
+              style={{
+                backgroundColor: backImageUrl ? undefined : "#FCD34D",
+                backgroundImage: backImageUrl ? `url(${backImageUrl})` : undefined,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}>
+              <p className="text-md text-[#fff] text-center">
+                {backName || selectedCafe?.cafeName}
+              </p>
+            </div>
           </>
         )}
 
