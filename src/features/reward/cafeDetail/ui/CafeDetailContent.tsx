@@ -9,7 +9,7 @@ import { useStampModalStore } from "@/shared/store/stampModalStore";
 import RewardCoupon from "./RewardCoupon";
 import CafeInfo from "@/shared/ui/CafeInfo";
 import { Layer, Rect, Stage, Text as KonvaText, Image as KonvaImage } from "react-konva";
-import { deleteStampBook, getStampBook } from "@/shared/api/stampbook";
+import { deleteStampBook, fetchMyStampBooks, getStampBook } from "@/shared/api/stampbook";
 import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 import { formatBusinessHours } from "@/shared/utils/date";
 import { useStampBookStore } from "@/shared/store/stampBookStore";
@@ -45,7 +45,15 @@ export default function CafeDetailContent() {
   useEffect(() => {
     const fetchStampBook = async () => {
       try {
-        const data = await getStampBook(id);
+        const myStampBooks = await fetchMyStampBooks();
+        const matched = myStampBooks.find((book: any) => book.cafeId === id);
+
+        if (!matched) {
+          console.error("해당 카페의 스탬프북을 찾을 수 없습니다.");
+          return;
+        }
+
+        const data = await getStampBook(matched.stampBookId);
         setBook(data.stampBookInfo);
         setCafe(data.cafeDesignOverview);
         setRewardCount(data.rewardAvailableCount);
