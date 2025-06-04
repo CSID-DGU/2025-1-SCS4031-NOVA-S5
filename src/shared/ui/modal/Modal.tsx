@@ -64,7 +64,10 @@ export default function Modal({
           {button === "single" && (
             <button
               className="w-full h-full text-md text-font-green font-semibold flex items-center justify-center"
-              onClick={() => setIsOpen(false)}>
+              onClick={() => {
+                setIsOpen(false);
+                onRightButtonClick?.();
+              }}>
               {rightButtonText}
             </button>
           )}

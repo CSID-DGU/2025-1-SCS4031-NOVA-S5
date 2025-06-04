@@ -250,7 +250,6 @@ export default function CafeDetailContent() {
         }
         rightButtonText="확인"
         onRightButtonClick={() => {
-          setIsSecondModalOpen(false);
           router.push("/reward");
         }}
       />

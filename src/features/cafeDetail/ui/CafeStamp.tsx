@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { fetchMyStampBooks, saveStampBook } from "@/shared/api/stampbook";
+import { saveStampBook } from "@/shared/api/stampbook";
 import { useCafeStore } from "@/shared/store/cafeDetailStore";
 import { useSelectedCafe } from "@/shared/hooks/useSelectedCafe";
 import { useEffect, useState } from "react";
@@ -13,7 +13,6 @@ import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 import Modal from "@/shared/ui/modal/Modal";
 import { useUserInfo } from "@/shared/hooks";
 import { useStampEditStore } from "@/shared/store/stampEditStore";
-import { useCafeDesignOverview } from "@/features/reward/search/hooks/useCafeDesignOverview";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
   ssr: false,
@@ -43,14 +42,11 @@ function CafeStamp({
   const params = useParams();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [stampBookId, setStampBookId] = useState<number | null>(null);
 
   const { selectedCafe } = useSelectedCafe();
   const { userInfo } = useUserInfo();
   const { designJson } = useCreateStampStore();
-  const { backName, backImageUrl } = useStampEditStore();
-
-  const cafeId = Number(params.id);
+  const { frontName, backName, backImageUrl } = useStampEditStore();
 
   const [customDesign, setCustomDesign] = useState<any>(null);
   const [bgImage, setBgImage] = useState<{
@@ -60,6 +56,8 @@ function CafeStamp({
     x: number;
     y: number;
   } | null>(null);
+
+  const cafeId = Number(params.id);
 
   const { mutate, isPending } = useMutation({
     mutationFn: onSubmit ?? (() => saveStampBook(cafeId)),
@@ -75,27 +73,6 @@ function CafeStamp({
       }
     },
   });
-
-  useEffect(() => {
-    const fetchId = async () => {
-      try {
-        const myStampBooks = await fetchMyStampBooks();
-        const matched = myStampBooks.find((book: any) => book.cafeId === cafeId);
-        if (matched) {
-          setStampBookId(matched.stampBookId);
-        }
-      } catch (error) {
-        console.error("스탬프북 ID 가져오기 실패", error);
-      }
-    };
-
-    fetchId();
-  }, [cafeId]);
-
-  const { data: cafeInfo } = useCafeDesignOverview(stampBookId!);
-
-  const fallbackBackName = backName || cafeInfo?.backCafeName || selectedCafe?.cafeName;
-  const fallbackBackImageUrl = backImageUrl || cafeInfo?.backImageUrl;
 
   const characterInfo: Record<"YELLOW" | "ORANGE" | "BLACK" | "GREEN", { name: string }> = {
     YELLOW: {
@@ -147,19 +124,17 @@ function CafeStamp({
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
-        {stampBookId !== null && (
-          <CafeStampBook
-            isOwner={isOwner}
-            data={{
-              stampBookId,
-              cafeName: isOwner ? selectedCafe?.cafeName || "카페" : cafe?.name || "카페",
-              maxStampCount: 10,
-              currentStampCount: 0,
-              characterType: characterType,
-              stampBookDesignJson: cafe?.stampBookDesignJson || "",
-            }}
-          />
-        )}
+        <CafeStampBook
+          isOwner={isOwner}
+          data={{
+            stampBookId: cafeId,
+            cafeName: isOwner ? selectedCafe?.cafeName || "카페" : cafe?.name || "카페",
+            maxStampCount: 10,
+            currentStampCount: 0,
+            characterType: characterType,
+            stampBookDesignJson: cafe?.stampBookDesignJson || "",
+          }}
+        />
 
         {customDesign?.back && (
           <div className="relative w-[320px] h-[154px] rounded-lg overflow-hidden">
@@ -203,16 +178,20 @@ function CafeStamp({
         )}
 
         {!customDesign?.back && (
-          <div
-            className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
-            style={{
-              backgroundColor: fallbackBackImageUrl ? undefined : "#0000004D",
-              backgroundImage: fallbackBackImageUrl ? `url(${fallbackBackImageUrl})` : undefined,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}>
-            <p className="text-md text-[#fff] text-center">{fallbackBackName}</p>
-          </div>
+          <>
+            <div
+              className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
+              style={{
+                backgroundColor: backImageUrl ? undefined : "#0000004D",
+                backgroundImage: backImageUrl ? `url(${backImageUrl})` : undefined,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}>
+              <p className="text-md text-[#fff] text-center">
+                {backName || cafe?.name || selectedCafe?.cafeName}
+              </p>
+            </div>
+          </>
         )}
 
         <button
@@ -225,6 +204,7 @@ function CafeStamp({
 
       <Modal
         isOpen={isOpen}
+        characterType={cafe?.character}
         setIsOpen={setIsOpen}
         mainText={
           <p className="text-md text-font-green font-bold text-center">
