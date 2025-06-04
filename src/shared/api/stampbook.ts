@@ -6,6 +6,11 @@ export const saveStampBook = async (cafeId: number) => {
   return response.data.data;
 };
 
+// 스탬프북 삭제
+export const deleteStampBook = async (stampBookId: number) => {
+  await api.delete(`/stampbooks/${stampBookId}`);
+};
+
 // 스탬프북 목록 조회
 export const fetchMyStampBooks = async () => {
   const response = await api.get("/stampbooks/my");
