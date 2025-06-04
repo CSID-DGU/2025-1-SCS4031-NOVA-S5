@@ -20,9 +20,7 @@ function RewardCard({ isOwner = false }: { isOwner?: boolean }) {
         <Image src="/img/cafe_logo.png" alt="logo" width={42} height={40} />
         <div>
           <p className="text-[12px] font-[700] text-font-green">{displayCafeDetail}</p>
-          <p className="text-[10px] font-[600] text-tabbar">
-            {displayConceptIntroduction}한 감성을 스탬프북에서 느껴보세요!
-          </p>
+          <p className="text-[10px] font-[600] text-tabbar">{displayConceptIntroduction}</p>
         </div>
       </div>
     </div>
