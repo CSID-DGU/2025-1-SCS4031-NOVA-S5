@@ -3,3 +3,4 @@ export * from "./getSilhouetteInfo";
 export * from "./getScanCharacter";
 export * from "./getChallengeType";
 export * from "./getChallengeDay";
+export * from "./getTodayBusinessHour";

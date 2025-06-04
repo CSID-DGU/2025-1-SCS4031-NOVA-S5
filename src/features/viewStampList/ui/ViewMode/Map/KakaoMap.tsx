@@ -5,6 +5,7 @@ import MapMarker from "./MapMarker";
 import InfoCard from "@/shared/ui/InfoCard";
 import { useCafeStore } from "@/shared/store/cafeStore";
 import { useMapStore } from "@/shared/store/mapStore";
+import { getTodayBusinessHour } from "@/shared";
 
 function KakaoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -129,6 +130,10 @@ function KakaoMap() {
 
   const activeCafe = validCafes.find(cafe => cafe.cafeId === activeMarkerId);
 
+  const { status, time } = activeCafe
+    ? getTodayBusinessHour(activeCafe.openHours)
+    : { status: "정보 없음", time: "" };
+
   if (error) {
     return (
       <div className="relative w-full h-full">
@@ -171,8 +176,8 @@ function KakaoMap() {
           <InfoCard
             id={activeCafe.cafeId}
             name={activeCafe.cafeName}
-            cafe_status="운영중"
-            business_hour="매일 10:00 - 20:00"
+            cafe_status={status}
+            business_hour={time}
             img_url={
               activeCafe.cafeImage ||
               "https://plus.unsplash.com/premium_photo-1664970900025-1e3099ca757a?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixcafeId=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2FmZXxlbnwwfHwwfHx8MA%3D%3D"

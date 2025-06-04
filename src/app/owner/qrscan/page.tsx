@@ -40,7 +40,10 @@ export default function QrScanPage() {
     if (isScanning) {
       setScannedUuid(result);
       setIsScanning(false);
-      router.push("/customer");
+      // 카메라 정리를 위한 약간의 지연 후 페이지 전환
+      setTimeout(() => {
+        router.push("/customer");
+      }, 300);
     }
   };
 
