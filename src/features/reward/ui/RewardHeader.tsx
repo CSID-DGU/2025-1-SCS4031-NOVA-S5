@@ -6,7 +6,7 @@ export default function RewardHeader() {
   const router = useRouter();
 
   return (
-    <header className="h-[64px] py-[20px] pl-[153px] pr-[27px] justify-center flex bg-green-300 ">
+    <header className="fixed top-0 left-0 right-0 z-[50] bg-green-300 w-full max-w-[430px] mx-auto h-[64px] py-[20px] pl-[153px] pr-[27px] justify-center flex bg-green-300 ">
       <div className="w-[195px] flex justify-between items-center">
         <p className="text-lg font-extrabold text-font-green">적립내역</p>
         <Image

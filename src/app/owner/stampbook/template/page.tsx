@@ -4,9 +4,9 @@ import TemplateHeader from "@/features/ownerStampBook/template/ui/TemplateHeader
 
 export default function Template() {
   return (
-    <div className="relative flex flex-col h-screen">
+    <div className="relative flex flex-col min-h-real-screen">
       <TemplateHeader />
-      <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col gap-[35px] px-[25px] pb-[28px]">
+      <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col gap-[35px] pt-[70px] px-[25px] pb-[28px]">
         <TemplateContent />
         <TemplateFooter />
       </div>

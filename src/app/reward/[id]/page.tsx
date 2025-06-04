@@ -13,9 +13,9 @@ const CafeDetailContent = dynamic(
 
 export default function StampBookDetailPage() {
   return (
-    <div className="relative flex flex-col h-screen">
+    <div className="relative flex flex-col min-h-real-screen">
       <CafeDetailHeader />
-      <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col gap-[23px] px-[27px] pb-[28px] mb-[85px]">
+      <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col gap-[23px] pt-[90px] px-[27px] pb-[28px] mb-[85px]">
         <CafeDetailContent />
       </div>
       <GNB />
