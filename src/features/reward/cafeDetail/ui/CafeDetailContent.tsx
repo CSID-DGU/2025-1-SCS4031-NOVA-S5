@@ -12,17 +12,22 @@ import { Layer, Rect, Stage, Text as KonvaText, Image as KonvaImage } from "reac
 import { getStampBook } from "@/shared/api/stampbook";
 import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 import { formatBusinessHours } from "@/shared/utils/date";
+import { useStampBookStore } from "@/shared/store/stampBookStore";
 
 export default function CafeDetailContent() {
   const params = useParams();
   const id = Number(params.id);
 
   const { stampModalType, setStampModalType } = useStampModalStore();
+  const toggleInHome = useStampBookStore(state => state.toggleInHome);
 
   const [book, setBook] = useState<any>(null);
   const [cafe, setCafe] = useState<any>(null);
   const [rewardCount, setRewardCount] = useState<number>(0);
+
+  const [inHome, setInHome] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState(false);
+
   const [backDesign, setBackDesign] = useState<any>(null);
   const [backBgImage, setBackBgImage] = useState<{
     element: HTMLImageElement;
@@ -39,6 +44,7 @@ export default function CafeDetailContent() {
         setBook(data.stampBookInfo);
         setCafe(data.cafeDesignOverview);
         setRewardCount(data.rewardAvailableCount);
+        setInHome(data.stampBookInfo?.inHome ?? false);
 
         if (data.stampBookInfo?.stampBookDesign) {
           const parsed = JSON.parse(data.stampBookInfo.stampBookDesign);
@@ -68,7 +74,9 @@ export default function CafeDetailContent() {
   if (!book || !cafe) return null;
 
   const handleRegisterToggle = () => {
-    setStampModalType(book?.inHome ? "home-removed" : "register");
+    toggleInHome(id);
+    setInHome(prev => !prev);
+    setStampModalType(inHome ? "home-removed" : "register");
   };
 
   const handleDeleteToggle = () => {
@@ -156,7 +164,7 @@ export default function CafeDetailContent() {
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
           onClick={handleRegisterToggle}>
-          {book?.inHome ? "홈에서 삭제" : "홈에 등록"}
+          {inHome ? "홈에서 삭제" : "홈에 등록"}
         </button>
         <button
           className="w-1/2 h-full bg-font-green text-[#fff] text-xs font-bold rounded-full outline-none"
