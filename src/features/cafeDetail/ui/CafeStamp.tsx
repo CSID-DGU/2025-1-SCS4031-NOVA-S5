@@ -13,6 +13,7 @@ import { getCoverTransform } from "@/shared/utils/getCoverTransform";
 import Modal from "@/shared/ui/modal/Modal";
 import { useUserInfo } from "@/shared/hooks";
 import { useStampEditStore } from "@/shared/store/stampEditStore";
+import { useCafeDesignOverview } from "@/features/reward/search/hooks/useCafeDesignOverview";
 
 const CafeStampBook = dynamic(() => import("@/features/cafeDetail/ui/CafeStampBook"), {
   ssr: false,
@@ -46,7 +47,13 @@ function CafeStamp({
   const { selectedCafe } = useSelectedCafe();
   const { userInfo } = useUserInfo();
   const { designJson } = useCreateStampStore();
-  const { frontName, backName, backImageUrl } = useStampEditStore();
+  const { backName, backImageUrl } = useStampEditStore();
+
+  const cafeId = Number(params.id);
+  const { data: cafeInfo } = useCafeDesignOverview(cafeId);
+
+  const fallbackBackName = backName || cafeInfo?.backCafeName || selectedCafe?.cafeName;
+  const fallbackBackImageUrl = backImageUrl || cafeInfo?.backImageUrl;
 
   const [customDesign, setCustomDesign] = useState<any>(null);
   const [bgImage, setBgImage] = useState<{
@@ -56,8 +63,6 @@ function CafeStamp({
     x: number;
     y: number;
   } | null>(null);
-
-  const cafeId = Number(params.id);
 
   const { mutate, isPending } = useMutation({
     mutationFn: onSubmit ?? (() => saveStampBook(cafeId)),
@@ -82,10 +87,10 @@ function CafeStamp({
       name: "쿡이",
     },
     BLACK: {
-      name: "콕이",
+      name: "꼭이",
     },
     GREEN: {
-      name: "꼭이",
+      name: "콕이",
     },
   };
 
@@ -178,20 +183,16 @@ function CafeStamp({
         )}
 
         {!customDesign?.back && (
-          <>
-            <div
-              className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
-              style={{
-                backgroundColor: backImageUrl ? undefined : "#0000004D",
-                backgroundImage: backImageUrl ? `url(${backImageUrl})` : undefined,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}>
-              <p className="text-md text-[#fff] text-center">
-                {backName || selectedCafe?.cafeName}
-              </p>
-            </div>
-          </>
+          <div
+            className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
+            style={{
+              backgroundColor: fallbackBackImageUrl ? undefined : "#0000004D",
+              backgroundImage: fallbackBackImageUrl ? `url(${fallbackBackImageUrl})` : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}>
+            <p className="text-md text-[#fff] text-center">{fallbackBackName}</p>
+          </div>
         )}
 
         <button
