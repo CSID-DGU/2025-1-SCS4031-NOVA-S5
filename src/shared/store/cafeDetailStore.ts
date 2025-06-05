@@ -18,6 +18,9 @@ interface CafeInfo {
   character: "YELLOW" | "GREEN" | "ORANGE" | "BLACK" | "";
   stamp: StampInfo;
   stampBookDesignJson: string;
+  frontCafeName: string;
+  backCafeName: string;
+  backImageUrl: string;
 }
 
 interface CafeStore {
@@ -42,6 +45,9 @@ export const useCafeStore = create<CafeStore>(set => ({
       cover_img_url: "",
     },
     stampBookDesignJson: "",
+    frontCafeName: "",
+    backCafeName: "",
+    backImageUrl: "",
   },
   setCafe: cafe => set({ cafe }),
 }));

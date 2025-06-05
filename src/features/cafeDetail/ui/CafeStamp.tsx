@@ -46,7 +46,7 @@ function CafeStamp({
   const { selectedCafe } = useSelectedCafe();
   const { userInfo } = useUserInfo();
   const { designJson } = useCreateStampStore();
-  const { frontName, backName, backImageUrl } = useStampEditStore();
+  const { backName, backImageUrl } = useStampEditStore();
 
   const [customDesign, setCustomDesign] = useState<any>(null);
   const [bgImage, setBgImage] = useState<{
@@ -121,6 +121,7 @@ function CafeStamp({
     ? (selectedCafe?.characterType as "BLACK" | "ORANGE" | "YELLOW" | "GREEN") || "GREEN"
     : (cafe?.character as "BLACK" | "ORANGE" | "YELLOW" | "GREEN") || "GREEN";
 
+  console.log(cafe);
   return (
     <>
       <div className="flex flex-col justify-center items-center gap-[20px] pb-[70px]">
@@ -133,6 +134,7 @@ function CafeStamp({
             currentStampCount: 0,
             characterType: characterType,
             stampBookDesignJson: cafe?.stampBookDesignJson || "",
+            frontCafeName: cafe?.frontCafeName!,
           }}
         />
 
@@ -178,20 +180,32 @@ function CafeStamp({
         )}
 
         {!customDesign?.back && (
-          <>
-            <div
-              className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
-              style={{
-                backgroundColor: backImageUrl ? undefined : "#0000004D",
-                backgroundImage: backImageUrl ? `url(${backImageUrl})` : undefined,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}>
-              <p className="text-md text-[#fff] text-center">
-                {backName || cafe?.name || selectedCafe?.cafeName}
-              </p>
-            </div>
-          </>
+          <div
+            className="w-[320px] h-[154px] rounded-lg flex items-center justify-center shadow-md"
+            style={{
+              backgroundColor: isOwner
+                ? backImageUrl
+                  ? undefined
+                  : "#0000004D"
+                : cafe?.backImageUrl
+                  ? undefined
+                  : "#0000004D",
+              backgroundImage: isOwner
+                ? backImageUrl
+                  ? `url(${backImageUrl})`
+                  : undefined
+                : cafe?.backImageUrl
+                  ? `url(${cafe.backImageUrl})`
+                  : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}>
+            <p className="text-md text-[#fff] text-center">
+              {isOwner
+                ? backName || cafe?.name || selectedCafe?.cafeName
+                : cafe?.backCafeName || cafe?.name || "카페"}
+            </p>
+          </div>
         )}
 
         <button
