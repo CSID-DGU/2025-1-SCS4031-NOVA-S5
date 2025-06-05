@@ -3,6 +3,7 @@
 import { BottomSheet } from "@/shared";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { chooseCafe } from "../service/api";
+import { useRouter } from "next/navigation";
 
 interface CafeBottomsheetProps {
   cafeList: {
@@ -15,6 +16,7 @@ interface CafeBottomsheetProps {
 
 export function CafeBottomsheet({ cafeList, onClose }: CafeBottomsheetProps) {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { mutate: selectCafe, isPending } = useMutation({
     mutationFn: chooseCafe,
     onSuccess: () => {
@@ -37,7 +39,11 @@ export function CafeBottomsheet({ cafeList, onClose }: CafeBottomsheetProps) {
       <BottomSheet.Header>
         <div className="flex flex-row justify-between p-3">
           <h1 className="!text-title-medium !font-extrabold">매장 설정</h1>
-          <p className="!text-body-small !font-semibold cursor-pointer">관리</p>
+          <p
+            className="!text-body-small !font-semibold cursor-pointer"
+            onClick={() => router.push("/owner/register")}>
+            관리
+          </p>
         </div>
       </BottomSheet.Header>
       <BottomSheet.Content>

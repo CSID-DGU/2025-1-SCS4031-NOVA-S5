@@ -7,10 +7,11 @@ import { useCafeDesignOverview } from "../hooks/useCafeDesignOverview";
 import { useStampBookInfo } from "../hooks/useStampBookInfo";
 
 interface SearchResultProps {
+  cafeId: number;
   stampBookId: number;
 }
 
-export default function SearchResult({ stampBookId }: SearchResultProps) {
+export default function SearchResult({ cafeId, stampBookId }: SearchResultProps) {
   const router = useRouter();
 
   const { data: cafe, isLoading: cafeLoading } = useCafeDesignOverview(stampBookId);
@@ -23,7 +24,7 @@ export default function SearchResult({ stampBookId }: SearchResultProps) {
   return (
     <div
       className="w-full min-w-[320px] h-[105px] flex gap-3 p-3 rounded-lg bg-yellow-300 cursor-pointer shadow-md"
-      onClick={() => router.push(`/reward/${stampBookId}`)}>
+      onClick={() => router.push(`/reward/${cafeId}`)}>
       <div className="relative w-[80px] h-[80px] rounded-md overflow-hidden">
         <Image src={cafe.cafeUrl} alt="cafe img" fill className="object-cover" />
       </div>

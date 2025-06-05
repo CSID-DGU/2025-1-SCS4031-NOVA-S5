@@ -22,6 +22,9 @@ export interface CafeDetail {
   rewardDescription: string;
   stampBookDesignJson: string | null;
   openHours: OpenHour[];
+  frontCafeName: string;
+  backCafeName: string;
+  backImageUrl: string;
 }
 
 export interface ApiResponse<T> {

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { changeStampBookExposed, getStampBookList } from "@/shared/api/stampbook";
 import Hamburger from "./Hamburger";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Modal from "@/shared/ui/modal/Modal";
 
@@ -65,11 +65,16 @@ export default function StampBookList() {
   const pendingBook = stampBooks.find(book => book.designId === pendingExposeId);
   const currentExposedBook = stampBooks.find(book => book.exposed);
 
-  const handleHamburgerClick = (e: React.MouseEvent<HTMLImageElement>, designId: number) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  const hamburgerRefs = useRef<Record<number, HTMLImageElement | null>>({});
+
+  const handleHamburgerClick = (designId: number) => {
+    const el = hamburgerRefs.current[designId];
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+
     setHamburgerPosition({
       designId,
-      top: rect.bottom + window.scrollY,
+      top: rect.bottom,
       right: window.innerWidth - rect.right,
     });
   };
@@ -110,7 +115,10 @@ export default function StampBookList() {
                           height={15}
                           alt="hamburger"
                           className="cursor-pointer"
-                          onClick={e => handleHamburgerClick(e, book.designId)}
+                          ref={(el: HTMLImageElement | null) => {
+                            hamburgerRefs.current[book.designId] = el;
+                          }}
+                          onClick={() => handleHamburgerClick(book.designId)}
                         />
                       </>
                     )}
