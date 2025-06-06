@@ -8,6 +8,7 @@ interface ChallengeData {
   description: string;
   startDate: string;
   endDate: string;
+  cafeName: string;
 }
 
 interface ChallengeCardProps {
@@ -17,7 +18,7 @@ interface ChallengeCardProps {
 
 export default function ChallengeCard({ challenge, onClick }: ChallengeCardProps) {
   const [show, setShow] = useState(false);
-  const { challengeTitle, description, startDate, endDate } = challenge;
+  const { cafeName, challengeTitle, description, startDate, endDate } = challenge;
 
   const { message } = getChallengeDay(new Date(startDate), new Date(endDate));
 
@@ -49,11 +50,14 @@ export default function ChallengeCard({ challenge, onClick }: ChallengeCardProps
         </div>
         <div className="w-[176px] flex justify-between items-center">
           <div className="flex flex-col justify-center gap-[10px]">
+            <p className="text-[#25443480] text-[10px] font-semibold">{cafeName}</p>
             <h5 className="text-[#254434] font-extrabold text-sm whitespace-nowrap">
               {challengeTitle}
             </h5>
             <div className="flex gap-1">
-              <p className="text-[#254434] text-opacity-50 text-xs font-semibold">{description}</p>
+              <p className="text-[#254434] text-opacity-50 text-xs font-semibold">
+                성공하면 {description}
+              </p>
             </div>
           </div>
         </div>
