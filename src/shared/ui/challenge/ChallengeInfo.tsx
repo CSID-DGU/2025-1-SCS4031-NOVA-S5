@@ -3,13 +3,20 @@ import Image from "next/image";
 import { DateRange } from "react-day-picker";
 
 interface ChallengeInfoProps {
-  cafename: string;
+  cafeName: string;
   challengeType: string;
   reward: string;
-  dateRange: DateRange | undefined;
+  startDate: string;
+  endDate: string;
 }
 
-export function ChallengeInfo({ cafename, challengeType, reward, dateRange }: ChallengeInfoProps) {
+export function ChallengeInfo({
+  cafeName,
+  challengeType,
+  reward,
+  startDate,
+  endDate,
+}: ChallengeInfoProps) {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-row gap-2">
@@ -18,14 +25,14 @@ export function ChallengeInfo({ cafename, challengeType, reward, dateRange }: Ch
       </div>
       <div className="bg-yellow-300 px-5 py-4">
         <p className="text-sm text-font-green font-bold mb-5">
-          {cafename}에서 주최하는 챌린지에요.
+          {cafeName}에서 주최하는 챌린지에요.
         </p>
         <div className="flex flex-col gap-4 text-xs text-green-800">
           <div className="flex flex-row gap-1">
             <Image src="/icon/challenge/date.svg" alt="date" width={14} height={14} />
             <p>
-              진행기간 | {dateRange?.from ? dateRange.from.toLocaleDateString() : "시작일 미정"} ~{" "}
-              {dateRange?.to ? dateRange.to.toLocaleDateString() : "종료일 미정"}
+              진행기간 | {startDate ? startDate : "시작일 미정"} ~{" "}
+              {endDate ? endDate : "종료일 미정"}
             </p>
           </div>
           <div className="flex flex-row gap-1">

@@ -8,7 +8,7 @@ interface ChallengeData {
   description: string;
   startDate: string;
   endDate: string;
-  cafeName: string;
+  cafeName?: string;
 }
 
 interface ChallengeCardProps {

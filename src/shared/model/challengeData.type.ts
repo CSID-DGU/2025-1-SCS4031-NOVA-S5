@@ -12,3 +12,9 @@ export interface ChallengeData {
 export interface ChallengeResponse {
   base: ChallengeData;
 }
+
+export interface ChallengeInfoResponse extends ChallengeData {
+  inProgressCount: number;
+  canceledCount: number;
+  rewardedCount: number;
+}
