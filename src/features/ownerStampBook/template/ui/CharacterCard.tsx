@@ -16,10 +16,10 @@ export default function CharacterCard() {
       name: "쿡이",
     },
     black: {
-      name: "콕이",
+      name: "꼭이",
     },
     green: {
-      name: "꼭이",
+      name: "콕이",
     },
   };
 

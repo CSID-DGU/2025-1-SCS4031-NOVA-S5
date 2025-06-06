@@ -43,7 +43,7 @@ function CafeStamp({
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { selectedCafe } = useSelectedCafe();
+  const { selectedCafe } = useSelectedCafe(isOwner);
   const { userInfo } = useUserInfo();
   const { designJson } = useCreateStampStore();
   const { backName, backImageUrl } = useStampEditStore();
