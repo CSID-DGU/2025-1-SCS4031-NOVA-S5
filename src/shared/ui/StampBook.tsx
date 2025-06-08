@@ -136,7 +136,7 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-none">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
             {Array.from({ length: totalStamp }).map((_, index) => {
-              const isStamped = book.isCompleted ? false : index < stampedCount;
+              const isStamped = book.rewardClaimed ? false : index < stampedCount;
               return (
                 <Image
                   key={index}
@@ -164,7 +164,7 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
       </div>
       <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center">
         {Array.from({ length: totalStamp }).map((_, index) => {
-          const isStamped = book.isCompleted ? false : index < stampedCount;
+          const isStamped = book.rewardClaimed ? false : index < stampedCount;
           return (
             <Image
               key={index}
