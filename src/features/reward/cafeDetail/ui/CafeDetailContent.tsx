@@ -126,8 +126,11 @@ export default function CafeDetailContent() {
             </>
           )}
 
+          {/* 일단 눈속임용 추후에 새로운 스탬프북 남은 개수 보여주기 */}
           <p className="text-md text-font-green font-extrabold">
-            으쌰으쌰, 리워드까지 {book.remainingStampCount}개 남았어요!
+            으쌰으쌰, 리워드까지{" "}
+            {book.rewardClaimed && book.remainingStampCount === 0 ? 10 : book.remainingStampCount}개
+            남았어요!
           </p>
           <div className="flex flex-col items-center justify-center gap-5">
             <StampBook stampBookId={book.stampBookId} characterType={characterType} />
