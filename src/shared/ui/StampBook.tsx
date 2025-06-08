@@ -135,15 +135,18 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
 
         <div className="absolute inset-0 z-20 w-full h-full pt-[54px] pb-[18px] px-8 pointer-events-none">
           <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center w-full h-full">
-            {Array.from({ length: totalStamp }).map((_, index) => (
-              <Image
-                key={index}
-                src={index < stampedCount ? stampedSrc : unstampedSrc}
-                alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
-                width={35}
-                height={35}
-              />
-            ))}
+            {Array.from({ length: totalStamp }).map((_, index) => {
+              const isStamped = book.isCompleted ? false : index < stampedCount;
+              return (
+                <Image
+                  key={index}
+                  src={isStamped ? stampedSrc : unstampedSrc}
+                  alt={isStamped ? "스탬프 찍힘" : "스탬프 안 찍힘"}
+                  width={35}
+                  height={35}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
@@ -160,16 +163,18 @@ export default function StampBook({ stampBookId, characterType }: StampBookProps
         </p>
       </div>
       <div className="grid grid-cols-5 gap-x-[20px] gap-y-3 place-items-center">
-        {Array.from({ length: totalStamp }).map((_, index) => (
-          <img
-            key={index}
-            src={index < stampedCount ? stampedSrc : unstampedSrc}
-            alt={index < stampedCount ? "스탬프 찍힘" : "스탬프 안 찍힘"}
-            width={35}
-            height={35}
-            style={{ width: 35, height: 35 }}
-          />
-        ))}
+        {Array.from({ length: totalStamp }).map((_, index) => {
+          const isStamped = book.isCompleted ? false : index < stampedCount;
+          return (
+            <Image
+              key={index}
+              src={isStamped ? stampedSrc : unstampedSrc}
+              alt={isStamped ? "스탬프 찍힘" : "스탬프 안 찍힘"}
+              width={35}
+              height={35}
+            />
+          );
+        })}
       </div>
     </div>
   );
