@@ -8,8 +8,9 @@ export function Preview() {
   return (
     <div className="flex flex-col mt-5 gap-10">
       <ChallengeInfo
-        cafename="충무로 더블톤"
-        dateRange={dateRange}
+        cafeName="충무로 더블톤"
+        startDate="2025-06-10"
+        endDate="2025-06-25"
         challengeType={challengeType}
         reward={reward}
       />

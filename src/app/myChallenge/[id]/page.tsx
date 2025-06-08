@@ -1,13 +1,24 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useGetChallenge } from "@/features/challenge/hooks/useGetChallenge";
 import { CertificationCard, ChallengeInfo, ChallengeProgress, CloseHeader } from "@/shared";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 export default function ChallengeDetail() {
+  const route = useRouter();
+  const params = useParams();
+
+  const id = params.id;
+  const challengeId = typeof id === "string" ? Number(id) : null;
+
+  const { data, isLoading } = useGetChallenge(challengeId);
+
+  if (!challengeId || isLoading || !data) return null;
+
   // 실제로는 이 값이 props나 서버 데이터로 전달될 것
   const isParticipating = true;
-  const route = useRouter();
+
   const handleBack = () => {
     route.back();
   };
@@ -24,10 +35,11 @@ export default function ChallengeDetail() {
       <CloseHeader title="텀블러에 음료 담기 챌린지" onClick={handleBack} />
       <div className="mt-5 flex flex-col gap-4">
         <ChallengeInfo
-          cafename="더블톤"
-          challengeType="tumbler"
-          reward="아메리카노"
-          dateRange={{ from: new Date("2025-06-01"), to: new Date("2025-06-10") }}
+          cafeName={data.cafeName}
+          challengeType={data.type}
+          reward={data.rewardDescription}
+          startDate={data.startDate}
+          endDate={data.endDate}
         />
         <CertificationCard challengeType="tumbler" />
         <ChallengeProgress currentDay={2} totalDay={10} />

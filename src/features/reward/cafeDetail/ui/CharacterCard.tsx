@@ -27,12 +27,12 @@ export default function CharacterCard() {
       description: "저는 알록달록한 카페의 스탬프를 찍어요!",
     },
     BLACK: {
-      name: "콕이",
-      description: "저는 힙한 카페의 스탬프를 찍어요!",
-    },
-    GREEN: {
       name: "꼭이",
       description: "저는 모던한 카페의 스탬프를 찍어요!",
+    },
+    GREEN: {
+      name: "콕이",
+      description: "저는 힙한 카페의 스탬프를 찍어요!",
     },
   };
 
